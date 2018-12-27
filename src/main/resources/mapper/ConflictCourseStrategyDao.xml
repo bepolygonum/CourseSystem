@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.flippedclassroom.dao.ConflictCourseStrategyDao">
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <select id="getCourse2IDByCourseID"  resultType="int">
+        SELECT course_2_id FROM  standard_seminar_system.conflict_course_strategy
+        WHERE course_1_id=#{0}
+    </select>
+    <select id="getCourse1IDByCourseID"  resultType="int">
+        SELECT course_1_id FROM  standard_seminar_system.conflict_course_strategy
+        WHERE course_2_id=#{0}
+    </select>
+
+    <select id="getIdByCourseID"  resultType="Integer">
+        SELECT  IFNULL(MAX(id),0)AS id  FROM  standard_seminar_system.conflict_course_strategy
+        WHERE course_id=#{0}
+    </select>
+
+    <select id="getCourseIdByID"  resultType="Integer">
+        SELECT course_id FROM  standard_seminar_system.conflict_course_strategy
+        WHERE id=#{0}
+    </select>
+    <select id="getAllConflictId"  resultType="Integer">
+        SELECT id FROM  standard_seminar_system.conflict_course_strategy
+    </select>
+    <insert id="createHarfOfConflictCourse" >
+        insert into standard_seminar_system.conflict_course_strategy(id,course_id)
+        values(#{0},#{1});
+    </insert>
+
+</mapper>

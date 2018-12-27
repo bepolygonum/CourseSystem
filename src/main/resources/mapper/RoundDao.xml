@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flippedclassroom.dao.RoundDao">
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <resultMap type="com.flippedclassroom.entity.Round" id="roundResultMap">
+        <!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id -->
+        <!-- property：主键在pojo中的属性名 -->
+        <!-- column：主键在数据库中的列名 -->
+        <id property="id" column="id" />
+
+        <!-- 定义普通属性 -->
+        <result property="courseId" column="course_id" />
+        <result property="roundSerial" column="round_serial" />
+        <result property="presentationScoreMethod" column="presentation_score_method" />
+        <result property="reportScoreMethod" column="report_score_method" />
+        <result property="questionScoreMethod" column="question_score_method" />
+
+
+    </resultMap>
+    <select id="getRoundByCourseID"  resultMap="roundResultMap">
+        SELECT * FROM  standard_seminar_system.round
+        WHERE course_id=#{0}
+    </select>
+
+</mapper>

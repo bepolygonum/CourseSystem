@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flippedclassroom.dao.KlassStudentDao">
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <resultMap type="com.flippedclassroom.entity.KlassStudent" id="klassStudentResultMap">
+        <!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id -->
+        <!-- property：主键在pojo中的属性名 -->
+        <!-- column：主键在数据库中的列名 -->
+        <id property="klassId" column="klass_id" />
+        <id property="studentId" column="student_id" />
+        <!-- 定义普通属性 -->
+        <result property="courseId" column="course_id" />
+        <result property="teamId" column="team_id" />
+
+
+    </resultMap>
+    <select id="getKlassStudentByCourseID"  resultMap="klassStudentResultMap">
+        SELECT * FROM  standard_seminar_system.klass_student
+        WHERE course_id=#{0}
+    </select>
+    <select id="getKlassStudentByStudentIdAndKlassId"  resultMap="klassStudentResultMap">
+        SELECT * FROM  standard_seminar_system.klass_student
+        WHERE student_id=#{0} and klass_id=#{1}
+    </select>
+    <select id="getKlassStudentByTeamID"  resultMap="klassStudentResultMap">
+        SELECT * FROM  standard_seminar_system.klass_student
+        WHERE team_id=#{0} and course_id=#{1}
+    </select>
+    <delete id="deleteKlassStudentByKlassId" parameterType="int">
+        delete from  standard_seminar_system.klass_student where klass_id = #{0};
+    </delete>
+
+</mapper>

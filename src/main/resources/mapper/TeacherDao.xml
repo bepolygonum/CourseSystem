@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flippedclassroom.dao.TeacherDao">
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <resultMap type="com.flippedclassroom.entity.Teacher" id="teacherResultMap">
+        <!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id -->
+        <!-- property：主键在pojo中的属性名 -->
+        <!-- column：主键在数据库中的列名 -->
+        <id property="id" column="id" />
+
+        <!-- 定义普通属性 -->
+        <result property="account" column="account" />
+        <result property="password" column="password" />
+        <result property="teacherName" column="teacher_name" />
+        <result property="isActive" column="is_active" />
+        <result property="email" column="email" />
+
+
+    </resultMap>
+    <select id="getTeacherByAccount" resultMap="teacherResultMap">
+        SELECT * FROM  standard_seminar_system.teacher
+        WHERE account = #{0} and password=#{1}
+    </select>
+    <select id="getTeacherbyInfo" resultMap="teacherResultMap">
+        SELECT * FROM  standard_seminar_system.teacher
+        where account=#{0} or teacher_name=#{0};
+    </select>
+    <select id="getTeachersByTeacherID"  resultMap="teacherResultMap">
+        SELECT * FROM  standard_seminar_system.teacher
+        WHERE id in
+        <foreach  collection="list" item="teacherIds" open="(" separator="," close=")">
+            #{teacherIds}
+        </foreach>
+    </select>
+    <select id="getTeacherByTeacherID" resultMap="teacherResultMap">
+        SELECT * FROM  standard_seminar_system.teacher WHERE id = #{0}
+    </select>
+
+    <select id="getAllTeachers" resultMap="teacherResultMap">
+        SELECT * FROM  standard_seminar_system.teacher
+    </select>
+    <update id="setEmailByID">
+    UPDATE teacher set email = #{1} where id = #{0}
+    </update>
+</mapper>

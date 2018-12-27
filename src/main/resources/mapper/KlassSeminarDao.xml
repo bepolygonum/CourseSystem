@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flippedclassroom.dao.KlassSeminarDao">
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <resultMap type="com.flippedclassroom.entity.KlassSeminar" id="klassSeminarResultMap">
+        <!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id -->
+        <!-- property：主键在pojo中的属性名 -->
+        <!-- column：主键在数据库中的列名 -->
+        <id property="id" column="id" />
+
+        <!-- 定义普通属性 -->
+        <result property="klassId" column="klass_id" />
+        <result property="seminarId" column="seminar_id" />
+        <result property="reportDdl" column="report_ddl" />
+        <result property="status" column="status" />
+
+    </resultMap>
+    <select id="getKlassSeminarIDByKlassIdSeminarID" resultType="java.lang.Integer">
+        SELECT id FROM  standard_seminar_system.klass_seminar
+        WHERE klass_id in
+        <foreach collection="klassIds"  item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and seminar_id in
+        <foreach collection="seminarIds"  item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getKlassSeminarByKlassIdSeminarID" resultMap="klassSeminarResultMap">
+        SELECT * FROM  standard_seminar_system.klass_seminar
+        WHERE klass_id in
+        <foreach collection="klassIds"  item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and seminar_id in
+        <foreach collection="seminarIds"  item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="getKlassSeminarIDByKlassId" resultType="Integer">
+        select id  from standard_seminar_system.klass_seminar where klass_id=#{0}
+    </select>
+    <select id="getKlassSeminarBySeminarID"  resultMap="klassSeminarResultMap">
+        SELECT * FROM  standard_seminar_system.klass_seminar
+        WHERE seminar_id in
+        <foreach  collection="list" item="seminarIds" open="(" separator="," close=")">
+            #{seminarIds}
+        </foreach>
+    </select>
+
+</mapper>

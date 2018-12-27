@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flippedclassroom.dao.ShareSeminarApplicationDao">
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <resultMap type="com.flippedclassroom.entity.ShareSeminarApplication" id="shareSeminarApplicationResultMap">
+        <!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id -->
+        <!-- property：主键在pojo中的属性名 -->
+        <!-- column：主键在数据库中的列名 -->
+        <id property="id" column="id" />
+        <!-- 定义普通属性 -->
+        <result property="mainCourseId" column="main_course_id" />
+        <result property="subCourseId" column="sub_course_id" />
+        <result property="subCourseTeacherId" column="sub_course_teacher_id" />
+        <result property="status" column="status" />
+
+    </resultMap>
+    <insert id="createShareSeminarApplication">
+        insert  into standard_seminar_system.share_seminar_application (main_course_id, sub_course_id, sub_course_teacher_id)
+        values (#{0},#{1},#{2})
+    </insert>
+
+</mapper>

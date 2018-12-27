@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flippedclassroom.dao.CourseDao">
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <resultMap type="com.flippedclassroom.entity.Course" id="courseResultMap">
+        <!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id -->
+        <!-- property：主键在pojo中的属性名 -->
+        <!-- column：主键在数据库中的列名 -->
+        <id property="id" column="id" />
+
+        <!-- 定义普通属性 -->
+        <result property="teacherId" column="teacher_id" />
+        <result property="courseName" column="course_name" />
+        <result property="introduction" column="introduction"/>
+        <result property="presentationPercentage" column="presentation_percentage"/>
+        <result property="questionPercentage" column="question_percentage" />
+        <result property="reportPercentage" column="report_percentage" />
+        <result property="teamStartTime" column="team_start_time" />
+        <result property="teamEndTime" column="team_end_time" />
+        <result property="teamMainCourseId" column="team_main_course_id" />
+        <result property="seminarMainCourseId" column="seminar_main_course_id" />
+    </resultMap>
+    <select id="getCourseByTeacherID"  resultMap="courseResultMap">
+        SELECT * FROM  standard_seminar_system.course WHERE teacher_id=#{0}
+    </select>
+
+    <select id="getCoursesByCourseID"  resultMap="courseResultMap">
+        SELECT * FROM  standard_seminar_system.course
+        WHERE id in
+        <foreach  collection="list" item="courseIds" open="(" separator="," close=")">
+            #{courseIds}
+        </foreach>
+    </select>
+
+    <select id="getCourseByStudentID"  resultType="int">
+        SELECT course_id  FROM  standard_seminar_system.klass_student
+        WHERE student_id=#{0}
+    </select>
+    <select id="getCourseByCourseID"  resultMap="courseResultMap">
+        SELECT * FROM  standard_seminar_system.course
+        WHERE id=#{0}
+    </select>
+    <select id="getCourseBySeminarMainCourseID"  resultMap="courseResultMap">
+        SELECT *  FROM  standard_seminar_system.course
+         WHERE seminar_main_course_id=#{0}
+    </select>
+    <select id="getCourseByTeamMainCourseID"  resultMap="courseResultMap">
+        SELECT *  FROM  standard_seminar_system.course
+         WHERE team_main_course_id=#{0}
+    </select>
+    <select id="getAllCourses"  resultMap="courseResultMap">
+        SELECT *  FROM  standard_seminar_system.course
+    </select>
+    <select id="getCourseByCourseName"  resultMap="courseResultMap">
+        SELECT *  FROM  standard_seminar_system.course
+        WHERE course_name=#{0}
+    </select>
+    <insert id="createACourse" >
+        insert into standard_seminar_system.course
+        (teacher_id,course_name,introduction,presentation_percentage,
+        question_percentage,report_percentage,team_start_time,team_end_time)
+        values(#{0},#{1},#{2},#{3},#{4},#{5},#{6},#{7});
+    </insert>
+    <delete id="deleteCourseByCourseId" parameterType="int">
+        delete from  standard_seminar_system.course where id = #{0};
+    </delete>
+    <update id="updateCourseSeminarMainIdByCourseId">
+        update standard_seminar_system.course set seminar_main_course_id=0 where id=#{0};
+    </update>
+    <update id="updateCourseTeamMainIdByCourseId">
+        update standard_seminar_system.course set team_main_course_id=0 where id=#{0};
+    </update>
+</mapper>
