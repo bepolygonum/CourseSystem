@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 /**
  * @author KEKE
  */
-@SuppressWarnings({"ALL", "AlibabaLowerCamelCaseVariableNaming"})
 public class Course {
     private int id;
     private int teacherId;
@@ -84,32 +83,6 @@ public class Course {
     public void setSeminarMainCourseId(int seminarMainCourseId) {
         this.seminarMainCourseId = seminarMainCourseId;
     }
-
-  /*  public Date getStartTime() {
-        return startTime;
-    }
-
-    public String getTeamStartTime() {
-        return teamStartTime;
-    }
-
-    public void setTeamStartTime(String teamStartTime) {
-        this.teamStartTime = teamStartTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public String getTeamEndTime() {
-        return teamEndTime;
-    }
-
-    public void setTeamEndTime(String teamEndTime) {
-        this.teamEndTime = teamEndTime;
-
-    }
-    */
 
     private String introduction;
     private int presentationPercentage;

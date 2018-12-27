@@ -1,7 +1,10 @@
 package com.flippedclassroom.service;
 import com.flippedclassroom.dao.TeacherDao;
+import com.flippedclassroom.entity.Student;
 import com.flippedclassroom.entity.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +16,12 @@ import java.util.List;
 public class TeacherServiceImpl {
     @Autowired
     TeacherDao teacherDao;
+
+    public Teacher getCurTeacher(){
+        UserDetails userDetails=(UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String account=userDetails.getUsername();
+        return teacherDao.getTeacherByAccounti(account);
+    }
 
     public Teacher getTeacherByAccount(String account, String password) {
         return teacherDao.getTeacherByAccount(account,password);

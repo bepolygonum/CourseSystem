@@ -53,4 +53,11 @@ public interface TeacherDao {
      */
     void setEmailByID(@Param("0")int teacherId, @Param("1")String newmail);
 
+    /**
+     * getTeacherByAccount
+     * @param account
+     * @return
+     */
+    Teacher getTeacherByAccounti(String account);
+
 }

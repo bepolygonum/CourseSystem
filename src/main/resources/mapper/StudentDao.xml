@@ -42,4 +42,9 @@
     <update id="setPassByID">
         UPDATE student set password = #{1} where id = #{0}
     </update>
+
+    <select id="getStudentByAccounti"  resultMap="studentResultMap">
+        SELECT * FROM  standard_seminar_system.student
+        WHERE account = #{account}
+    </select>
 </mapper>
