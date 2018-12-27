@@ -77,7 +77,7 @@
          <!--   <a href="javascript:doPost('teacher/courseManage')" class="nav-link tpl-left-nav-link-list">-->
                 <a onclick="document.getElementById('_form').submit();" class="nav-link tpl-left-nav-link-list">
                     <i class="am-icon-book"></i>
-                <span>我的课程</span>
+                    <label style="font-size: 1.8rem;">我的课程</label>
                 <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                     <input value="${teacher.getId()}" name="id" hidden="hidden">
           <!--  </a> -->
@@ -86,7 +86,7 @@
 
             <a class="nav-link tpl-left-nav-link-list">
                 <i class="am-icon-unlock-alt"></i>
-                <span>账户与设置</span>
+                <label style="font-size: 1.8rem;">账户与设置</label>
                 <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
             </a>
         </li>

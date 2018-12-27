@@ -83,7 +83,7 @@
                             <li class="tpl-left-nav-item">
                             <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
                             <i class="am-icon-table"></i>
-                            <span>第${round.getRoundSerial()}轮讨论课</span>
+                            <label style="font-size: 1.7rem;">第${round.getRoundSerial()}轮讨论课</label>
                         <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                             </a>
                             <#if roundScoreList?exists>
