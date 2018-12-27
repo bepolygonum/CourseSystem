@@ -4,8 +4,6 @@
     <meta charset="utf-8">
     <title>个人信息管理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="icon" type="image/png" href="../../static/i/favicon.png">
     <link rel="stylesheet" href="../../static/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../../static/css/admin.css">
@@ -27,10 +25,12 @@
     </button>
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-                    <li><a href="index_message.html"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
-                    <li><a href="javascript:doPost('/student/personalInfo', {'id':'${student.getId()}'})"><span class="am-icon-user"></span> 个人信息</a></li>
-                    <li><a href="javascript:doPost('/student/seminar', {'id':'${student.getId()}'})"><span class="am-icon-leanpub"></span> 讨论课</a></li>
-                    <li><a href="login.html"><span class="am-icon-power-off"></span>退出</a></li>
+                    <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
+            <li><a href="javascript:doPost('/student/personalInfo', {'id':'${student.getId()}'})"
+                   class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a href="javascript:doPost('/student/seminar', {'id':'${student.getId()}'})"
+                   class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
     </div>
 </header>
@@ -81,3 +81,4 @@
     <script src="../../static/js/app.js"></script>
 </body>
 </html>
+

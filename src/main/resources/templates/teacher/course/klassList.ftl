@@ -46,7 +46,7 @@
         </ul>
     </div>
 </header>
-<div class="tpl-content-wrapper" style="margin-top: 5rem">
+<div class="tpl-page-container1 tpl-page-header-fixed">
     <#if klassList?exists>
         <#list klassList as klass>
             <div class="tpl-portlet-components1">
@@ -75,10 +75,10 @@
                 </div>
             </div>
             <div>
-                <button type="submit" class="am-btn am-btn-default" style="color: #337ab7;float: left;margin-top: 5%">
-                    修改
+                <button type="submit" class="am-btn am-btn-success" style="float: left;margin-top: 5%">
+                    提交
                 </button>
-                <button type="submit" class="am-btn am-btn-default" style="float:right;margin-top:5%">删除班级</button>
+                <button type="submit" class="am-btn am-btn-danger" style="float:right;margin-top:5%">删除班级</button>
             </div>
             </div>
             </div>
@@ -86,10 +86,9 @@
             </div>
         </#list>
     </#if>
-
-    <button class="am-btn am-btn-success" style="width: 100%;margin-bottom: 4%" type="submit"
-            onclick="window.location.href='newclass.html'"><i class="am-icon-plus" style="margin: 0 2%"></i>新增班级
-    </button>
+    <div class="tpl-portlet-components" style="margin-bottom: 0px; padding: 1rem 1rem;">
+        <a class="am-btn am-btn-success" style="width: 100%;" href=""><i class="am-icon-plus" style="margin: 0 2%"></i>新建班级</a>
+    </div>
 </div>
 
 

@@ -12,7 +12,9 @@ li {
     padding: 0;
     list-style: none;
 }
-
+.formSubmit{
+    margin-top: -4.5rem;margin-left:50%;background-image: url(../img/search.svg);background-color: white;width: 8%;height: 5%;background-repeat: no-repeat;
+}
 input {
     border: none;
 }

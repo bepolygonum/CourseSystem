@@ -5,8 +5,6 @@
     <meta charset="utf-8">
     <title>个人信息管理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="icon" type="image/png" href="../../../static/i/favicon.png">
     <link rel="stylesheet" href="../../../static/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../../../static/css/admin.css">
@@ -35,11 +33,11 @@
 
             <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a>
             </li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a>
-            </li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a>
-            </li>
-            <li><a href="login.html" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
+            <li><a href="javascript:doPost('/student/personalInfo', {'id':'${student.getId()}'})"
+                   class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a href="javascript:doPost('/student/seminar', {'id':'${student.getId()}'})"
+                   class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
 
         </ul>
     </div>
@@ -64,15 +62,15 @@
                     </div>
                     <#if student.getEmail()?exists>
                         <div>
-                            <lable class="mylabel">邮箱：</lable>
-                            <div class="myDiv">
-                                <label class="myLabel">${student.getEmail()}</label>
-                                <br>
-                                <div style="margin-top: -1rem;margin-left: 8rem">
-                                    <a style="font-size: 1rem;color: #1b961b;"
-                                       href="javascript:doPost('/student/modifyEmail', {'id':'${student.getId()}'})">修改</a>
-                                </div>
-                            </div>
+                        <lable class="mylabel">邮箱：</lable>
+                        <div class="myDiv">
+                        <label class="myLabel">${student.getEmail()}</label>
+                    <br>
+                        <div style="margin-top: -1rem;margin-left: 8rem">
+                    <a style="font-size: 1rem;color: #1b961b;"
+                    href="javascript:doPost('/student/modifyEmail', {'id':'${student.getId()}'})">修改</a>
+                        </div>
+                        </div>
                         </div>
                     </#if>
                     <div>

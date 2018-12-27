@@ -5,10 +5,8 @@
     <meta charset="utf-8">
     <title>修改密码</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="icon" type="image/png" href="../../../static/i/favicon.png">
-    <link rel="stylesheet" href="../../../static/css/amazeui.min.css" />
+    <link rel="stylesheet" href="../../../static/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../../../static/css/admin.css">
     <link rel="stylesheet" href="../../../static/css/app.css">
     <script src="../../../static/js/echarts.min.js"></script>
@@ -24,7 +22,8 @@
     <div class="am-topbar-brand">
         <h3>修改密码</h3>
     </div>
-    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}">
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: '#topbar-collapse'}">
         <span class="am-icon-bars"></span>
     </button>
 
@@ -32,11 +31,13 @@
 
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
 
-            <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
-            <li><a href="login.html" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
-
+            <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a>
+            </li>
+            <li><a href="javascript:doPost('/student/personalInfo', {'id':'${student.getId()}'})"
+                   class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a href="javascript:doPost('/student/seminar', {'id':'${student.getId()}'})"
+                   class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
     </div>
 </header>
@@ -52,7 +53,8 @@
                             <input type="password" class="" id="pwd" placeholder="原密码" required="required">
                         </div>
                         <div class="am-form-group" style="margin-bottom: 1rem">
-                            <input type="password" class="" id="pwd1" name="newpass" placeholder="填写密码" required="required">
+                            <input type="password" class="" id="pwd1" name="newpass" placeholder="填写密码"
+                                   required="required">
                             <input name="id" value="${student.getId()}" hidden="hidden"/>
                         </div>
                         <div class="am-form-group">
@@ -77,12 +79,12 @@
         $(function () {
             $("#pwd").blur(function () {
                 var va = $("#pwd").val();
-                if(va.length>0){
+                if (va.length > 0) {
                     if (va != ${student.getPassword()}) {
                         alert("密码错误")
                         $("#bt1").attr("disabled", true);
                         bt1.style.backgroundColor = "red";
-                    }else{
+                    } else {
                         bt1.style.backgroundColor = "#23c0c0";
                         $("#bt1").attr("disabled", false);
                     }
@@ -104,7 +106,7 @@
                         alert("两次密码输入不一致")
                         $("#bt1").attr("disabled", true);
                         bt1.style.backgroundColor = "red";
-                    }else{
+                    } else {
                         bt1.style.backgroundColor = "#23c0c0";
                         $("#bt1").attr("disabled", false);
                     }
@@ -113,13 +115,13 @@
 
 
             $("#pwd2").blur(function () {
-                var val=$("#pwd1").val();
+                var val = $("#pwd1").val();
                 var val2 = $("#pwd2").val();
-                if(val2.length>0){
-                    if (val!=val2) {
+                if (val2.length > 0) {
+                    if (val != val2) {
                         alert("两次密码输入不一致")
-                        $("#bt1").attr("disabled",true);
-                    }else{
+                        $("#bt1").attr("disabled", true);
+                    } else {
                         bt1.style.backgroundColor = "#23c0c0";
                         $("#bt1").attr("disabled", false);
                     }

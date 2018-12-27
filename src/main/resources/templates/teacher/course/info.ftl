@@ -75,11 +75,11 @@
                             </div>
                             <#if courseMemberLimitStrategy?exists>
                                 <div>
-                                    <lable class="mylabel">小组人数：</lable>
-                                    <div class="myDiv">
-                                        <label class="myLabel">${courseMemberLimitStrategy.getMinMember()}
-                                            ~${courseMemberLimitStrategy.getMaxMember()}</label>
-                                    </div>
+                                <lable class="mylabel">小组人数：</lable>
+                                <div class="myDiv">
+                                <label class="myLabel">${courseMemberLimitStrategy.getMinMember()}
+                            ~${courseMemberLimitStrategy.getMaxMember()}</label>
+                                </div>
                                 </div>
                             </#if>
                             <div>
@@ -97,18 +97,20 @@
                             <div>
                                 <lable class="mylabel">冲突课程：</lable>
                                 <div class="myDiv">
-                            <#if courseList?exists>
-                                <#list courseList as conflictCourse>
-                                    <#if teacherList?exists>
-                                        <#list teacherList as teacher>
-                                            <#if teacher.getId()==conflictCourse.getTeacherId()>
+                                    <#if courseList?exists>
+                                        <#list courseList as conflictCourse>
+                                            <#if teacherList?exists>
+                                                <#list teacherList as teacher>
+                                                    <#if teacher.getId()==conflictCourse.getTeacherId()>
                                                         <label class="myLabel">${conflictCourse.getCourseName()}
-                                                            (${teacher.getTeacherName()}老师)</label>
+                                                    (${teacher.getTeacherName()}老师)</label>
+                                                    </#if>
+                                                </#list>
                                             </#if>
                                         </#list>
+                                    <#else>
+                                        <label class="myLabel">无</label>
                                     </#if>
-                                </#list>
-                            </#if>
 
                                 </div>
                             </div>

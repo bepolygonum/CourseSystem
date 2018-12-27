@@ -5,10 +5,8 @@
     <meta charset="utf-8">
     <title>账户邮箱</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="icon" type="image/png" href="../../../static/i/favicon.png">
-    <link rel="stylesheet" href="../../../static/css/amazeui.min.css" />
+    <link rel="stylesheet" href="../../../static/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../../../static/css/admin.css">
     <link rel="stylesheet" href="../../../static/css/app.css">
     <script src="../../../static/js/echarts.min.js"></script>
@@ -24,7 +22,8 @@
     <div class="am-topbar-brand">
         <h3>账户邮箱</h3>
     </div>
-    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}">
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: '#topbar-collapse'}">
         <span class="am-icon-bars"></span>
     </button>
 
@@ -32,11 +31,13 @@
 
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
 
-            <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
-            <li><a href="login.html" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
-
+            <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a>
+            </li>
+            <li><a href="javascript:doPost('/student/personalInfo', {'id':'${student.getId()}'})"
+                   class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a href="javascript:doPost('/student/seminar', {'id':'${student.getId()}'})"
+                   class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
     </div>
 </header>
@@ -56,7 +57,8 @@
                         <div class="am-form-group">
                             <p style="float: left;font-size: 1rem;margin-top: 5%; ">邮箱格式如： user@host.domainnames</p>
                         </div>
-                        <button type="submit" class="am-btn am-btn-success" style="width: 100%;margin-top: 1%" >确认提交</button>
+                        <button type="submit" class="am-btn am-btn-success" style="width: 100%;margin-top: 1%">确认提交
+                        </button>
                     </form>
                 </div>
             </div>
