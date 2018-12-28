@@ -35,6 +35,9 @@ public class LoginController {
         return "login";
     }
 
-
+    @GetMapping(value = "/")
+    public String login1(){
+        return "login";
+    }
 
 }
