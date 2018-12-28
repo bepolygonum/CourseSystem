@@ -41,12 +41,25 @@ public class StudentController {
     @GetMapping(value = "/index")
     public String studentIndex(Model model){
         Student student=studentService.getCurStudent();
-//        if(!student.isActive()){
-//            return "redirect:/student/activation";
-//        }
         model.addAttribute("student",student);
-        return "student/home";
+        if(!student.isActive()){
+            return "/student/activation";
+        }
+        return "/student/home";
     }
+
+    @RequestMapping(value = "/newactivation", method = RequestMethod.POST)
+    public String studentActivate(Model model, @RequestParam(name = "id") String sid, @RequestParam String newmail, @RequestParam String newpass){
+        int id=Integer.valueOf(sid);
+        Student student=studentService.getStudentByID(id);
+        studentService.setEmailByID(id,newmail);
+        studentService.setPassByID(id, newpass);
+        studentService.activate(id);
+        model.addAttribute("student",student);
+        return "/student/home";
+    }
+
+
 
     @RequestMapping(value = "/courseManage", method = RequestMethod.POST)
     public String courseManage(Model model, @RequestParam(name = "id") String sid) {
@@ -89,8 +102,11 @@ public class StudentController {
         //获取klass
         Klass klass = klassService.getKlassByKlassID(klassId);
         //获取team_id
-        int teamid = teamService.getTeamIdByStudentIdAndCourseId(id, courseId).get(0);
+        int teamid = -1;
         //获取该team该班级的score
+        if(teamService.getTeamIdByStudentIdAndCourseId(id, courseId).size() != 0){
+            teamid=teamService.getTeamIdByStudentIdAndCourseId(id, courseId).get(0);
+        }
         List<SeminarScore> seminarScoreList = seminarService.getSeminarScoreByTeamIdAndKlassId(teamid, klassId);
         if (seminarScoreList == null) {
             out.print("<script>alert('成绩尚未录入！');history.go(-1);</script>");
@@ -126,7 +142,6 @@ public class StudentController {
         int courseId = Integer.valueOf(courseid);
         int klassId = Integer.valueOf(klassid);
         int teamid = -1;
-        Team myteam=new Team();
         Student student = studentService.getStudentByID(id);
         model.addAttribute(student);
         model.addAttribute("course", courseService.getCourseByCourseID(courseId));
@@ -176,7 +191,8 @@ public class StudentController {
                 return "student/course/team/createTeam";
             }
            //找到team leader
-            /*myteam = teamService.getTeamById(teamid);
+            /* Team myteam=new Team();
+           myteam = teamService.getTeamById(teamid);
             if(myteam!=null) {
                 model.addAttribute("myteam",myteam);
             }
@@ -190,7 +206,6 @@ public class StudentController {
             { return "student/course/team/leaderTeam"; }
             else { return "student/course/team/memberTeam"; }*/
         }
-        else { return ""; }
         return "";
     }
 

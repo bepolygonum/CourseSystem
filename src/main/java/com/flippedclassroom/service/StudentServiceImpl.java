@@ -41,4 +41,8 @@ public class StudentServiceImpl {
 
     public void setPassByID(int id, String newpass) {studentDao.setPassByID(id, newpass);
     }
+
+    public void activate(int id) {
+        studentDao.activate(id);
+    }
 }
