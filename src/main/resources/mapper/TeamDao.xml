@@ -16,6 +16,7 @@
         <result property="teamName" column="team_name" />
         <result property="teamSerial" column="team_serial" />
         <result property="status" column="status" />
+        <result property="klassSerial" column="klass_serial"/>
 
     </resultMap>
     <select id="getTeamByCourseID"  resultMap="teamResultMap">
@@ -47,5 +48,6 @@
         <foreach  collection="list" item="ids" open="(" separator="," close=")">
             #{ids}
         </foreach>
+        order by team_serial
     </select>
 </mapper>

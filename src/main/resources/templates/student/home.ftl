@@ -55,8 +55,8 @@
                 <a href="javascript:doPost('/student/courseManage', {'id':'${student.getId()}'})">
                 <div class="am-u-sm-12">
                     <li class="tpl-left-nav-item">
-                            <img src="../../static/img/books.svg" style="margin-top:-0.4rem;width: 2rem">
-                            <span>我的课程</span>
+                        <i class="am-icon-book" style="color: #a7bdcd"></i>
+                        <label style="font-size: 1.8rem; color: #485a6a">我的课程</label>
                             <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                         <ul class="tpl-left-nav-sub-menu">
                             <li class="tpl-left-nav-item"></li>
@@ -64,11 +64,11 @@
                     </li>
                 </div>
                 </a>
-                <a href="score.html">
+                <a href="javascript:doPost('/student/personalInfo', {'id':'${student.getId()}'})">
                 <div class="am-u-sm-12" style="margin-top: 1rem">
                     <li class="tpl-left-nav-item">
-                            <img src="../../static/img/user.svg" style="margin-top:-0.4rem;width: 2rem">
-                            <span>账户与设置</span>
+                        <i class="am-icon-unlock-alt" style="color: #a7bdcd"></i>
+                        <label style="font-size: 1.8rem; color: #485a6a;">账户与设置</label>
                             <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                     </li>
                 </div>

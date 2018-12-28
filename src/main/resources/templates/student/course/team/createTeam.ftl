@@ -48,84 +48,87 @@
         <div class="tpl-block">
             <div class="am-g">
                 <div class="am-u-sm-12">
-                    <table class="am-table">
-                        <tbody>
-                        <#if teamList?exists>
+                    <#list klasses as klass>
+                        <li class="tpl-left-nav-item">
+                        <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                        <label class="courseName">${klass.getGrade()}-${klass.getKlassSerial()}</label>
+                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                        </a>
+                        <ul class="tpl-left-nav-sub-menu">
+                        <#if teamList ?exists>
                             <#list teamList as team>
-                                <#if listList?exists>
-                                    <#list listList as teamlist>
-                                        <tr>
-                                        <td>
-                                        <li class="tpl-left-nav-item">
-                                        <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
-                                        <span>${klass.getKlassSerial()}-${team.getTeamSerial()}</span>
-                                        <span style="margin-left: 3rem">${team.getTeamName()}</span>
-                                        <span style="margin-left: 3rem">${team.getStatus()}</span>
-                                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
-                                        </a>
+                                <#if listOfStudents?exists>
+                                    <#list listOfStudents as teamlist>
+                                        <#if teamlist_index ==team_index>
+                                            <#if team.getKlassId()==klass.getId()>
+                                                <li class="tpl-left-nav-item">
+                                                <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                                                <span >${team.getKlassSerial()}-${team.getTeamSerial()}</span>
+                                                <span style="margin-left: 3rem">${team.getStatus()}</span>
+                                                <span style="margin-left: 3rem">${team.getTeamName()}</span>
+                                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                                                </a>
+                                                <ul class="tpl-left-nav-sub-menu">
+                                                <li>
+                                                <table class="am-table am-table-striped am-table-hover table-main">
+                                                <#list teamlist as teammember>
+                                                    <#if teammember.getId()==team.getLeaderId()>
+                                                        <tr>
+                                                        <td>组长</td>
+                                                        <td>${teammember.getAccount()}</td>
+                                                        <td>${teammember.getStudentName()}</td>
+                                                        </tr>
+                                                    </#if>
+                                                </#list>
+                                                <#list teamlist as teammember>
+                                                    <#if teammember.getId()!=team.getLeaderId()>
+                                                        <tr>
+                                                        <td>组员</td>
+                                                        <td>${teammember.getAccount()}</td>
+                                                        <td>${teammember.getStudentName()}</td>
+                                                        </tr>
+                                                    </#if>
+                                                </#list>
+                                                </table>
+                                                </li>
 
-                                        <ul class="tpl-left-nav-sub-menu">
-                                        <li>
-                                        <table class="am-table am-table-striped am-table-hover table-main">
-                                        <#list teamlist?exists as teammember>
-                                            <#if teammember.getId()==team.getLeaderId()>
-                                                <tr>
-                                                <td>组长</td>
-                                                <td>${teammember.getAccount()}</td>
-                                                <td>${teammember.getStudent_name()}</td>
-                                                </tr>
+                                                </ul>
+                                                </li>
                                             </#if>
-                                        </#list>
-                                        <#list teamlist?exists as teammember>
-                                            <#if teammember.getId()!=team.getLeaderId()>
-                                                <tr>
-                                                <td>组员</td>
-                                                <td>${teammember.getAccount()}</td>
-                                                <td>${teammember.getStudent_name()}</td>
-                                                </tr>
-                                            </#if>
-                                        </#list>
-                                        </table>
-                                        </li>
-
-                                        </ul>
-                                        </li>
-                                        </td>
-                                        </tr>
+                                        </#if>
                                     </#list>
                                 </#if>
                             </#list>
                         </#if>
-                        </tbody>
-                    </table>
-                    <table class="am-table">
-                        <tbody>
-                        <tr>
-                            <td>
-                                <li class="tpl-left-nav-item">
-                                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
-                                        <span>未组队学生</span>
-                                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
-                                    </a>
 
-                                    <ul class="tpl-left-nav-sub-menu">
-                                        <li>
-                                            <table class="am-table am-table-striped am-table-hover table-main">
-                                                <#list noTeams as noteam>
-                                                    <tr>
-                                                    <td>${noteam.getAccount()}</td>
-                                                    <td>${noteam.getStudentName()}</td>
-                                                    </tr>
-                                                </#list>
-                                            </table>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <button class="am-btn-success am-btn " style="width: 100%;margin-top: 3rem">创建小组</button>
+                        </ul>
+
+                        </li>
+                    </#list>
+
+
+                    <li class="tpl-left-nav-item">
+                        <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                            <label class="courseName">未组队学生</label>
+                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                        </a>
+                        <ul class="tpl-left-nav-sub-menu">
+
+                            <li>
+                                <table class="am-table am-table-striped am-table-hover table-main">
+                                    <#list noTeams as noteam>
+                                        <tr>
+                                        <td>${noteam.getAccount()}</td>
+                                        <td>${noteam.getStudentName()}</td>
+                                        </tr>
+                                    </#list>
+                                </table>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <a class="am-btn am-btn-success" style="width: 100%;margin: 1% 0;"
+                       href="javascript:doPost('/student/submitTeam', {'id':'${student.getId()}'})">创建小组</a>
                 </div>
             </div>
         </div>

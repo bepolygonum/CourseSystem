@@ -11,6 +11,15 @@ public class Team {
     private String teamName;
     private int teamSerial;
     private int status;
+    private int klassSerial;
+
+    public int getKlassSerial() {
+        return klassSerial;
+    }
+
+    public void setKlassSerial(int klassSerial) {
+        this.klassSerial = klassSerial;
+    }
 
     public int getId() {
         return id;

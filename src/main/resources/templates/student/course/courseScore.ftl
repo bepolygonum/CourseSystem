@@ -37,18 +37,23 @@
         </ul>
     </div>
 </header>
-<div class="tpl-page-container tpl-page-header-fixed">
-    <div class="tpl-portlet-components">
+
+
+<div class="tpl-page-container1 tpl-page-header-fixed">
+    <div class="tpl-portlet-components2">
         <div class="tpl-block">
             <div class="am-g">
                 <#if roundScoreList?exists>
                     <#list roundScoreList as roundScore>
                         <div class="am-u-sm-12">
                         <li class="tpl-left-nav-item">
-                        <a href="javascript:;" class="nav-link tpl-left-nav-link-list" style="width: 100%;margin-left: -2rem">
-                        <label style="font-size: 1.7rem;color: #007431">第${roundScore_index+1}轮</label>
-                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"
-                       style="margin-top: 0.1rem"></i>
+                        <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                        <i class="am-icon-table"></i>
+                        <label style="font-size: 1.7rem;">第${roundScore_index+1}轮讨论课 <label
+                                style="font-size: 1.7rem;margin-left: 5rem">${roundScore.getTotalScore()}</label>
+                        </label>
+
+                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                         </a>
                         <#if seminarList?exists>
                             <#list seminarList as seminar>
@@ -57,25 +62,36 @@
                                         <#list seminarScoreList as seminarScore>
                                             <#if seminarScore.getKlassSeminarId()==klassSeminar.getId()&&klassSeminar.getSeminarId()==seminar.getId()>
                                                 <ul class="tpl-left-nav-sub-menu">
-                                                <div>
-                                                <a href="javascript:;" class="nav-link tpl-left-nav-link-list" style="width: 100%;margin-left: -2rem">
-                                                <span style="margin-left: 2rem;color: #3bb4f2">${seminar.getSeminarName()}</span>
+                                                <li class="tpl-left-nav-item">
+                                                <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                                                <label style="font-size: 1.5rem;margin-left: 2%">${seminar.getSeminarName()}</label>
                                             <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                                                 </a>
-                                                <div class="tpl-left-nav-sub-menu">
-                                            <span class="myLabel">展示:</span><span
-                                                        class="myScore">${seminarScore.getPresentationScore()}</span>
-                                            <br>
-                                            <span class="myLabel">提问:</span><span
-                                                        class="myScore">${seminarScore.getQuestionScore()}</span><br>
-                                            <span class="myLabel">书面报告:</span><span
-                                                        class="myScore">${seminarScore.getReportScore()}</span><br>
-                                            <span class="myLabel">本次总成绩:</span><span
-                                                        class="myScore">${seminarScore.getTotalScore()}</span><br>
-                                            <span class="myLabel">本轮总成绩:</span><span
-                                                        class="myScore">${roundScore.getTotalScore()}</span>
-                                                </div>
-                                                </div>
+                                                <ul class="tpl-left-nav-sub-menu">
+                                                <li>
+                                                <table class="am-table am-table-striped am-table-hover table-main">
+                                            <thead>
+                                            <tr>
+                                                <th class="table-title">展示</th>
+                                                <th class="table-title">提问</th>
+                                                <th class="table-title">报告</th>
+                                                <th class="table-title">总分</th>
+                                            </tr>
+                                            </thead>
+                                                <tbody>
+                                            <tr>
+                                                <td>${seminarScore.getPresentationScore()}</td>
+                                                <td>${seminarScore.getQuestionScore()}</td>
+                                                <td>${seminarScore.getReportScore()}</td>
+                                                <td>${seminarScore.getTotalScore()}</td>
+
+                                                </tr>
+                                                </tbody>
+                                                </table>
+
+                                                </li>
+                                                </ul>
+                                                </li>
                                                 </ul>
                                             </#if>
                                         </#list>
@@ -92,6 +108,7 @@
         </div>
     </div>
 </div>
+
 <script src="../../../static/js/jquery.min.js"></script>
 <script src="../../../static/js/amazeui.min.js"></script>
 <script src="../../../static/js/app.js"></script>

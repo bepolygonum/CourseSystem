@@ -113,7 +113,7 @@
                         </tr>
                         </tbody>
                         </table>
-                        <button type="submit" class="am-btn am-btn-success"
+                        <button type="submit" class="am-btn am-btn-danger"
                                 style="border-radius: 0.5rem;width: 35%;margin-top: 2rem;padding-left: 1rem;margin-left: 1rem">
                             解散小组
                         </button>

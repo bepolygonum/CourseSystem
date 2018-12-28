@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="../../static/i/favicon.png">
     <link rel="stylesheet" href="../../static/css/amazeui.min.css"/>
-    <link rel="stylesheet" href=".../../static/css/admin.css">
+    <link rel="stylesheet" href="../../static/css/admin.css">
     <link rel="stylesheet" href="../../static/css/app.css">
     <script src="../../static/js/echarts.min.js"></script>
 </head>
@@ -39,8 +39,8 @@
     </div>
 </header>
 
-<div class="tpl-page-container tpl-page-header-fixed">
-    <div class="tpl-portlet-components">
+<div class="tpl-page-container1 tpl-page-header-fixed">
+    <div class="tpl-portlet-components2">
         <div class="tpl-block">
             <div class="am-g">
                 <#list  courseList as course>
@@ -49,7 +49,7 @@
                             <div class="am-u-sm-12">
                             <li class="tpl-left-nav-item"  >
                             <a href="javascript:;" class="nav-link tpl-left-nav-link-list" style="width: 100%;margin-left: -2rem">
-                            <label class="courseName">${course.getCourseName()}</label><span
+                            <label class="courseName" style="margin-left: 2%">${course.getCourseName()}</label><span
                                     style="margin-left: 1rem">${klass.getGrade()}-(${klass.getKlassSerial()})</span>
                         <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"
                            style="margin-top: 0.1rem"></i>
@@ -57,19 +57,19 @@
                             <ul class="tpl-left-nav-sub-menu">
                             <li class="tpl-left-nav-item">
                         <a href="javascript:doPost('/student/courseInfo', {'course_id':'${course.getId()}','id':'${student.getId()}'})">
-                                <span>课程信息</span>
+                                <label style="font-size: 1.5rem; color: #000000">课程信息</label>
                                 <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                             </a>
                             </li>
                             <li class="tpl-left-nav-item">
                         <a href="javascript:doPost('/student/courseScore', {'course_id':'${course.getId()}','klass_id':'${klass.getId()}','id':'${student.getId()}'})">
-                                <span>我的成绩</span>
+                                <label style="font-size: 1.5rem; color: #000000">我的成绩</label>
                                 <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                             </a>
                             </li>
                             <li class="tpl-left-nav-item">
                         <a href="javascript:doPost('/student/courseTeam', {'course_id':'${course.getId()}','klass_id':'${klass.getId()}','id':'${student.getId()}'})">
-                            <span>我的组队</span>
+                            <label style="font-size: 1.5rem; color: #000000">我的组队</label>
                             <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                             </a>
                             </li>

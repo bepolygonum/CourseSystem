@@ -67,7 +67,6 @@
             <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a>
             </li>
             <li><a href="login.html" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
-
         </ul>
     </div>
 </header>

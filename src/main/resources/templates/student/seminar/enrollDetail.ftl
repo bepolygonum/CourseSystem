@@ -52,7 +52,6 @@
 </header>
 <div class="tpl-content-wrapper" style="margin-top: 5rem">
     <div class="tpl-portlet-components1">
-
         <#assign count =0/>
         <div class="tpl-block">
             <div class="am-g tpl-amazeui-form">
