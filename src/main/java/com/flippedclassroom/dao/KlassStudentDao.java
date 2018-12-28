@@ -27,5 +27,9 @@ public interface KlassStudentDao {
     List<KlassStudent> getKlassStudentByStudentIdAndKlassId(@Param("0") int studentId, @Param("1") int klassid);
 
 
+    /**
+     * deleteKlassStudentByKlassId
+     * @param klassId
+     */
     void deleteKlassStudentByKlassId(@Param("0") int klassId);
 }

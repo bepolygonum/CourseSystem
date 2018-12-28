@@ -2,6 +2,8 @@ package com.flippedclassroom.service;
 import com.flippedclassroom.dao.StudentDao;
 import com.flippedclassroom.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +15,14 @@ import java.util.List;
 public class StudentServiceImpl {
     @Autowired
     StudentDao studentDao;
+    /**
+     * 第一次登录时获取该学生信息
+     */
+    public Student getCurStudent(){
+        UserDetails userDetails=(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String account=userDetails.getUsername();
+        return studentDao.getStudentByAccounti(account);
+    }
 
     public Student getStudentByID(int studentId) {
         return studentDao.getStudentByID(studentId);

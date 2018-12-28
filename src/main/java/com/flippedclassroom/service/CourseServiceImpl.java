@@ -11,7 +11,7 @@ import java.util.*;
 /**
  * @author KEKE
  */
-@SuppressWarnings("ALL")
+
 @Service(value = "CourseService")
 public class CourseServiceImpl  {
     @Autowired

@@ -40,5 +40,19 @@ public interface StudentDao {
      */
     void setEmailByID(@Param("0") int studentId, @Param("1") String newmail);
 
+    /**
+     * setPassByID
+     * @param id
+     * @param newpass
+     */
     void setPassByID(@Param("0") int id, @Param("1") String newpass);
+
+    /**
+     * getStudentByAccount
+     * @param account
+     * @return
+     */
+    Student getStudentByAccounti(String account);
+
+
 }

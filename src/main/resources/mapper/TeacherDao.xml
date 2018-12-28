@@ -43,4 +43,8 @@
     <update id="setEmailByID">
     UPDATE teacher set email = #{1} where id = #{0}
     </update>
+    <select id="getTeacherByAccounti" resultMap="teacherResultMap">
+        SELECT * FROM  standard_seminar_system.teacher
+        WHERE account = #{account}
+    </select>
 </mapper>

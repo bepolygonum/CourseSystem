@@ -10,9 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @MapperScan(basePackages = "com.flippedclassroom.dao")
-@EnableAutoConfiguration(exclude = {
-        org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
-})
 public class FlippedclassroomApplication {
 
     public static void main(String[] args) {

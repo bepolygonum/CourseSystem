@@ -50,5 +50,9 @@ public interface KlassDao {
                       @Param("2") int klassSerial,@Param("3")  String klassTime,
                       @Param("4") String location);
 
+    /**
+     * deleteKlassByKlassId
+     * @param klassId
+     */
     void deleteKlassByKlassId(@Param("0")int klassId);
 }

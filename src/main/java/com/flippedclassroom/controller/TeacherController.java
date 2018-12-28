@@ -6,9 +6,7 @@ import com.flippedclassroom.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,7 +21,6 @@ import java.util.stream.Collectors;
  * @author KEKE
  */
 @Controller
-
 @RequestMapping(value = "/teacher")
 public class TeacherController {
     @Autowired
@@ -40,6 +37,18 @@ public class TeacherController {
     private TeacherServiceImpl teacherService;
     @Autowired
     private SeminarServiceImpl seminarService;
+
+    @GetMapping(value="/index")
+    public String teacherIndex(Model model){
+        Teacher teacher=teacherService.getCurTeacher();
+//        if(!teacher.isActive()){
+//            return "redirect:/teacher/activation";
+//        }
+
+        model.addAttribute("teacher",teacher);
+        return "teacher/home";
+    }
+
 
     @RequestMapping(value = "/home",method = RequestMethod.POST)
     public String teacherHome(Model model,@RequestParam String id)
@@ -82,7 +91,6 @@ public class TeacherController {
 
         List<Klass> klassList=klassService.getKlassByCourseID(courseid);
 
-        //new
         model.addAttribute(roundList);
 
         model.addAttribute(roundScoreList);
@@ -111,28 +119,6 @@ public class TeacherController {
 
         List<Klass> klassList=klassService.getKlassByCourseID(courseid);
 
-
-    /*    List<Integer> teamLeaderIds=teamList.stream().map(Team::getLeaderId).collect(Collectors.toList());
-        List<Student> leaderStudent=new ArrayList<>();
-        List<Student> normalStudent=new ArrayList<>();
-       for(int i=0;i<studentList.size();i++)
-        {
-            for(int j=0;j<teamLeaderIds.size();j++)
-            {
-                if(studentList.get(i).getId()==teamLeaderIds.get(j))
-                {
-                    leaderStudent.add(studentList.get(i));
-                }
-                else
-                {
-                    normalStudent.add(studentList.get(i));
-                }
-            }
-        }
-        studentList.clear();
-        studentList.addAll(leaderStudent);
-        studentList.addAll(normalStudent);*/
-
         model.addAttribute(teamList);
         model.addAttribute(teamStudentList);
         model.addAttribute(studentList);
@@ -159,19 +145,10 @@ public class TeacherController {
             model.addAttribute(teacherList);
         }
 
-        //List<Course> courseList=courseService.getConflictCourseByCourseID(courseid);
-        //System.out.print(courseList);
         Course course=courseService.getCourseByCourseID(courseid);
         System.out.print(course);
         CourseMemberLimitStrategy courseMemberLimitStrategy=courseService.getCourseMemberLimitByCourseID(courseid);
 
-        //  List<Integer> teacherIds=courseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
-        // List<Teacher> teacherList=teacherService.getTeachersByTeacherID(teacherIds);
-      /*  if(!courseList.isEmpty())
-        {
-            model.addAttribute(courseList);
-            model.addAttribute(teacherList);
-        }*/
         if(courseMemberLimitStrategy!=null)
         {
             model.addAttribute(courseMemberLimitStrategy);
@@ -196,7 +173,7 @@ public class TeacherController {
 
 
     @RequestMapping(value = "/course/createCourse",method = RequestMethod.POST)
-    public String CreateACourse(Model model, @RequestParam String id, @RequestParam String courseName, @RequestParam String courseRequest, @RequestParam String presentation,
+    public String createACourse(Model model, @RequestParam String id, @RequestParam String courseName, @RequestParam String courseRequest, @RequestParam String presentation,
                                 @RequestParam String question, @RequestParam String report, @RequestParam String max, @RequestParam String min,
                                 @RequestParam String startDate, @RequestParam String startTime, @RequestParam String endDate, @RequestParam String endTime,
                                 @RequestParam List<String> conflict, HttpServletResponse response) throws IOException//
@@ -387,7 +364,7 @@ public class TeacherController {
     }
 
     @RequestMapping(value = "course/seminar/createSeminar",method = RequestMethod.POST)
-    public String CreateASeminar(Model model, @RequestParam String id, @RequestParam String courseId,@RequestParam String seminarName, @RequestParam String mainContent,
+    public String createASeminar(Model model, @RequestParam String id, @RequestParam String courseId,@RequestParam String seminarName, @RequestParam String mainContent,
                                  @RequestParam String serial, @RequestParam String isVisible, @RequestParam String startDate, @RequestParam String endDate,
                                  @RequestParam String number, @RequestParam String order, @RequestParam String round, HttpServletResponse response) throws IOException
     {
@@ -481,7 +458,7 @@ public class TeacherController {
     }
 
     @RequestMapping(value = "/course/seminar/createKlass",method = RequestMethod.POST)
-    public String CreateAKlass(Model model, @RequestParam String id, @RequestParam String courseId,@RequestParam int grade, @RequestParam int klass,
+    public String createAKlass(Model model, @RequestParam String id, @RequestParam String courseId,@RequestParam int grade, @RequestParam int klass,
                                @RequestParam String firstCourse, @RequestParam String secondCourse, @RequestParam String location, HttpServletResponse response) throws IOException
     {
         response.setContentType("text/html;charset=gb2312");
@@ -565,7 +542,6 @@ public class TeacherController {
                 }
             }
         }
-
         List<Teacher> teacherList1=new ArrayList<>();
         List<Teacher> teacherList2=new ArrayList<>();
         //course为主课程
@@ -575,7 +551,6 @@ public class TeacherController {
         Course seminarMainCourse=new Course();
         List<Course> teamCourseList=new ArrayList<>();
         Course teamMainCourse=new Course();
-
         if(seminarMainCourseId==0)
         {
             seminarCourseList=courseService.getCourseBySeminarMainCourseID(courseid);
@@ -609,10 +584,6 @@ public class TeacherController {
                 teacherList2.add(teacherService.getTeacherByTeacherID(teamMainCourse.getTeacherId()));
             }
         }
-        System.out.print(seminarCourseList);
-        System.out.print(teamCourseList);
-        System.out.print(teacherList1);
-        System.out.print(teacherList2);
         model.addAttribute("seminarCourseList",seminarCourseList);
         model.addAttribute("seminarMainCourse",seminarMainCourse);
         model.addAttribute("teamCourseList",teamCourseList);
