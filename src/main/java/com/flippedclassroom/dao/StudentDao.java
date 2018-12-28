@@ -55,4 +55,5 @@ public interface StudentDao {
     Student getStudentByAccounti(String account);
 
 
+    void activate(int id);
 }
