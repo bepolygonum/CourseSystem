@@ -36,8 +36,6 @@ public class StudentController {
     @Autowired
     private CourseMemberLimitStrategyServiceImpl courseMemberLimitStrategyService;
 
-
-
     @GetMapping(value = "/index")
     public String studentIndex(Model model){
         Student student=studentService.getCurStudent();
