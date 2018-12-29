@@ -60,4 +60,7 @@ public interface TeacherDao {
      */
     Teacher getTeacherByAccounti(String account);
 
+    void setPassByID(@Param("0") int id, @Param("1") String newpass);
+
+    void activate(@Param("0")int id);
 }

@@ -49,13 +49,13 @@ public class StudentController {
     }
 
     @RequestMapping(value = "/newactivation", method = RequestMethod.POST)
-    public String studentActivate(Model model, @RequestParam(name = "id") String sid, @RequestParam String newmail, @RequestParam String newpass){
-        int id=Integer.valueOf(sid);
-        Student student=studentService.getStudentByID(id);
-        studentService.setEmailByID(id,newmail);
+    public String studentActivate(Model model, @RequestParam(name = "id") String sid, @RequestParam String newmail, @RequestParam String newpass) {
+        int id = Integer.valueOf(sid);
+        Student student = studentService.getStudentByID(id);
+        studentService.setEmailByID(id, newmail);
         studentService.setPassByID(id, newpass);
         studentService.activate(id);
-        model.addAttribute("student",student);
+        model.addAttribute("student", student);
         return "/student/home";
     }
 

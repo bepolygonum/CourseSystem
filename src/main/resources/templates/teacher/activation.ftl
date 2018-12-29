@@ -30,10 +30,10 @@
         <div class="tpl-block">
             <div class="am-g">
                 <div class="am-u-sm-12">
-                    <form class="am-form" action="/student/newactivation" method="post">
+                    <form class="am-form" action="/teacher/newactivation" method="post">
                         <div class="am-form-group" style="margin-bottom: 1rem">
                             <input type="password" class="" id="pwd1" name="newpass" placeholder="新密码" required="required">
-                            <input name="id" value="${student.getId()}" hidden="hidden"/>
+                            <input name="id" value="${teacher.getId()}" hidden="hidden"/>
                         </div>
                         <div class="am-form-group">
                             <input type="password" class="" id="pwd2" placeholder="确认密码" required="required">
