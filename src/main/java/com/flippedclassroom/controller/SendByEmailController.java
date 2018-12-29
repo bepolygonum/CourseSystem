@@ -1,32 +1,71 @@
 package com.flippedclassroom.controller;
 
+import com.flippedclassroom.entity.Student;
 import com.flippedclassroom.service.SendByEmailTools;
+import com.flippedclassroom.service.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  *
  * @author KEKE
  */
-@RestController
+@Controller
 public class SendByEmailController {
     @Autowired
     @Qualifier("sendByEmail")
     private SendByEmailTools service;
+    @Autowired
+    StudentServiceImpl studentService;
 
-    @GetMapping("/send")
-    public void send(){
-        //这个是发送人的邮箱
-        String sender="courseSystem@163.com";
-        //这个是接受人的邮箱
-        String receiver="961646438@qq.com";
-        //标题
-        String title="约翰福音";
-        String text="【约3:16】“　神爱世人，甚至将他的独生子赐给他们，叫一切信他的，不至灭亡，反得永生。";
+    @RequestMapping(value = "/send",method = RequestMethod.POST)
+    public void send(String account, HttpServletResponse response,HttpServletRequest request) throws IOException {
+        Student student=studentService.getStudentByAccounti(account);
+        String json="{\"msg\":\"success!\"}";
+            //发送人的邮箱
+            String sender = "courseSystem@163.com";
+            //接受人的邮箱
+            String receiver = student.getEmail();
+            //标题
+            String title = "重置密码";
+            int res = (int) (Math.random() * 1000000);
+            String str = String.format("%06d", res);
 
-        service.send(sender, receiver, title, text);
+            String text = account + "，您好。\n您的验证码为" + str + "。";
+            service.send(sender, receiver, title, text);
+            request.getSession().setAttribute("code",str);
+        try {
+            response.getWriter().print(json);
+            response.getWriter().flush();
+            response.getWriter().close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
+    @RequestMapping(value = "/findPwd",method = RequestMethod.POST)
+    public String findPwd(String account,String code, HttpServletResponse response,HttpServletRequest request) throws IOException {
+        response.setContentType("text/html;charset=gb2312");
+        PrintWriter out = response.getWriter();
+        String res=request.getSession().getAttribute("code").toString();
+        if(res.equals(code)) {
+            //sucess
+            studentService.resetStudent(account);
+            out.print("<script>alert('密码重置为123456');</script>");
+            return "/login";
+        }
+        else {
+            //fail
+            out.print("<script>alert('验证码错误');</script>");
+            return "/forgetPassword";
+        }
+    }
 }

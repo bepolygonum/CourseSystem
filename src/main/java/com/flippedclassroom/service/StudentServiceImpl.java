@@ -31,6 +31,9 @@ public class StudentServiceImpl {
     public Student getStudentByAccount(String account, String password) {
         return studentDao.getStudentByAccount(account,password);
     }
+    public Student getStudentByAccounti(String account) {
+        return studentDao.getStudentByAccounti(account);
+    }
 
     public void setEmailByID(int studentId, String newmail) {studentDao.setEmailByID(studentId, newmail);}
 
@@ -44,5 +47,9 @@ public class StudentServiceImpl {
 
     public void activate(int id) {
         studentDao.activate(id);
+    }
+
+    public void resetStudent(String account){
+        studentDao.resetStudent(account);
     }
 }
