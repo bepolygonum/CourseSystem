@@ -90,7 +90,7 @@ public class StudentController {
 
     @RequestMapping(value = "/courseScore", method = RequestMethod.POST)
     public String courseScore(Model model, @RequestParam(name = "klass_id") String klassid, @RequestParam(name = "id") String sid, @RequestParam(name = "course_id") String courseid, HttpServletResponse response) throws IOException {
-        response.setContentType("text/html;charset=gb2312");
+        response.setContentType("text/html;charset=utf-8");
         PrintWriter out = response.getWriter();
         int id = Integer.valueOf(sid);
         int courseId = Integer.valueOf(courseid);

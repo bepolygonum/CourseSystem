@@ -54,6 +54,15 @@ public interface StudentDao {
      */
     Student getStudentByAccounti(String account);
 
-
+    /**
+     * active
+     * @param id
+     */
     void activate(int id);
+
+    /**
+     * resetStudent
+     * @param account
+     */
+    void resetStudent(String account);
 }

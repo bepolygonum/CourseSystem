@@ -40,6 +40,9 @@ public class LoginController {
         return "login";
     }
 
-
+    @GetMapping(value = "/forgetPassword")
+    public String forget(){
+        return "forgetPassword";
+    }
 
 }

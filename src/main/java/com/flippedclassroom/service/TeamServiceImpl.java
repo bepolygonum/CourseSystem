@@ -23,6 +23,7 @@ public class TeamServiceImpl  {
     KlassDao klassDao;
     @Autowired
     TeamStudentDao teamStudentDao;
+
     public List<Team> getTeamByCourseID(int courseId)
     {
         //根据课程id获得所有team

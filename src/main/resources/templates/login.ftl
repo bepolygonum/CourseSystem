@@ -29,8 +29,11 @@
             <div class="am-form-group">
                 <input type="password" name="password" class="" id="userPassword" placeholder="密码">
             </div>
+            <div class="am-form-group">
+                <div id="tipBar"></div>
+            </div>
             <div class="login-font">
-                <a href="forget.html">忘记密码 </a>
+                <a href="/forgetPassword">忘记密码 </a>
             </div>
             <p><button type="submit" class="am-btn am-btn-default" onclick="login()">登录</button></p>
         </div>
