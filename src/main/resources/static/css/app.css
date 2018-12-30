@@ -367,7 +367,7 @@ ul.tpl-dropdown-content li>a.tpl-dropdown-content-message:last-child {
 }
 
 .tpl-page-header-fixed {
-    margin-top: 60px;
+    margin-top: 50px;
 }
 
 .tpl-navbar-collapse {
@@ -1734,7 +1734,7 @@ ul.tpl-dropdown-content li>a.tpl-dropdown-content-message:last-child {
 }
 
 .myLabel {
-    font-size: 1.5rem
+    font-size: 1.8rem
 }
 
 .myLabelQA {
