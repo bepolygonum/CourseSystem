@@ -30,5 +30,8 @@
     <delete id="deleteKlassStudentByKlassId" parameterType="int">
         delete from  standard_seminar_system.klass_student where klass_id = #{0};
     </delete>
-
+    <select id="getKlassIdByStudentIdAndCourseId" resultType="Integer">
+        select klass_id from standard_seminar_system.klass_student
+        where student_id=#{0} and course_id=#{1}
+    </select>
 </mapper>

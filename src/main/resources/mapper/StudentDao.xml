@@ -47,4 +47,13 @@
         SELECT * FROM  standard_seminar_system.student
         WHERE account = #{account}
     </select>
+    
+    <update id="activate">
+        update student set is_active = 1 where id = #{0}
+    </update>
+
+    <update id="resetStudent">
+        update standard_seminar_system.student set password='123456'
+        where account=#{account}
+    </update>
 </mapper>

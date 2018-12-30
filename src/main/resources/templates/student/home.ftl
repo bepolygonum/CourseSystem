@@ -4,13 +4,15 @@
     <meta charset="utf-8">
     <title>个人信息管理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="icon" type="image/png" href="../../static/i/favicon.png">
     <link rel="stylesheet" href="../../static/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../../static/css/admin.css">
     <link rel="stylesheet" href="../../static/css/app.css">
     <script src="../../static/js/echarts.min.js"></script>
 </head>
-<body data-type="index">
+<body>
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand1">
         <a href="seminar1.html">
@@ -76,6 +78,8 @@
             </div>
         </div>
     </div>
+
+
     <script src="../../static/js/jquery.min.js"></script>
     <script src="../../static/js/amazeui.min.js"></script>
     <script src="../../static/js/app.js"></script>

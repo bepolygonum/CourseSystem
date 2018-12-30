@@ -2,12 +2,14 @@ package com.flippedclassroom.dao;
 
 import com.flippedclassroom.entity.Attendance;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * @author KEKE
  */
+@Repository
 public interface AttendanceDao {
     /**
      * insert Attend By Team Id And SeminarId

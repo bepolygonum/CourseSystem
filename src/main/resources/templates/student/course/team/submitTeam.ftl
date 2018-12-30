@@ -13,7 +13,7 @@
 
 </head>
 
-<body data-type="index">
+<body>
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand1">
         <a href="seminar1.html">
@@ -30,7 +30,6 @@
     </button>
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-            <li><a href="index_message.html"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
             <li><a href="javascript:doPost('/student/personalInfo', {'id':'${student.getId()}'})"
                    class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
             <li><a href="javascript:doPost('/student/seminar', {'id':'${student.getId()}'})"
@@ -58,12 +57,12 @@
                         <div style="margin-top: 0.5rem">
                             <span class="myLabel">添加成员:</span>
                         </div>
+                        <#if noTeams?exists>
                         <table class="am-table">
                             <tbody>
+                            <#list noTeams as noteam>
                             <tr>
                                 <td>
-
-
                                     <table class="am-table am-table-striped am-table-hover table-main">
                                         <tr>
                                             <td><input type="checkbox" name="radio1" value="张三丰" class="data-am-ucheck"

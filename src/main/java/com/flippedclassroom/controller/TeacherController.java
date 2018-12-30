@@ -1,6 +1,5 @@
 package com.flippedclassroom.controller;
 
-import com.flippedclassroom.dao.TeamDao;
 import com.flippedclassroom.entity.*;
 import com.flippedclassroom.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,38 +37,50 @@ public class TeacherController {
     @Autowired
     private CourseMemberLimitStrategyServiceImpl courseMemberLimitStrategyService;
 
-    @GetMapping(value="/index")
-    public String teacherIndex(Model model){
-        Teacher teacher=teacherService.getCurTeacher();
-//        if(!teacher.isActive()){
-//            return "redirect:/teacher/activation";
-//        }
 
-        model.addAttribute("teacher",teacher);
-        return "teacher/home";
+
+    private AttendanceServiceImpl attendanceService;
+
+    @GetMapping(value = "/index")
+    public String teacherIndex(Model model) {
+        Teacher teacher = teacherService.getCurTeacher();
+        model.addAttribute("teacher", teacher);
+        if(!teacher.isActive()){
+            return "/teacher/activation";
+        }
+        return "/teacher/home";
     }
 
+    @RequestMapping(value = "/newactivation", method = RequestMethod.POST)
+    public String studentActivate(Model model, @RequestParam(name = "id") String sid, @RequestParam String newmail, @RequestParam String newpass) {
+        int id = Integer.valueOf(sid);
+        Teacher teacher = teacherService.getTeacherByTeacherID(id);
+        teacherService.setEmailByID(id, newmail);
+        teacherService.setPassByID(id, newpass);
+        teacherService.activate(id);
+        model.addAttribute("teacher", teacher);
+        return "/teacher/home";
+    }
 
-    @RequestMapping(value = "/home",method = RequestMethod.POST)
-    public String teacherHome(Model model,@RequestParam String id)
-    {
-        int tid=Integer.parseInt(id);
-        Teacher teacher=teacherService.getTeacherByTeacherID(tid);
+    @RequestMapping(value = "/home", method = RequestMethod.POST)
+    public String teacherHome(Model model, @RequestParam String id) {
+        int tid = Integer.parseInt(id);
+        Teacher teacher = teacherService.getTeacherByTeacherID(tid);
         model.addAttribute(teacher);
         return "teacher/home";
     }
 
 
     @RequestMapping(value = "/courseManage", method = RequestMethod.POST)
-    public String findCourse(Model model, @RequestParam String id ) {
-        int tid=Integer.parseInt(id);
+    public String findCourse(Model model, @RequestParam String id) {
+        int tid = Integer.parseInt(id);
         List<Course> courseList = courseService.getCourseByTeacherID(tid);
         model.addAttribute(courseList);
-        model.addAttribute("id",tid);
+        model.addAttribute("id", tid);
         return "teacher/courseManage";
     }
 
-    @RequestMapping(value = "/course/grade")
+   @RequestMapping(value = "/course/grade")
     public String findAllGrade(Model model,@RequestParam String id,@RequestParam String courseId)
     {
         int tid=Integer.parseInt(id);
@@ -179,51 +188,48 @@ public class TeacherController {
 
 
     @RequestMapping(value = "/course/info")
-    public String findCourseInfo(Model model,@RequestParam String id,@RequestParam String courseId)
-    {
-        int tid=Integer.parseInt(id);
-        int courseid=Integer.parseInt(courseId);
+    public String findCourseInfo(Model model, @RequestParam String id, @RequestParam String courseId) {
+        int tid = Integer.parseInt(id);
+        int courseid = Integer.parseInt(courseId);
         System.out.print(courseid);
 
-        int conflictId=courseService.getConflictIdByCourseID(courseid);
-        if(conflictId!=0)
-        {
-            List<Integer> courseIds=courseService.getConflictCourseIdByID(conflictId);
-            List<Course> courseList=courseService.getCoursesByCourseID(courseIds);
-            List<Integer> teacherIds=courseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
-            List<Teacher> teacherList=teacherService.getTeachersByTeacherID(teacherIds);
+        int conflictId = courseService.getConflictIdByCourseID(courseid);
+        if (conflictId != 0) {
+            List<Integer> courseIds = courseService.getConflictCourseIdByID(conflictId);
+            List<Course> courseList = courseService.getCoursesByCourseID(courseIds);
+            List<Integer> teacherIds = courseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
+            List<Teacher> teacherList = teacherService.getTeachersByTeacherID(teacherIds);
             model.addAttribute(courseList);
             model.addAttribute(teacherList);
         }
 
-        Course course=courseService.getCourseByCourseID(courseid);
+        Course course = courseService.getCourseByCourseID(courseid);
         System.out.print(course);
-        CourseMemberLimitStrategy courseMemberLimitStrategy=courseService.getCourseMemberLimitByCourseID(courseid);
+        CourseMemberLimitStrategy courseMemberLimitStrategy = courseService.getCourseMemberLimitByCourseID(courseid);
 
-        if(courseMemberLimitStrategy!=null)
-        {
+        if (courseMemberLimitStrategy != null) {
             model.addAttribute(courseMemberLimitStrategy);
         }
         System.out.print(courseMemberLimitStrategy);
         model.addAttribute(course);
-        model.addAttribute("id",tid);
+        model.addAttribute("id", tid);
         return "/teacher/course/info";
     }
 
 
     @RequestMapping(value = "/course/createCourse")
-    public String createCourse(Model model,@RequestParam String id)
-    {
-        int tid=Integer.parseInt(id);
-        List<Course> courseList=courseService.getAllCourses();
-        List<Teacher> teacherList=teacherService.getAllTeachers();
-        model.addAttribute("id",tid);
+    public String createCourse(Model model, @RequestParam String id) {
+        int tid = Integer.parseInt(id);
+        List<Course> courseList = courseService.getAllCourses();
+        List<Teacher> teacherList = teacherService.getAllTeachers();
+        model.addAttribute("id", tid);
         model.addAttribute(courseList);
         model.addAttribute(teacherList);
         return "/teacher/course/createCourse1";
     }
 
-    @RequestMapping(value = "/course/createCourse",method = RequestMethod.POST)
+
+     @RequestMapping(value = "/course/createCourse",method = RequestMethod.POST)
     public String createACourse(Model model, @RequestParam String id, @RequestParam String courseName, @RequestParam String courseRequest, @RequestParam String presentation,
                                 @RequestParam String question, @RequestParam String report, @RequestParam String startDateTime,@RequestParam String endDateTime,
                                  HttpServletResponse response) throws IOException//
@@ -353,449 +359,397 @@ public class TeacherController {
         return "/teacher/courseManage";
     }
 
+    
 
     @RequestMapping(value = "/course/klassList")
-    public String findAllKlasses(Model model,@RequestParam String id,@RequestParam String courseId)
-    {
-        int tid=Integer.parseInt(id);
-        int courseid=Integer.parseInt(courseId);
-        List<Klass> klassList=klassService.getKlassByCourseID(courseid);
+    public String findAllKlasses(Model model, @RequestParam String id, @RequestParam String courseId) {
+        int tid = Integer.parseInt(id);
+        int courseid = Integer.parseInt(courseId);
+        List<Klass> klassList = klassService.getKlassByCourseID(courseid);
         model.addAttribute(klassList);
-        model.addAttribute("courseId",courseid);
-        model.addAttribute("id",tid);
+        model.addAttribute("courseId", courseid);
+        model.addAttribute("id", tid);
         return "/teacher/course/klassList";
     }
 
     @RequestMapping(value = "/course/klass/createKlass")
-    public String createKlass(Model model,@RequestParam String id,@RequestParam String courseId)
-    {
-        int tid=Integer.parseInt(id);
-        int courseid=Integer.parseInt(courseId);
-        model.addAttribute("courseId",courseid);
-        model.addAttribute("id",tid);
+    public String createKlass(Model model, @RequestParam String id, @RequestParam String courseId) {
+        int tid = Integer.parseInt(id);
+        int courseid = Integer.parseInt(courseId);
+        model.addAttribute("courseId", courseid);
+        model.addAttribute("id", tid);
         return "teacher/course/klass/createKlass";
 
     }
 
     @RequestMapping(value = "/course/seminar")
-    public String findAllSeminar(Model model,@RequestParam String id,@RequestParam String courseId)
-    {
-        int tid=Integer.parseInt(id);
-        int courseid=Integer.parseInt(courseId);
-        Course course=courseService.getCourseByCourseID(courseid);
-        List<Round> roundList=roundService.getRoundByCourseID(courseid);
-        List<Seminar> seminarList=seminarService.getSeminarByCourseID(courseid);
-        List<Klass> klassList=klassService.getKlassByCourseID(courseid);
+    public String findAllSeminar(Model model, @RequestParam String id, @RequestParam String courseId) {
+        int tid = Integer.parseInt(id);
+        int courseid = Integer.parseInt(courseId);
+        Course course = courseService.getCourseByCourseID(courseid);
+        List<Round> roundList = roundService.getRoundByCourseID(courseid);
+        List<Seminar> seminarList = seminarService.getSeminarByCourseID(courseid);
+        List<Klass> klassList = klassService.getKlassByCourseID(courseid);
 
-        List<Integer> seminarIds=seminarList.stream().map(Seminar::getId).collect(Collectors.toList());
-        List<KlassSeminar> klassSeminarList=klassService.getKlassSeminarBySeminarID(seminarIds);
+        List<Integer> seminarIds = seminarList.stream().map(Seminar::getId).collect(Collectors.toList());
+        List<KlassSeminar> klassSeminarList = klassService.getKlassSeminarBySeminarID(seminarIds);
 
         model.addAttribute(course);
         model.addAttribute(roundList);
         model.addAttribute(seminarList);
         model.addAttribute(klassList);
         model.addAttribute(klassSeminarList);
-        model.addAttribute("id",tid);
+        model.addAttribute("id", tid);
         return "teacher/course/seminarList";
     }
 
     @RequestMapping(value = "/course/share")
-    public String findAllShare(Model model,@RequestParam String id,@RequestParam String courseId)
-    {
-        int tid=Integer.parseInt(id);
-        int courseid=Integer.parseInt(courseId);
-        List<Teacher> teacherList1=new ArrayList<>();
-        List<Teacher> teacherList2=new ArrayList<>();
-        Course course=courseService.getCourseByCourseID(courseid);
+    public String findAllShare(Model model, @RequestParam String id, @RequestParam String courseId) {
+        int tid = Integer.parseInt(id);
+        int courseid = Integer.parseInt(courseId);
+        List<Teacher> teacherList1 = new ArrayList<>();
+        List<Teacher> teacherList2 = new ArrayList<>();
+        Course course = courseService.getCourseByCourseID(courseid);
         //course为主课程
-        int seminarMainCourseId=course.getSeminarMainCourseId();
-        int teamMainCourseId=course.getTeamMainCourseId();
-        List<Course> seminarCourseList=new ArrayList<>();
-        Course seminarMainCourse=new Course();
-        List<Course> teamCourseList=new ArrayList<>();
-        Course teamMainCourse=new Course();
+        int seminarMainCourseId = course.getSeminarMainCourseId();
+        int teamMainCourseId = course.getTeamMainCourseId();
+        List<Course> seminarCourseList = new ArrayList<>();
+        Course seminarMainCourse = new Course();
+        List<Course> teamCourseList = new ArrayList<>();
+        Course teamMainCourse = new Course();
 
         if (seminarMainCourseId != 0) {
-            seminarMainCourse=courseService.getCourseByCourseID(seminarMainCourseId);
-            int teacherId=seminarMainCourse.getTeacherId();
-            if(teacherId!=0){
+            seminarMainCourse = courseService.getCourseByCourseID(seminarMainCourseId);
+            int teacherId = seminarMainCourse.getTeacherId();
+            if (teacherId != 0) {
                 teacherList1.add(teacherService.getTeacherByTeacherID(seminarMainCourse.getTeacherId()));
             }
         } else {
-            seminarCourseList=courseService.getCourseBySeminarMainCourseID(courseid);
-            List<Integer> teacherIds=seminarCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
-            if(!teacherIds.isEmpty()){
+            seminarCourseList = courseService.getCourseBySeminarMainCourseID(courseid);
+            List<Integer> teacherIds = seminarCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
+            if (!teacherIds.isEmpty()) {
                 teacherList1.addAll(teacherService.getTeachersByTeacherID(teacherIds));
             }
         }
 
         if (teamMainCourseId != 0) {
-            teamMainCourse=courseService.getCourseByCourseID(teamMainCourseId);
-            int teacherId=teamMainCourse.getTeacherId();
-            if(teacherId!=0) {
+            teamMainCourse = courseService.getCourseByCourseID(teamMainCourseId);
+            int teacherId = teamMainCourse.getTeacherId();
+            if (teacherId != 0) {
                 teacherList2.add(teacherService.getTeacherByTeacherID(teamMainCourse.getTeacherId()));
             }
         } else {
-            teamCourseList=courseService.getCourseByTeamMainCourseID(courseid);
-            List<Integer> teacherIds=teamCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
-            if(!teacherIds.isEmpty())
-            {
+            teamCourseList = courseService.getCourseByTeamMainCourseID(courseid);
+            List<Integer> teacherIds = teamCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
+            if (!teacherIds.isEmpty()) {
                 teacherList2.addAll(teacherService.getTeachersByTeacherID(teacherIds));
             }
         }
-        System.out.print(seminarCourseList);
-        System.out.print(teamCourseList);
-        System.out.print(teacherList1);
-        System.out.print(teacherList2);
-        model.addAttribute("seminarCourseList",seminarCourseList);
-        model.addAttribute("seminarMainCourse",seminarMainCourse);
-        model.addAttribute("teamCourseList",teamCourseList);
-        model.addAttribute("teamMainCourse",teamMainCourse);
-        model.addAttribute("teacherList1",teacherList1);
-        model.addAttribute("teacherList2",teacherList2);
+        model.addAttribute("seminarCourseList", seminarCourseList);
+        model.addAttribute("seminarMainCourse", seminarMainCourse);
+        model.addAttribute("teamCourseList", teamCourseList);
+        model.addAttribute("teamMainCourse", teamMainCourse);
+        model.addAttribute("teacherList1", teacherList1);
+        model.addAttribute("teacherList2", teacherList2);
         model.addAttribute(course);
-        model.addAttribute("id",tid);
+        model.addAttribute("id", tid);
         return "/teacher/course/shareList";
     }
 
     @RequestMapping(value = "course/seminar/createSeminar")
-    public String createSeminarPage(Model model,@RequestParam String id,@RequestParam String courseId)
-    {
-        int tid=Integer.parseInt(id);
-        int courseid=Integer.parseInt(courseId);
-        int max=0;
-        Course course=courseService.getCourseByCourseID(courseid);
-        List<Round> roundList=roundService.getRoundByCourseID(courseid);
-        for(int i=0;i<roundList.size();i++)
-        {
-            if(roundList.get(i).getRoundSerial()>max)
-            {max=roundList.get(i).getRoundSerial();}
+    public String createSeminarPage(Model model, @RequestParam String id, @RequestParam String courseId) {
+        int tid = Integer.parseInt(id);
+        int courseid = Integer.parseInt(courseId);
+        int max = 0;
+        Course course = courseService.getCourseByCourseID(courseid);
+        List<Round> roundList = roundService.getRoundByCourseID(courseid);
+        for (int i = 0; i < roundList.size(); i++) {
+            if (roundList.get(i).getRoundSerial() > max) {
+                max = roundList.get(i).getRoundSerial();
+            }
         }
         //排序
         Collections.sort(roundList, new Round());
         //Round entity implement
         //第一个参数为List 第二个参数为对象的一个实例
-        List<Seminar> seminarList=seminarService.getSeminarByCourseID(courseid);
+        List<Seminar> seminarList = seminarService.getSeminarByCourseID(courseid);
         model.addAttribute(course);
-        model.addAttribute("id",tid);
+        model.addAttribute("id", tid);
         model.addAttribute(roundList);
         model.addAttribute(seminarList);
         return "/teacher/course/seminar/createSeminar";
     }
 
-    @RequestMapping(value = "course/seminar/createSeminar",method = RequestMethod.POST)
-    public String createASeminar(Model model, @RequestParam String id, @RequestParam String courseId,@RequestParam String seminarName, @RequestParam String mainContent,
+    @RequestMapping(value = "course/seminar/createSeminar", method = RequestMethod.POST)
+    public String createASeminar(Model model, @RequestParam String id, @RequestParam String courseId, @RequestParam String seminarName, @RequestParam String mainContent,
                                  @RequestParam String serial, @RequestParam String isVisible, @RequestParam String startDate, @RequestParam String endDate,
-                                 @RequestParam String number, @RequestParam String order, @RequestParam String round, HttpServletResponse response) throws IOException
-    {
+                                 @RequestParam String number, @RequestParam String order, @RequestParam String round, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=gb2312");
         PrintWriter out = response.getWriter();
-        int tid=Integer.parseInt(id);
-        int courseid=Integer.parseInt(courseId);
+        int tid = Integer.parseInt(id);
+        int courseid = Integer.parseInt(courseId);
 
-        if(seminarService.getSeminarBySeminarName(seminarName)==null)
-        {
-            int seminarSerial=Integer.parseInt(serial);
-            int teamNumber=Integer.parseInt(number);
-            int roundId=Integer.parseInt(round);
-            int nisVisible,norder;
-            if(isVisible.isEmpty())
-            {
-                nisVisible=0;
+        if (seminarService.getSeminarBySeminarName(seminarName) == null) {
+            int seminarSerial = Integer.parseInt(serial);
+            int teamNumber = Integer.parseInt(number);
+            int roundId = Integer.parseInt(round);
+            int nisVisible, norder;
+            if (isVisible.isEmpty()) {
+                nisVisible = 0;
+            } else {
+                nisVisible = 1;
             }
-            else{nisVisible=1;}
 
-            if(order.isEmpty())
-            {
-                norder=0;
+            if (order.isEmpty()) {
+                norder = 0;
+            } else {
+                norder = 1;
             }
-            else{norder=1;}
 
             System.out.print(startDate);
             System.out.print(endDate);
-            String[] start=startDate.split("T");
-            String[] end=endDate.split("T");
+            String[] start = startDate.split("T");
+            String[] end = endDate.split("T");
 
-            String tstartTime=start[0]+" "+start[1]+":00";
-            String tendTime=end[0]+" "+end[1]+":00";
+            String tstartTime = start[0] + " " + start[1] + ":00";
+            String tendTime = end[0] + " " + end[1] + ":00";
 
             System.out.print(isVisible);
             System.out.print(order);
 
-            if(roundId==0)
-            {
-                int max=0;
-                List<Round> roundList=roundService.getRoundByCourseID(courseid);
-                for(int i=0;i<roundList.size();i++)
-                {
-                    if(roundList.get(i).getRoundSerial()>max)
-                    {max=roundList.get(i).getRoundSerial();}
+            if (roundId == 0) {
+                int max = 0;
+                List<Round> roundList = roundService.getRoundByCourseID(courseid);
+                for (int i = 0; i < roundList.size(); i++) {
+                    if (roundList.get(i).getRoundSerial() > max) {
+                        max = roundList.get(i).getRoundSerial();
+                    }
                 }
-                roundId=max+1;
+                roundId = max + 1;
             }
 
 
-            Timestamp teamStartTime=Timestamp.valueOf(tstartTime);
-            Timestamp teamEndTime=Timestamp.valueOf(tendTime);
-            seminarService.createASeminar(courseid,roundId, seminarName, mainContent,teamNumber, nisVisible, seminarSerial, teamStartTime, teamEndTime);
+            Timestamp teamStartTime = Timestamp.valueOf(tstartTime);
+            Timestamp teamEndTime = Timestamp.valueOf(tendTime);
+            seminarService.createASeminar(courseid, roundId, seminarName, mainContent, teamNumber, nisVisible, seminarSerial, teamStartTime, teamEndTime);
 
-        }
-        else
-        {
+        } else {
             out.print("<script>alert('讨论课名相同，创建失败');history.go(-1);</script>");
         }
 
-        Course course=courseService.getCourseByCourseID(courseid);
-        List<Round> roundList=roundService.getRoundByCourseID(courseid);
-        List<Seminar> seminarList=seminarService.getSeminarByCourseID(courseid);
-        List<Klass> klassList=klassService.getKlassByCourseID(courseid);
+        Course course = courseService.getCourseByCourseID(courseid);
+        List<Round> roundList = roundService.getRoundByCourseID(courseid);
+        List<Seminar> seminarList = seminarService.getSeminarByCourseID(courseid);
+        List<Klass> klassList = klassService.getKlassByCourseID(courseid);
 
-        List<Integer> seminarIds=seminarList.stream().map(Seminar::getId).collect(Collectors.toList());
-        List<KlassSeminar> klassSeminarList=klassService.getKlassSeminarBySeminarID(seminarIds);
+        List<Integer> seminarIds = seminarList.stream().map(Seminar::getId).collect(Collectors.toList());
+        List<KlassSeminar> klassSeminarList = klassService.getKlassSeminarBySeminarID(seminarIds);
 
         model.addAttribute(course);
         model.addAttribute(roundList);
         model.addAttribute(seminarList);
         model.addAttribute(klassList);
         model.addAttribute(klassSeminarList);
-        model.addAttribute("id",tid);
+        model.addAttribute("id", tid);
         return "/teacher/course/seminarList";
     }
 
 
     @RequestMapping(value = "/course/createShare")
-    public String createShare(Model model,@RequestParam String id,@RequestParam String courseId)
-    {
-        int tid=Integer.parseInt(id);
-        int courseid=Integer.parseInt(courseId);
-        List<Course> courseList=courseService.getAllCourses();
-        List<Teacher> teacherList=teacherService.getAllTeachers();
-        model.addAttribute("courseId",courseid);
-        model.addAttribute("id",tid);
+    public String createShare(Model model, @RequestParam String id, @RequestParam String courseId) {
+        int tid = Integer.parseInt(id);
+        int courseid = Integer.parseInt(courseId);
+        List<Course> courseList = courseService.getAllCourses();
+        List<Teacher> teacherList = teacherService.getAllTeachers();
+        model.addAttribute("courseId", courseid);
+        model.addAttribute("id", tid);
         model.addAttribute(courseList);
         model.addAttribute(teacherList);
         return "teacher/course/createShare";
     }
 
-    @RequestMapping(value = "/course/seminar/createKlass",method = RequestMethod.POST)
-    public String createAKlass(Model model, @RequestParam String id, @RequestParam String courseId,@RequestParam int grade, @RequestParam int klass,
-                               @RequestParam String firstCourse, @RequestParam String secondCourse, @RequestParam String location, HttpServletResponse response) throws IOException
-    {
+    @RequestMapping(value = "/course/seminar/createKlass", method = RequestMethod.POST)
+    public String createAKlass(Model model, @RequestParam String id, @RequestParam String courseId, @RequestParam int grade, @RequestParam int klass,
+                               @RequestParam String firstCourse, @RequestParam String secondCourse, @RequestParam String location, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=gb2312");
         PrintWriter out = response.getWriter();
-        int tid=Integer.parseInt(id);
-        int courseid=Integer.parseInt(courseId);
-        int second=Integer.parseInt(secondCourse);
+        int tid = Integer.parseInt(id);
+        int courseid = Integer.parseInt(courseId);
+        int second = Integer.parseInt(secondCourse);
         String time;
-        if(klassService.getKlassByKlassID(klass)==null)
-        {
-            if(second<=4)
-            {
-                time="上午"+firstCourse+","+secondCourse+"节";
+        if (klassService.getKlassByKlassID(klass) == null) {
+            if (second <= 4) {
+                time = "上午" + firstCourse + "," + secondCourse + "节";
+            } else if (second <= 8) {
+                time = "下午" + firstCourse + "," + secondCourse + "节";
+            } else {
+                time = "晚上" + firstCourse + "," + secondCourse + "节";
             }
-            else if(second<=8)
-            {
-                time="下午"+firstCourse+","+secondCourse+"节";
-            }
-            else
-            {
-                time="晚上"+firstCourse+","+secondCourse+"节";
-            }
-            klassService.createAKlass(courseid,grade,klass,time,location);
-        }
-        else
-        {
+            klassService.createAKlass(courseid, grade, klass, time, location);
+        } else {
             out.print("<script>alert('班级名相同，创建失败');history.go(-1);</script>");
         }
 
-        List<Klass> klassList=klassService.getKlassByCourseID(courseid);
+        List<Klass> klassList = klassService.getKlassByCourseID(courseid);
         model.addAttribute(klassList);
-        model.addAttribute("courseId",courseid);
-        model.addAttribute("id",tid);
+        model.addAttribute("courseId", courseid);
+        model.addAttribute("id", tid);
         return "/teacher/course/klassList";
     }
 
-    @RequestMapping(value = "/course/createShare",method = RequestMethod.POST)
-    public String createAShare(Model model,@RequestParam String id,@RequestParam String courseId,@RequestParam int shareType,
-                               @RequestParam int shareCourse,HttpServletResponse response) throws IOException
-    {
+    @RequestMapping(value = "/course/createShare", method = RequestMethod.POST)
+    public String createAShare(Model model, @RequestParam String id, @RequestParam String courseId, @RequestParam int shareType,
+                               @RequestParam int shareCourse, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=gb2312");
         PrintWriter out = response.getWriter();
-        int tid=Integer.parseInt(id);
-        int courseid=Integer.parseInt(courseId);
-        Course course=courseService.getCourseByCourseID(courseid);
-        Course shareSubCourse=courseService.getCourseByCourseID(shareCourse);
+        int tid = Integer.parseInt(id);
+        int courseid = Integer.parseInt(courseId);
+        Course course = courseService.getCourseByCourseID(courseid);
+        Course shareSubCourse = courseService.getCourseByCourseID(shareCourse);
 
-        int mainCourseConflictId=courseService.getConflictIdByCourseID(courseid);
-        int subCourseConflictId=courseService.getConflictIdByCourseID(shareCourse);
+        int mainCourseConflictId = courseService.getConflictIdByCourseID(courseid);
+        int subCourseConflictId = courseService.getConflictIdByCourseID(shareCourse);
 
-        if(mainCourseConflictId==subCourseConflictId)
-        {
+        if (mainCourseConflictId == subCourseConflictId) {
             out.print("<script>alert('两个课程冲突，不能建立共享');</script>");
-        }
-        else
-        {
-            int shareTeacherId=shareSubCourse.getTeacherId();
+        } else {
+            int shareTeacherId = shareSubCourse.getTeacherId();
             //1:共享分组
-            if(shareType==1)
-            {
-                if(shareSubCourse.getTeamMainCourseId()==courseid)
-                {
+            if (shareType == 1) {
+                if (shareSubCourse.getTeamMainCourseId() == courseid) {
                     out.print("<script>alert('两个课程已经建立分组共享了');</script>");
-                }
-                else
-                {
-                    courseService.createShareTeamApplication(courseid,shareCourse,shareTeacherId);
+                } else {
+                    courseService.createShareTeamApplication(courseid, shareCourse, shareTeacherId);
                     out.print("<script>alert('已经发送分组共享请求');</script>");
                 }
-            }
-            else
-            {
-                if(shareSubCourse.getSeminarMainCourseId()==courseid)
-                {
+            } else {
+                if (shareSubCourse.getSeminarMainCourseId() == courseid) {
                     out.print("<script>alert('两个课程已经建立讨论课共享了');</script>");
-                }
-                else
-                {
-                    courseService.createShareSeminarApplication(courseid,shareCourse,shareTeacherId);
+                } else {
+                    courseService.createShareSeminarApplication(courseid, shareCourse, shareTeacherId);
                     out.print("<script>alert('已经发送讨论课共享请求');</script>");
                 }
             }
         }
-        List<Teacher> teacherList1=new ArrayList<>();
-        List<Teacher> teacherList2=new ArrayList<>();
+        List<Teacher> teacherList1 = new ArrayList<>();
+        List<Teacher> teacherList2 = new ArrayList<>();
         //course为主课程
-        int seminarMainCourseId=course.getSeminarMainCourseId();
-        int teamMainCourseId=course.getTeamMainCourseId();
-        List<Course> seminarCourseList=new ArrayList<>();
-        Course seminarMainCourse=new Course();
-        List<Course> teamCourseList=new ArrayList<>();
-        Course teamMainCourse=new Course();
-        if(seminarMainCourseId==0)
-        {
-            seminarCourseList=courseService.getCourseBySeminarMainCourseID(courseid);
-            List<Integer> teacherIds=seminarCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
-            if(!teacherIds.isEmpty()){
+        int seminarMainCourseId = course.getSeminarMainCourseId();
+        int teamMainCourseId = course.getTeamMainCourseId();
+        List<Course> seminarCourseList = new ArrayList<>();
+        Course seminarMainCourse = new Course();
+        List<Course> teamCourseList = new ArrayList<>();
+        Course teamMainCourse = new Course();
+        if (seminarMainCourseId == 0) {
+            seminarCourseList = courseService.getCourseBySeminarMainCourseID(courseid);
+            List<Integer> teacherIds = seminarCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
+            if (!teacherIds.isEmpty()) {
                 teacherList1.addAll(teacherService.getTeachersByTeacherID(teacherIds));
             }
-        }
-        else
-        {
-            seminarMainCourse=courseService.getCourseByCourseID(seminarMainCourseId);
-            int teacherId=seminarMainCourse.getTeacherId();
-            if(teacherId!=0){
+        } else {
+            seminarMainCourse = courseService.getCourseByCourseID(seminarMainCourseId);
+            int teacherId = seminarMainCourse.getTeacherId();
+            if (teacherId != 0) {
                 teacherList1.add(teacherService.getTeacherByTeacherID(seminarMainCourse.getTeacherId()));
             }
         }
-        if(teamMainCourseId==0)
-        {
-            teamCourseList=courseService.getCourseByTeamMainCourseID(courseid);
-            List<Integer> teacherIds=teamCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
-            if(!teacherIds.isEmpty())
-            {
+        if (teamMainCourseId == 0) {
+            teamCourseList = courseService.getCourseByTeamMainCourseID(courseid);
+            List<Integer> teacherIds = teamCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
+            if (!teacherIds.isEmpty()) {
                 teacherList2.addAll(teacherService.getTeachersByTeacherID(teacherIds));
             }
-        }
-        else
-        {
-            teamMainCourse=courseService.getCourseByCourseID(teamMainCourseId);
-            int teacherId=teamMainCourse.getTeacherId();
-            if(teacherId!=0) {
+        } else {
+            teamMainCourse = courseService.getCourseByCourseID(teamMainCourseId);
+            int teacherId = teamMainCourse.getTeacherId();
+            if (teacherId != 0) {
                 teacherList2.add(teacherService.getTeacherByTeacherID(teamMainCourse.getTeacherId()));
             }
         }
-        model.addAttribute("seminarCourseList",seminarCourseList);
-        model.addAttribute("seminarMainCourse",seminarMainCourse);
-        model.addAttribute("teamCourseList",teamCourseList);
-        model.addAttribute("teamMainCourse",teamMainCourse);
-        model.addAttribute("teacherList1",teacherList1);
-        model.addAttribute("teacherList2",teacherList2);
+        model.addAttribute("seminarCourseList", seminarCourseList);
+        model.addAttribute("seminarMainCourse", seminarMainCourse);
+        model.addAttribute("teamCourseList", teamCourseList);
+        model.addAttribute("teamMainCourse", teamMainCourse);
+        model.addAttribute("teacherList1", teacherList1);
+        model.addAttribute("teacherList2", teacherList2);
         model.addAttribute(course);
-        model.addAttribute("id",tid);
+        model.addAttribute("id", tid);
         return "/teacher/course/shareList";
     }
 
-    @RequestMapping(value = "/course/delete",method = RequestMethod.POST)
-    public String deleteCourse(Model model, @RequestParam int id,@RequestParam int courseId) {
+    @RequestMapping(value = "/course/delete", method = RequestMethod.POST)
+    public String deleteCourse(Model model, @RequestParam int id, @RequestParam int courseId) {
         courseService.deleteCourseByCourseId(courseId);
         List<Course> courseList = courseService.getCourseByTeacherID(id);
         model.addAttribute(courseList);
-        model.addAttribute("id",id);
+        model.addAttribute("id", id);
         return "teacher/courseManage";
     }
 
-    @RequestMapping(value = "/course/klass/delete",method = RequestMethod.POST)
-    public String deleteCourse(Model model, @RequestParam int id,@RequestParam int courseId,@RequestParam int klassId) {
+    @RequestMapping(value = "/course/klass/delete", method = RequestMethod.POST)
+    public String deleteCourse(Model model, @RequestParam int id, @RequestParam int courseId, @RequestParam int klassId) {
         klassService.deleteKlassByKlassId(klassId);
         klassService.deleteKlassStudentByKlassId(klassId);
-        List<Klass> klassList=klassService.getKlassByCourseID(courseId);
+        List<Klass> klassList = klassService.getKlassByCourseID(courseId);
         model.addAttribute(klassList);
-        model.addAttribute("courseId",courseId);
-        model.addAttribute("id",id);
+        model.addAttribute("courseId", courseId);
+        model.addAttribute("id", id);
         return "/teacher/course/klassList";
     }
 
-    @RequestMapping(value = "/course/share/delete",method = RequestMethod.POST)
-    public String deleteCourse(Model model, @RequestParam int id,@RequestParam int courseId,@RequestParam int shareCourseId,
+    @RequestMapping(value = "/course/share/delete", method = RequestMethod.POST)
+    public String deleteCourse(Model model, @RequestParam int id, @RequestParam int courseId, @RequestParam int shareCourseId,
                                @RequestParam String flag) {
-        String  subSeminar= "subSeminar";
-        String subTeam="subTeam";
-        String mainSeminar="mainSeminar";
-        String mainTeam="mainTeam";
-        if(subSeminar.equals(flag))
-        {
+        String subSeminar = "subSeminar";
+        String subTeam = "subTeam";
+        String mainSeminar = "mainSeminar";
+        String mainTeam = "mainTeam";
+        if (subSeminar.equals(flag)) {
             courseService.updateCourseSeminarMainIdByCourseId(courseId);
-        }
-        else if(subTeam.equals(flag))
-        {
+        } else if (subTeam.equals(flag)) {
             courseService.updateCourseTeamMainIdByCourseId(courseId);
-        }
-        else if(mainSeminar.equals(flag))
-        {
+        } else if (mainSeminar.equals(flag)) {
             courseService.updateCourseSeminarMainIdByCourseId(shareCourseId);
-        }
-        else if(mainTeam.equals(flag))
-        {
+        } else if (mainTeam.equals(flag)) {
             courseService.updateCourseTeamMainIdByCourseId(shareCourseId);
         }
 
 
-        List<Teacher> teacherList1=new ArrayList<>();
-        List<Teacher> teacherList2=new ArrayList<>();
-        Course course=courseService.getCourseByCourseID(courseId);
+        List<Teacher> teacherList1 = new ArrayList<>();
+        List<Teacher> teacherList2 = new ArrayList<>();
+        Course course = courseService.getCourseByCourseID(courseId);
         //course为主课程
-        int seminarMainCourseId=course.getSeminarMainCourseId();
-        int teamMainCourseId=course.getTeamMainCourseId();
-        List<Course> seminarCourseList=new ArrayList<>();
-        Course seminarMainCourse=new Course();
-        List<Course> teamCourseList=new ArrayList<>();
-        Course teamMainCourse=new Course();
+        int seminarMainCourseId = course.getSeminarMainCourseId();
+        int teamMainCourseId = course.getTeamMainCourseId();
+        List<Course> seminarCourseList = new ArrayList<>();
+        Course seminarMainCourse = new Course();
+        List<Course> teamCourseList = new ArrayList<>();
+        Course teamMainCourse = new Course();
 
         if (seminarMainCourseId != 0) {
-            seminarMainCourse=courseService.getCourseByCourseID(seminarMainCourseId);
-            int teacherId=seminarMainCourse.getTeacherId();
-            if(teacherId!=0){
+            seminarMainCourse = courseService.getCourseByCourseID(seminarMainCourseId);
+            int teacherId = seminarMainCourse.getTeacherId();
+            if (teacherId != 0) {
                 teacherList1.add(teacherService.getTeacherByTeacherID(seminarMainCourse.getTeacherId()));
             }
         } else {
-            seminarCourseList=courseService.getCourseBySeminarMainCourseID(courseId);
-            List<Integer> teacherIds=seminarCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
-            if(!teacherIds.isEmpty()){
+            seminarCourseList = courseService.getCourseBySeminarMainCourseID(courseId);
+            List<Integer> teacherIds = seminarCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
+            if (!teacherIds.isEmpty()) {
                 teacherList1.addAll(teacherService.getTeachersByTeacherID(teacherIds));
             }
         }
 
         if (teamMainCourseId != 0) {
-            teamMainCourse=courseService.getCourseByCourseID(teamMainCourseId);
-            int teacherId=teamMainCourse.getTeacherId();
-            if(teacherId!=0) {
+            teamMainCourse = courseService.getCourseByCourseID(teamMainCourseId);
+            int teacherId = teamMainCourse.getTeacherId();
+            if (teacherId != 0) {
                 teacherList2.add(teacherService.getTeacherByTeacherID(teamMainCourse.getTeacherId()));
             }
         } else {
-            teamCourseList=courseService.getCourseByTeamMainCourseID(courseId);
-            List<Integer> teacherIds=teamCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
-            if(!teacherIds.isEmpty())
-            {
+            teamCourseList = courseService.getCourseByTeamMainCourseID(courseId);
+            List<Integer> teacherIds = teamCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
+            if (!teacherIds.isEmpty()) {
                 teacherList2.addAll(teacherService.getTeachersByTeacherID(teacherIds));
             }
         }
@@ -803,51 +757,125 @@ public class TeacherController {
         System.out.print(teamCourseList);
         System.out.print(teacherList1);
         System.out.print(teacherList2);
-        model.addAttribute("seminarCourseList",seminarCourseList);
-        model.addAttribute("seminarMainCourse",seminarMainCourse);
-        model.addAttribute("teamCourseList",teamCourseList);
-        model.addAttribute("teamMainCourse",teamMainCourse);
-        model.addAttribute("teacherList1",teacherList1);
-        model.addAttribute("teacherList2",teacherList2);
+        model.addAttribute("seminarCourseList", seminarCourseList);
+        model.addAttribute("seminarMainCourse", seminarMainCourse);
+        model.addAttribute("teamCourseList", teamCourseList);
+        model.addAttribute("teamMainCourse", teamMainCourse);
+        model.addAttribute("teacherList1", teacherList1);
+        model.addAttribute("teacherList2", teacherList2);
         model.addAttribute(course);
-        model.addAttribute("id",id);
+        model.addAttribute("id", id);
         return "/teacher/course/shareList";
 
     }
 
-    @RequestMapping(value = "/personalInfo" , method = RequestMethod.POST)
+    @RequestMapping(value = "/personalInfo", method = RequestMethod.POST)
     public String personalInformation(Model model, @RequestParam(name = "id") String tid) {
-        int id=Integer.valueOf(tid);
-        Teacher teacher=teacherService.getTeacherByTeacherID(id);
+        int id = Integer.valueOf(tid);
+        Teacher teacher = teacherService.getTeacherByTeacherID(id);
         model.addAttribute(teacher);
         return "/teacher/person/personalInfo";
     }
 
     @RequestMapping(value = "/modifyEmail", method = RequestMethod.POST)
     public String modifyEmail(Model model, @RequestParam(name = "id") String tid) {
-        int id=Integer.valueOf(tid);
-        Teacher teacher=teacherService.getTeacherByTeacherID(id);
+        int id = Integer.valueOf(tid);
+        Teacher teacher = teacherService.getTeacherByTeacherID(id);
         model.addAttribute(teacher);
         return "/teacher/person/modifyEmail";
     }
 
     @RequestMapping(value = "/newmail", method = RequestMethod.POST)
-    public String newEmail(Model model, @RequestParam(name = "id") String tid,  @RequestParam String newmail) {
-        int id=Integer.valueOf(tid);
-        teacherService.setEmailByID(id,newmail);
-        Teacher teacher=teacherService.getTeacherByTeacherID(id);
+    public String newEmail(Model model, @RequestParam(name = "id") String tid, @RequestParam String newmail) {
+        int id = Integer.valueOf(tid);
+        teacherService.setEmailByID(id, newmail);
+        Teacher teacher = teacherService.getTeacherByTeacherID(id);
         model.addAttribute(teacher);
         return "/teacher/person/personalInfo";
     }
 
 
-    @RequestMapping(value = "/modifyPassword",  method = RequestMethod.POST)
+    @RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
     public String modifyPassword(Model model, @RequestParam(name = "id") String tid) {
-        int id=Integer.valueOf(tid);
-        Teacher teacher=teacherService.getTeacherByTeacherID(id);
+        int id = Integer.valueOf(tid);
+        Teacher teacher = teacherService.getTeacherByTeacherID(id);
         model.addAttribute(teacher);
         return "/teacher/person/modifyPassword";
     }
 
 
+    @RequestMapping(value = "/newpass", method = RequestMethod.POST)
+    public String newPass(Model model, @RequestParam(name = "id") String tid, @RequestParam String newpass) {
+        int id = Integer.valueOf(tid);
+        teacherService.setPassByID(id, newpass);
+        Teacher teacher = teacherService.getTeacherByTeacherID(id);
+        model.addAttribute(teacher);
+        return "/teacher/person/personalInfo";
+    }
+
+    /**
+     * 需要传的值
+     * 教师
+     * 所有课程名
+     * 所有正在进行的讨论课（包括seminar的课程班级）
+     * */
+    @RequestMapping(value = "/seminar",method = RequestMethod.GET)
+    public String seminar(Model model,@RequestParam(name="id") String tid){
+        int id = Integer.valueOf(tid);
+        Teacher teacher = teacherService.getTeacherByTeacherID(id);
+        List<Course> coursesList = courseService.getCourseByTeacherID(teacher.getId());
+        //添加所有klass
+        List<Klass> klassList=new ArrayList<>();
+        for(int i=0;i<coursesList.size();i++){
+            klassList.addAll(klassService.getKlassByCourseID(coursesList.get(i).getId()));
+        }
+        //添加所有klassId
+        List klassIds=new ArrayList<>();
+        for(int i=0;i<klassList.size();i++){
+            klassIds.add(klassList.get(i).getId());
+        }
+        //添加所有running的讨论课
+        List<KlassSeminar> klassSeminarList=klassService.getKlassSeminarRunning(klassIds);
+        List<Seminar> seminarList = new ArrayList<>();
+        klassList.clear();
+        for(int i=0;i<klassSeminarList.size();i++){
+            seminarList.add(seminarService.getSeminarBySeminarId(klassSeminarList.get(i).getSeminarId()));
+            klassList.add(klassService.getKlassByKlassID(klassSeminarList.get(i).getKlassId()));
+        }
+        //添加所有running的讨论课的课程
+        List<Integer> courseIds=new ArrayList<>();
+        for(int i=0;i<klassList.size();i++){
+            courseIds.add(klassList.get(i).getCourseId());
+        }
+        List<Course> courseKlassList=new ArrayList<>();
+        for(int i=0;i<courseIds.size();i++) {
+            courseKlassList.add(courseService.getCourseByCourseID(courseIds.get(i)));
+        }
+        model.addAttribute("courseKlassList",courseKlassList);
+        model.addAttribute(seminarList);
+        model.addAttribute(klassList);
+        model.addAttribute(coursesList);
+        model.addAttribute(teacher);
+        return "teacher/seminar/seminar-home";
+    }
+
+    @RequestMapping(value = "/seminarRunning",method = RequestMethod.GET)
+    String running(Model model,@RequestParam String klassid,@RequestParam String seminarid){
+        int klassId=Integer.parseInt(klassid);
+        int seminarId=Integer.parseInt(seminarid);
+        Seminar seminar=seminarService.getSeminarBySeminarId(seminarId);
+        int klassSeminarId = klassService.getKlassSeminarByKlassIDSeminarID(klassId,seminarId);
+        List<Attendance> attendances = attendanceService.getAttendanceByklassSeminarId(klassSeminarId);
+        List teamIds=new ArrayList();
+        for(int i=0;i<attendances.size();i++){
+            teamIds.add(attendances.get(i).getTeamId());
+        }
+        List<Team> teamList = teamService.getTeamByIds(teamIds);
+        model.addAttribute("seminar",seminar);
+        //展示的team，按展示顺序排列
+        model.addAttribute(teamList);
+        //展示的attendance，按展示顺序排列
+        model.addAttribute(attendances);
+        return "teacher/seminar/seminar-running";
+    }
 }

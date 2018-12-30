@@ -19,7 +19,7 @@
         <result property="pptUrl" column="ppt_url"/>
     </resultMap>
 <select id="getAttendanceByKlassSeminarId"  resultMap="attendanceResultMap">
-    select * from standard_seminar_system.attendance where klass_seminar_id=#{0}
+    select * from standard_seminar_system.attendance where klass_seminar_id=#{0} order by team_order;
 </select>
 <insert id="insertAttendByTeamIdAndSeminarId" >
     insert  into standard_seminar_system.attendance (klass_seminar_id,team_id,team_order) values

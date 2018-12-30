@@ -12,8 +12,9 @@
     <script src="../../../static/js/echarts.min.js"></script>
 </head>
 
-<body data-type="index">
+<body>
 <header class="am-topbar am-topbar-inverse admin-header">
+
     <div class="am-topbar-brand1">
         <form id="_form" action="/teacher/courseManage" method="post">
             <a onclick="document.getElementById('_form').submit();">
@@ -45,16 +46,15 @@
         </ul>
     </div>
 </header>
-
-<div class="tpl-page-container1 tpl-page-header-fixed">
+<div class="tpl-page-container1 tpl-page-header-fixed" >
     <div class="tpl-portlet-components2">
-        <hr/>
-        <div style="text-align: center">
-            <h3 style="color:#337ab7">${course.getIntroduction()}</h3>
-        </div>
-        <hr/>
-        <div class="tpl-content-wrapper" style="margin-top: 5rem">
-            <div class="tpl-portlet-components1">
+        <div class="tpl-block">
+            <hr/>
+            <div style="text-align: center">
+                <h3 style="color:#337ab7">${course.getIntroduction()}</h3>
+            </div>
+            <hr/>
+            <div class="tpl-content-wrapper" style="margin-top: 5rem">
                 <div class="tpl-block">
                     <div class="am-g tpl-amazeui-form">
                         <div class="">
@@ -107,6 +107,7 @@
                                             </#if>
                                         </#list>
                                     </#if>
+
                                 </#list>
                             </#if>
                         </div>
@@ -120,12 +121,10 @@
             </div>
         </div>
 
-    </div>
-</div>
 
-<script src="../../../static/js/jquery.min.js"></script>
-<script src="../../../static/js/amazeui.min.js"></script>
-<script src="../../../static/js/app.js"></script>
+                            <script src="../../../static/js/jquery.min.js"></script>
+                            <script src="../../../static/js/amazeui.min.js"></script>
+                            <script src="../../../static/js/app.js"></script>
 </body>
 
 </html>

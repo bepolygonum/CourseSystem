@@ -30,10 +30,12 @@
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
 
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-            <li><a href="javascript:doPost('/student/personalInfo', {'id':'${student.getId()}'})"
+
+            <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a>
+            </li>
+            <li><a href="javascript:doPost('/teacher/personalInfo', {'id':'${teacher.getId()}'})"
                    class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
-            <li><a href="javascript:doPost('/student/seminar', {'id':'${student.getId()}'})"
-                   class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
             <li><a href="/" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
     </div>
@@ -52,7 +54,7 @@
                         <div class="am-form-group" style="margin-bottom: 1rem">
                             <input type="password" class="" id="pwd1" name="newpass" placeholder="填写密码"
                                    required="required">
-                            <input name="id" value="${student.getId()}" hidden="hidden"/>
+                            <input name="id" value="${teacher.getId()}" hidden="hidden"/>
                         </div>
                         <div class="am-form-group">
                             <input type="password" class="" id="pwd2" placeholder="确认密码" required="required">
@@ -77,7 +79,7 @@
             $("#pwd").blur(function () {
                 var va = $("#pwd").val();
                 if (va.length > 0) {
-                    if (va != ${student.getPassword()}) {
+                    if (va != ${teacher.getPassword()}) {
                         alert("密码错误")
                         $("#bt1").attr("disabled", true);
                         bt1.style.backgroundColor = "red";

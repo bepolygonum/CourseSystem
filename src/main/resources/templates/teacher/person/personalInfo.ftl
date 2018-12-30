@@ -30,10 +30,12 @@
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
 
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-            <li><a href="javascript:doPost('/student/personalInfo', {'id':'${student.getId()}'})"
+
+            <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a>
+            </li>
+            <li><a href="javascript:doPost('/teacher/personalInfo', {'id':'${teacher.getId()}'})"
                    class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
-            <li><a href="javascript:doPost('/student/seminar', {'id':'${student.getId()}'})"
-                   class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
             <li><a href="/" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
 
         </ul>

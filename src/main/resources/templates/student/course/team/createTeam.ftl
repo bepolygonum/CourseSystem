@@ -13,7 +13,7 @@
 
 </head>
 
-<body data-type="index">
+<body>
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand1">
         <a href="seminar1.html">
@@ -30,9 +30,6 @@
     </button>
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-
-            <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a>
-            </li>
             <li><a href="javascript:doPost('/student/personalInfo', {'id':'${student.getId()}'})"
                    class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
             <li><a href="javascript:doPost('/student/seminar', {'id':'${student.getId()}'})"
@@ -63,9 +60,13 @@
                                             <#if team.getKlassId()==klass.getId()>
                                                 <li class="tpl-left-nav-item">
                                                 <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
-                                                <span >${team.getKlassSerial()}-${team.getTeamSerial()}</span>
-                                                <span style="margin-left: 3rem">${team.getStatus()}</span>
-                                                <span style="margin-left: 3rem">${team.getTeamName()}</span>
+                                                <i class="am-icon-table"></i>
+                                                <label style="display: inline-block;width: 3rem">${team.getKlassSerial()}-${team.getTeamSerial()}</label>
+                                                <label style="display: inline-block;width: 5rem;margin-left: 2rem">
+                                                <#if team.getStatus()==0>不合法
+                                                <#else>合法</#if>
+                                                </label>
+                                                <label style="margin-left: 2rem;">${team.getTeamName()}</label>
                                             <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                                                 </a>
                                                 <ul class="tpl-left-nav-sub-menu">
@@ -113,7 +114,6 @@
                             <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                         </a>
                         <ul class="tpl-left-nav-sub-menu">
-
                             <li>
                                 <table class="am-table am-table-striped am-table-hover table-main">
                                     <#list noTeams as noteam>
@@ -126,9 +126,8 @@
                             </li>
                         </ul>
                     </li>
-
                     <a class="am-btn am-btn-success" style="width: 100%;margin: 1% 0;"
-                       href="javascript:doPost('/student/submitTeam', {'id':'${student.getId()}'})">创建小组</a>
+                       href="javascript:doPost('/student/submitTeam',  {'id':'${student.getId()}','course_id':'${course.getId()}','klass_id':'${klass.getId()}'})">创建小组</a>
                 </div>
             </div>
         </div>

@@ -92,4 +92,20 @@ public class KlassServiceImpl {
     {
         klassStudentDao.deleteKlassStudentByKlassId(klassId);
     }
+
+    public  List<KlassSeminar> getKlassSeminarRunning(List klassIds){
+        return klassSeminarDao.getKlassSeminarRunning(klassIds);
+    }
+
+    public int getKlassSeminarByKlassIDSeminarID(int klassId, int seminaeId) {
+        return klassSeminarDao.getKlassSeminarByKlassIDSeminarID(klassId,seminaeId) ;
+    }
+
+    public int getKlassIdByStudentIdAndCourseId(int id, int courseId) {
+        return klassStudentDao.getKlassIdByStudentIdAndCourseId(id,courseId);
+    }
+
+    public int getKlassSeminarIdByKlassIdAndSeminarId(int klassId, int id) {
+        return klassSeminarDao.getKlassSeminarByKlassIDSeminarID(klassId,id);
+    }
 }
