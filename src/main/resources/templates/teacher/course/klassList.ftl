@@ -46,55 +46,63 @@
         </ul>
     </div>
 </header>
-<div class="tpl-page-container1 tpl-page-header-fixed">
+<div class="tpl-content-wrapper" style="margin-top: 5rem">
     <#if klassList?exists>
         <#list klassList as klass>
             <div class="tpl-portlet-components1">
-            <div class="tpl-block">
-            <div class="am-g tpl-amazeui-form">
-            <div class="">
-            <div style="text-align: center">
-            <h3 style="color:#337ab7">${klass.getGrade()}-${klass.getKlassSerial()}</h3>
-            </div>
-            <div>
-        <lable class="mylabel">讨论课时间：</lable>
-            <div class="myDiv">
-            <label class="myLabel">${klass.getKlassTime()}</label>
-            </div>
-            </div>
-            <div>
-        <lable class="mylabel">讨论课地点：</lable>
-            <div class="myDiv">
-            <label class="myLabel">${klass.getKlassLocation()}</label>
-            </div>
-            </div>
-            <div>
-                <lable class="mylabel">学生名单：</lable>
-                <div class="myDiv">
-                    <input type="file" style="width: 80%;margin-left: 10%;">
+                <div class="tpl-block">
+                    <div class="am-g tpl-amazeui-form">
+                        <div class="">
+                            <div style="text-align: center">
+                                <h3 style="color:#337ab7">${klass.getGrade()}-${klass.getKlassSerial()}</h3>
+                            </div>
+                            <div>
+                                <lable class="mylabel">讨论课时间：</lable>
+                                <div class="myDiv">
+                                    <label class="myLabel">${klass.getKlassTime()}</label>
+                                </div>
+                            </div>
+                            <div>
+                                <lable class="mylabel">讨论课地点：</lable>
+                                <div class="myDiv">
+                                    <label class="myLabel">${klass.getKlassLocation()}</label>
+                                </div>
+                            </div>
+                            <div>
+                                <lable class="mylabel">学生名单：</lable>
+                                <div class="myDiv">
+                                    <input type="file" style="width: 80%;margin-left: 10%;">
+                                </div>
+                            </div>
+                            <div>
+                                <button type="submit" class="am-btn am-btn-default" style="color: #337ab7;float: left;margin-top: 5%">
+                                    修改
+                                </button>
+
+                                <form id="_form" action="/teacher/course/klass/delete" method="post">
+                                    <input value="${id}" name="id" hidden="hidden">
+                                    <input value="${courseId}" name="courseId" hidden="hidden">
+                                    <input value="${klass.getId()}" name="klassId" hidden="hidden">
+                                    <button type="submit" class="am-btn am-btn-default" style="float:right;margin-top:5%">删除班级</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <button type="submit" class="am-btn am-btn-success" style="float: left;margin-top: 5%">
-                    提交
-                </button>
-                <button type="submit" class="am-btn am-btn-danger" style="float:right;margin-top:5%">删除班级</button>
-            </div>
-            </div>
-            </div>
-            </div>
             </div>
         </#list>
     </#if>
-    <div class="tpl-portlet-components" style="margin-bottom: 0px; padding: 1rem 1rem;">
-        <a class="am-btn am-btn-success" style="width: 100%;" href=""><i class="am-icon-plus" style="margin: 0 2%"></i>新建班级</a>
-    </div>
+
+    <button class="am-btn am-btn-success" style="width: 100%;margin-bottom: 4%" type="submit"
+            onclick="window.location.href='/teacher/course/klass/createKlass?id=${id}&courseId=${courseId}'"><i class="am-icon-plus" style="margin: 0 2%"></i>新增班级
+    </button>
 </div>
 
 
-<script src="../../../static/js/jquery.min.js"></script>
-<script src="../../../static/js/amazeui.min.js"></script>
-<script src="../../../static/js/app.js"></script>
+<script src="../../../staticjs/jquery.min.js"></script>
+<script src="../../../staticjs/amazeui.min.js"></script>
+<script src="../../../staticjs/app.js"></script>
 </body>
 
 </html>

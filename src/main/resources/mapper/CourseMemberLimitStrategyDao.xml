@@ -19,4 +19,12 @@
         SELECT * FROM  standard_seminar_system.course_member_limit_strategy
         WHERE course_id=#{0}
     </select>
+    <insert id="createCourseMemberLimitStrategy" >
+        insert into standard_seminar_system.course_member_limit_strategy
+                (course_id,min_member,max_member)
+        values (#{0},#{1},#{2});
+    </insert>
+    <select id="selectCourseMemberLimitStrategyMaxId" resultType="Integer">
+        select max(id) from standard_seminar_system.course_member_limit_strategy;
+    </select>
 </mapper>

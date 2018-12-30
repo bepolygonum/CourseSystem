@@ -46,11 +46,11 @@
         <div class="tpl-block">
             <div class="am-g">
                 <div class="am-u-sm-12">
-                    <#if teamList?exists>
-                        <#list teamList as team>
-                            <#if klassList?exists>
-                                <#list klassList as klass>
-                                    <#if klass.getId()==team.getKlassId()>
+                <#if klassList?exists>
+                    <#list klassList as klass>
+                        <#if teamList?exists>
+                            <#list teamList as team>
+                                <#if klass.getId()==team.getKlassId()>
                     <li class="tpl-left-nav-item">
                         <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
                             <span>${klass.getKlassSerial()}-${team.getTeamSerial()}</span>
@@ -66,36 +66,31 @@
                         <ul class="tpl-left-nav-sub-menu">
                             <li>
                                 <table class="am-table am-table-striped am-table-hover table-main">
-                                    <#if teamStudentList?exists>
-                                        <#list teamStudentList as teamStudent>
-                                        <#if teamStudent.getTeamId()==team.getId()>
-                                    <#if studentList?exists>
-                                        <#list studentList as student>
-                                        <#if student.getId()==teamStudent.getStudentId()>
+                                    <#if listOfStudents?exists>
+                                        <#list listOfStudents as teamlist>
+                                            <#if teamlist_index ==team_index>
+                                                <#if team.getKlassId()==klass.getId()>
 
-                                            <#if student.getId()==team.getLeaderId()>
-                                        <tr>
-                                            <td>组长</td>
-                                            <td>${student.getAccount()}</td>
-                                            <td>${student.getStudentName()}</td>
-                                        </tr>
-
-                                            <#else>
-                                        <tr>
-                                            <td>组员</td>
-                                            <td>${student.getAccount()}</td>
-                                            <td>${student.getStudentName()}</td>
-                                        </tr>
+                                                    <#list teamlist as teammember>
+                                                        <#if teammember.getId()==team.getLeaderId()>
+                                                        <tr>
+                                                            <td>组长</td>
+                                                            <td>${teammember.getAccount()}</td>
+                                                            <td>${teammember.getStudentName()}</td>
+                                                        </tr>
+                                                        </#if>
+                                                    </#list>
+                                                    <#list teamlist as teammember>
+                                                        <#if teammember.getId()!=team.getLeaderId()>
+                                                        <tr>
+                                                            <td>组员</td>
+                                                            <td>${teammember.getAccount()}</td>
+                                                            <td>${teammember.getStudentName()}</td>
+                                                        </tr>
+                                                        </#if>
+                                                    </#list>
+                                                </#if>
                                             </#if>
-                                        </#if>
-                                        </#list>
-
-
-
-
-
-                                    </#if>
-                                        </#if>
                                         </#list>
                                     </#if>
                                 </table>
