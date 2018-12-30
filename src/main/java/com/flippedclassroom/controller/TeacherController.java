@@ -29,16 +29,12 @@ public class TeacherController {
     @Autowired
     private TeamServiceImpl teamService;
     @Autowired
-    private StudentServiceImpl studentService;
-    @Autowired
     private TeacherServiceImpl teacherService;
     @Autowired
     private SeminarServiceImpl seminarService;
     @Autowired
     private CourseMemberLimitStrategyServiceImpl courseMemberLimitStrategyService;
-
-
-
+    @Autowired
     private AttendanceServiceImpl attendanceService;
 
     @GetMapping(value = "/index")
