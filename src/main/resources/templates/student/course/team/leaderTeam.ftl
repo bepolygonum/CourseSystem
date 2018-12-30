@@ -25,7 +25,7 @@
     </script>
 </head>
 
-<body data-type="index">
+<body>
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand1">
         <a href="seminar1.html">

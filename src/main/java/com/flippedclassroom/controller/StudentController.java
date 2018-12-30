@@ -35,7 +35,8 @@ public class StudentController {
     private TeamServiceImpl teamService;
     @Autowired
     private CourseMemberLimitStrategyServiceImpl courseMemberLimitStrategyService;
-
+    @Autowired
+    private AttendanceServiceImpl attendanceService;
 
 
     @GetMapping(value = "/index")
@@ -343,4 +344,24 @@ public class StudentController {
         return "/student/person/personalInfo";
     }
 
+    @RequestMapping(value = "/seminar-running", method = RequestMethod.GET)
+    public String seminarRunning(Model model, @RequestParam(name = "id") String sid, @RequestParam String seminarid) {
+        int id = Integer.valueOf(sid);
+        Student student = studentService.getStudentByID(id);
+        int seminarId = Integer.parseInt(seminarid);
+        Seminar seminar=seminarService.getSeminarBySeminarId(seminarId);
+        int klassId=klassService.getKlassIdByStudentIdAndCourseId(id,seminar.getCourseId());
+        int klassSeminarId=klassService.getKlassSeminarIdByKlassIdAndSeminarId(klassId,seminar.getId());
+        List<Attendance> attendances=attendanceService.getAttendanceByklassSeminarId(klassSeminarId);
+        List teamids=new ArrayList();
+        for(int i=0;i<attendances.size();i++){
+            teamids.add(attendances.get(i).getTeamId());
+        }
+        List<Team> teamList=teamService.getTeamByIds(teamids);
+        model.addAttribute(attendances);
+        model.addAttribute(teamList);
+        model.addAttribute(seminar);
+        model.addAttribute(student);
+        return "/student/seminar/seminar-running";
+    }
 }

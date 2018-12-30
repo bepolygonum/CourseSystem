@@ -53,7 +53,7 @@
     </script>
 </head>
 
-<body data-type="index">
+<body>
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand1">
         <form id="_form" action="/teacher/courseManage" method="post">

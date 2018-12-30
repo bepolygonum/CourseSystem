@@ -13,7 +13,7 @@
     <script src="../../../static/js/echarts.min.js"></script>
 </head>
 
-<body data-type="index">
+<body>
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand1">
         <a href="homepage.html">
@@ -112,9 +112,9 @@
             </div>
             </div>
             <a href="/student/enroll-detail?id=${student.getId()}&seminarid=${seminar.getId()}">
-            <button class="am-btn am-btn-success  am-radius"
-                    style="width: 80%;margin-left: 10%;background-color: #23c0c0;border: none;margin-top: 3rem">报名
-            </button>
+            <a href="/student/seminar-running?id=${student.getId()}&seminarid=${seminar.getId()}" class="am-btn am-btn-success  am-radius" style="width: 80%;margin-left: 10%;background-color: #23c0c0;border: none;margin-top: 3rem">
+                进入讨论课
+            </a>
             </a>
         </#if>
     </div>

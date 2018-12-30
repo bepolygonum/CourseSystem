@@ -39,4 +39,19 @@ public interface KlassSeminarDao {
      * @return
      */
     List<KlassSeminar> getKlassSeminarBySeminarID(List<Integer> seminarIds);
+
+    /**
+     * getKlassSeminarRunning
+     * @param klassIds
+     * @return
+     */
+    List<KlassSeminar> getKlassSeminarRunning(List klassIds);
+
+    /**
+     *  getKlassSeminarByKlassIDSeminarID
+     * @param klassId
+     * @param seminaeId
+     * @return
+     */
+    int getKlassSeminarByKlassIDSeminarID(@Param("0") int klassId, @Param("1") int seminaeId);
 }
