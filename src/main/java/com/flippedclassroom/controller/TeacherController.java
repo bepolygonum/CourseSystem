@@ -1,6 +1,5 @@
 package com.flippedclassroom.controller;
 
-import com.flippedclassroom.dao.TeamDao;
 import com.flippedclassroom.entity.*;
 import com.flippedclassroom.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,6 +34,8 @@ public class TeacherController {
     private TeacherServiceImpl teacherService;
     @Autowired
     private SeminarServiceImpl seminarService;
+    @Autowired
+    private AttendanceServiceImpl attendanceService;
 
     @GetMapping(value = "/index")
     public String teacherIndex(Model model) {
@@ -685,5 +684,71 @@ public class TeacherController {
         Teacher teacher = teacherService.getTeacherByTeacherID(id);
         model.addAttribute(teacher);
         return "/teacher/person/personalInfo";
+    }
+
+    /**
+     * 需要传的值
+     * 教师
+     * 所有课程名
+     * 所有正在进行的讨论课（包括seminar的课程班级）
+     * */
+    @RequestMapping(value = "/seminar",method = RequestMethod.GET)
+    public String seminar(Model model,@RequestParam(name="id") String tid){
+        int id = Integer.valueOf(tid);
+        Teacher teacher = teacherService.getTeacherByTeacherID(id);
+        List<Course> coursesList = courseService.getCourseByTeacherID(teacher.getId());
+        //添加所有klass
+        List<Klass> klassList=new ArrayList<>();
+        for(int i=0;i<coursesList.size();i++){
+            klassList.addAll(klassService.getKlassByCourseID(coursesList.get(i).getId()));
+        }
+        //添加所有klassId
+        List klassIds=new ArrayList<>();
+        for(int i=0;i<klassList.size();i++){
+            klassIds.add(klassList.get(i).getId());
+        }
+        //添加所有running的讨论课
+        List<KlassSeminar> klassSeminarList=klassService.getKlassSeminarRunning(klassIds);
+        List<Seminar> seminarList = new ArrayList<>();
+        klassList.clear();
+        for(int i=0;i<klassSeminarList.size();i++){
+            seminarList.add(seminarService.getSeminarBySeminarId(klassSeminarList.get(i).getSeminarId()));
+            klassList.add(klassService.getKlassByKlassID(klassSeminarList.get(i).getKlassId()));
+        }
+        //添加所有running的讨论课的课程
+        List<Integer> courseIds=new ArrayList<>();
+        for(int i=0;i<klassList.size();i++){
+            courseIds.add(klassList.get(i).getCourseId());
+        }
+        List<Course> courseKlassList=new ArrayList<>();
+        for(int i=0;i<courseIds.size();i++) {
+            courseKlassList.add(courseService.getCourseByCourseID(courseIds.get(i)));
+        }
+        model.addAttribute("courseKlassList",courseKlassList);
+        model.addAttribute(seminarList);
+        model.addAttribute(klassList);
+        model.addAttribute(coursesList);
+        model.addAttribute(teacher);
+        return "teacher/seminar/seminar-home";
+    }
+
+    @RequestMapping(value = "/seminarRunning",method = RequestMethod.GET)
+    String running(Model model,@RequestParam String klassid,@RequestParam String seminarid){
+        int klassId=Integer.parseInt(klassid);
+        int seminarId=Integer.parseInt(seminarid);
+        Seminar seminar=seminarService.getSeminarBySeminarId(seminarId);
+        int klassSeminarId = klassService.getKlassSeminarByKlassIDSeminarID(klassId,seminarId);
+        List<Attendance> attendances = attendanceService.getAttendanceByklassSeminarId(klassSeminarId);
+        List teamIds=new ArrayList();
+        for(int i=0;i<attendances.size();i++){
+            teamIds.add(attendances.get(i).getTeamId());
+        }
+        List<Team> teamList = teamService.getTeamByIds(teamIds);
+        model.addAttribute("seminar",seminar);
+        //展示的team，按展示顺序排列
+        model.addAttribute(teamList);
+        //展示的attendance，按展示顺序排列
+        model.addAttribute(attendances);
+        return "teacher/seminar/seminar-running";
     }
 }

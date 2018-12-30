@@ -32,4 +32,12 @@ public interface KlassStudentDao {
      * @param klassId
      */
     void deleteKlassStudentByKlassId(@Param("0") int klassId);
+
+    /**
+     * getKlassIdByStudentIdAndSeminarId
+     * @param id
+     * @param courseid
+     * @return
+     */
+    int getKlassIdByStudentIdAndCourseId(@Param("0")int id, @Param("1")int courseid);
 }

@@ -49,5 +49,15 @@
             #{seminarIds}
         </foreach>
     </select>
-
+<select id="getKlassSeminarRunning" resultMap="klassSeminarResultMap">
+    SELECT * FROM  standard_seminar_system.klass_seminar
+    WHERE status = 1 and klass_id in
+    <foreach  collection="list" item="klassIds" open="(" separator="," close=")">
+        #{klassIds}
+    </foreach>
+</select>
+    <select id="getKlassSeminarByKlassIDSeminarID" resultType="Integer">
+        select id from standard_seminar_system.klass_seminar
+        where klass_id=#{0} and seminar_id=#{1}
+    </select>
 </mapper>

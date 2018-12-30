@@ -30,7 +30,7 @@
                 <input type="password" name="password" class="" id="userPassword" placeholder="密码">
             </div>
             <div class="am-form-group">
-                <div id="tipBar"></div>
+                <div id="tipBar" style="color: #FFF"></div>
             </div>
             <div class="login-font">
                 <a href="/forgetPassword">忘记密码 </a>
