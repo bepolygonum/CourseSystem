@@ -39,16 +39,6 @@ public class CourseServiceImpl  {
     }
 
 
-    public List<Course> getConflictCourseByCourseID(int courseId)
-    {
-        List<Integer> course1ID=conflictCourseStrategyDao.getCourse1IDByCourseID(courseId);
-        List<Integer> course2ID=conflictCourseStrategyDao.getCourse2IDByCourseID(courseId);
-        course1ID.removeAll(course2ID);
-        course1ID.addAll(course2ID);
-        List<Course> conflictCourseList;
-        conflictCourseList = courseDao.getCoursesByCourseID(course1ID);
-        return conflictCourseList;
-    }
 
 
     public List<Course> getCourseByStudentID(int id){
@@ -124,4 +114,6 @@ public class CourseServiceImpl  {
     {
         courseDao.updateCourseTeamMainIdByCourseId(courseId);
     }
+    public int selectConflictCourseStrategyMaxId()
+    {return conflictCourseStrategyDao.selectConflictCourseStrategyMaxId();}
 }

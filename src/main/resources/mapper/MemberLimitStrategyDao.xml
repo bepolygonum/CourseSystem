@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.flippedclassroom.dao.MemberLimitStrategyDao">
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+<insert id="createMemberLimitStrategy">
+    insert into standard_seminar_system.member_limit_strategy(min_member,max_member)
+    values (#{0},#{1});
+</insert>
+    <select id="selectMaxId" resultType="Integer">
+        select max(id) from standard_seminar_system.member_limit_strategy;
+    </select>
+</mapper>

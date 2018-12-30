@@ -32,6 +32,7 @@
     <select id="getKlassByCourseID"  resultMap="klassResultMap">
         SELECT * FROM  standard_seminar_system.klass
         WHERE course_id=#{0}
+        order by klass_serial
     </select>
     <insert id="createAKlass" >
         insert into standard_seminar_system.klass

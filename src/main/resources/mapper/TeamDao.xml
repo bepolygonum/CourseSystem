@@ -22,6 +22,7 @@
     <select id="getTeamByCourseID"  resultMap="teamResultMap">
         SELECT * FROM  standard_seminar_system.team
          WHERE course_id=#{0}
+        order by team_serial
     </select>
     <select id="getTeamById"  resultMap="teamResultMap">
         SELECT * FROM  standard_seminar_system.team

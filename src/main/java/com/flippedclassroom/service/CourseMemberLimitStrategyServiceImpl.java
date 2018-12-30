@@ -16,4 +16,10 @@ public class CourseMemberLimitStrategyServiceImpl {
     public CourseMemberLimitStrategy getCourseMemberLimitStrategyByCourseID(int courseId) {
         return courseMemberLimitStrategyDao.getCourseMemberLimitStrategyByCourseID(courseId);
     }
+
+    public int createCourseMemberLimitStrategy(int courseId,int min,int max)
+    {
+        courseMemberLimitStrategyDao.createCourseMemberLimitStrategy(courseId,min,max);
+        return courseMemberLimitStrategyDao.selectCourseMemberLimitStrategyMaxId();
+    }
 }

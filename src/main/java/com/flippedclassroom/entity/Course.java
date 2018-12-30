@@ -11,6 +11,14 @@ public class Course {
     private int id;
     private int teacherId;
     private String courseName;
+    private String introduction;
+    private int presentationPercentage;
+    private int questionPercentage;
+    private int reportPercentage;
+    private int teamMainCourseId;
+    private int seminarMainCourseId;
+    private Timestamp teamStartTime;
+    private Timestamp teamEndTime;
 
     public int getId() {
         return id;
@@ -84,12 +92,6 @@ public class Course {
         this.seminarMainCourseId = seminarMainCourseId;
     }
 
-    private String introduction;
-    private int presentationPercentage;
-    private int questionPercentage;
-    private int reportPercentage;
-    private int teamMainCourseId;
-    private int seminarMainCourseId;
 
     public Timestamp getTeamStartTime() {
         return teamStartTime;
@@ -107,8 +109,6 @@ public class Course {
         this.teamEndTime = teamEndTime;
     }
 
-    private Timestamp teamStartTime;
-    private Timestamp teamEndTime;
 
    /* private Date startTime;
     private String teamStartTime;
