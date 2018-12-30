@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="../../../static/css/app.css">
     <script src="../../../static/js/echarts.min.js"></script>
     <script src="../../../static/js/art.js"></script>
+    <!-- 目前前端WebSocket所需js从cdn节点加载-->
+    <#--<script src="https://cdn.bootcss.com/sockjs-client/1.3.0/sockjs.min.js"></script>-->
+    <#--<script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>-->
     <style type="text/css">
         .modDiv {
             position: absolute;
@@ -48,15 +51,12 @@
     </div>
 </header>
 <div class="tpl-content-wrapper" style="margin-top: 5rem">
-
     <div class="tpl-portlet-components1">
         <div style="text-align: center">
             <label style="font-size: 2rem">${seminar.getSeminarName()}</label><br>
-            <!--根据teacher controller的/seminarRunning返回的teamlist和attendance
-            点击下一组展示，更换到下一个team-->
+            <!--根据teacher controller的/seminarRunning返回的teamlist和attendance点击下一组展示，更换到下一个team-->
             <label style="color: #555555">第6：1-3组展示，</label>
         </div>
-
         <div class="tpl-block">
             <div class="am-g tpl-amazeui-form">
                 <div style="width: 40%;float: left;margin-left: 6%">
@@ -95,13 +95,8 @@
                         </div>
 
                     </div>
-                    <button onclick="Check()" type="button" class="am-btn am-btn-danger  am-radius"
-                            style="width: 80%;margin-left: 10%;margin-top: 3rem">抽取提问
-                    </button>
-                    <button onclick="" type="button" class="am-btn am-btn-success  am-radius"
-                            style="width: 80%;margin-left: 10%;margin-top: 1rem" data-am-modal="{target: '#my-prompt'}">
-                        下组展示
-                    </button>
+                    <button onclick="questionSomeone()" type="button" class="am-btn am-btn-danger  am-radius" style="width: 80%;margin-left: 10%;margin-top: 3rem">抽取提问</button>
+                    <button onclick="nextTeam()" type="button" class="am-btn am-btn-success  am-radius" style="width: 80%;margin-left: 10%;margin-top: 1rem" data-am-modal="{target: '#my-prompt'}">下组展示</button>
                 </form>
             </div>
 
@@ -120,6 +115,58 @@
         </div>
     </div>
 </div>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script>
+    var message = new Object();
+    message.role = "teacher";
+    var stompClient = null;
+    var connected = false;
+    function setConnected (con) {
+        connected = con;
+    }
+    if(!window.WebSocket) {
+        alert("您当前浏览器不支持WebSocket哟！部分功能可能存在问题！");
+    } else{
+        (function teacherEnterSeminar() {
+            if(!connected){
+                // model.addAttribute("seminar",seminar);
+                // 展示的team，按展示顺序排列
+                // model.addAttribute(teamList);
+                // 展示的attendance，按展示顺序排列
+                // model.addAttribute(attendances);
+                var socket = new SockJS("/websocket/seminar");
+                stompClient = Stomp.over(socket);
+                stompClient.connect({"id": "teacher"}, function(frame){
+                    setConnected(true);
+                    console.log('self: Connected: ' + frame);
+                    message.action = "begin";
+                    stompClient.send("/websocket/teacher/seminar/begin", {}, JSON.stringify(message));
+                    stompClient.subscribe('/teacher-websocket/seminar/all', function (message) {
+                        console.log("self: /teacher-websocket/seminar/all\n" + message);
+                    });
+                    stompClient.subscribe("/teacher-websocket/seminar/question", function (message) {
+                        console.log("self: /teacher-websocket/seminar/question\n" + message);
+
+                    });
+                });
+            }
+        })();
+    }
+    function questionSomeone(){
+        console.log("self: questionSomeone!");
+        // 教师抽取提问
+        message.action = "question";
+        stompClient.send("/websocket/teacher/seminar/questionsomeone", {}, JSON.stringify(message));
+    }
+    function nextTeam() {
+        console.log("self: nextTeam!");
+        // 教师开始下一组
+        message.action = "next";
+        stompClient.send("/websocket/teacher/seminar/begin", {}, JSON.stringify(message));
+    }
+    console.log("1");
+</script>
 <script id="myTr" type="text/html">
     <div class="modDiv">
         <table class="am-table am-table-radius am-table-striped">
@@ -161,8 +208,6 @@
             container.append(result);
         },
     }
-
-
     function Check() {
 
         var title = new MyBuilder($("#body"), $("#myTr"));

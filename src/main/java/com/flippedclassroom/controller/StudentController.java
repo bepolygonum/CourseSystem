@@ -473,7 +473,7 @@ public class StudentController {
         model.addAttribute(attendances);
         model.addAttribute(teamList);
         model.addAttribute(seminar);
-        model.addAttribute(student);
+        model.addAttribute("student", student);
         return "/student/seminar/seminar-running";
     }
 }
