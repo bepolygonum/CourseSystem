@@ -75,7 +75,7 @@
                             </tr>
                         </#list>
                     </table>
-                    <button onclick="conf()" class="am-btn am-btn-danger" style="margin-top: 3rem;width: 100%">退组
+                    <button onclick="conf()" class="am-btn am-btn-default" style="margin-top: 3rem;width: 100%">退组
                     </button>
                 </div>
 

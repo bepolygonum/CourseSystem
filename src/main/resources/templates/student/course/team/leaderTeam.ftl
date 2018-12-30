@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../../../static/css/admin.css">
     <link rel="stylesheet" href="../../../../static/css/app.css">
     <script src="../../../../static/js/echarts.min.js"></script>
+    <script src="../../../../static/js/art.js"></script>
     <script>
         function conf() {
             var r = confirm("将 王二 移出小组？");
@@ -25,7 +26,7 @@
     </script>
 </head>
 
-<body>
+<body >
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand1">
         <a href="seminar1.html">
@@ -64,7 +65,8 @@
                         </a>
                     </div>
 
-                    <table class="am-table am-table-striped am-table-hover table-main">
+                    <table class="am-table am-table-striped am-table-hover table-main" id="groupTable">
+                        <tbody id="myBody">
                         <tr>
                             <td>组长</td>
                             <td>${student.getAccount()}</td>
@@ -76,33 +78,34 @@
                                     <tr>
                                     <td>组员</td>
                                     <td>${member.getAccount()}</td>
-                                    <td><a onclick="conf()">${member.getStudentName()}</a></td>
+                                    <td><a onclick="javascript:this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode)">${member.getStudentName()}</a></td>
                                     </tr>
                                 </#if>
                             </#list>
                         </#if>
+                        </tbody>
                     </table>
 
                     <#if noTeams?exists>
-                        <form>
+
                         <div style="margin-top: 0.5rem">
                             <span class="myLabel">添加成员:</span>
                         </div>
                         <input type="text" class="form-control1 form-control-solid " name="info" placeholder="搜索成员"
                                style="width: 60%;margin-left: 2%">
-                        <input type="submit" class="formSubmit" value="">
-                        <button type="submit" class="am-btn am-btn-success"
+                        <input  class="formSubmit" value="">
+                        <button  onclick="Check()" class="am-btn am-btn-success"
                                 style="height: 34px;padding-top:6px;width: 25%;margin-left: 2rem;margin-top: -5.5rem;border-radius: 0.5rem">
                             添加
                         </button>
-                        <table class="am-table" style="margin-top: -1.5rem">
+                        <table class="am-table" style="margin-top: -1.5rem" >
                         <tbody>
                         <tr>
                         <td>
-                        <table class="am-table am-table-striped am-table-hover table-main">
+                        <table class="am-table am-table-striped am-table-hover table-main" id="table2">
                         <#list noTeams as noteam>
-                            <tr>
-                            <td><input type="checkbox" name="radio1" value="${noteam.getAccount()}"
+                            <tr id="${noteam.getAccount()}">
+                            <td><input type="checkbox" name="radio1" class="data-am-ucheck" style="margin-left: 1rem" value="${noteam.getAccount()}"
                         class="data-am-ucheck"  style="margin-left: 1rem"></td>
                             <td>${noteam.getAccount()}</td>
                             <td>${noteam.getStudentName()}</td>
@@ -121,13 +124,57 @@
                                 style="margin-left:4rem;width: 35%;margin-top: 2rem;padding-left: 1rem;border-radius: 0.5rem">
                             保存
                         </button>
-                        </form>
+
                     </#if>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script id="myTr" type="text/html">
+    <tr>
+        <td>
+        </td>
+        <td>
+            {{num}}
+        </td>
+        <td><a onclick="javascript:this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode)"">{{name}}</a>
+        </td>
+    </tr>
+</script>
+<script>
+    var MyBuilder = function (container, conId, model) {
+        this.container = container;
+        this.model = model;
+        this.conId = conId;
+        this.render();
+    }
+    {
+        MyBuilder.prototype = {
+            render: function () {
+                var conId = this.conId;
+                var myBuilder = template.compile(conId.html());
+                var container = this.container;
+                var model = this.model;
+                var result = myBuilder(model);
+                container.append(result);
+            },
+        }
+    }
+
+    function Check() {
+        var Tabobj = $("#table2");
+        var Check = $("table input[type=checkbox]:checked");
+        Check.each(function () {//遍历
+            var row = $(this).parent("td").parent("tr");
+            var snum = row.find("[name='number']").html();
+            var sname = row.find("[name='name']").html();
+            var title = new MyBuilder($("#myBody"), $("#myTr"), {num: snum, name: sname});
+            row.remove();
+        })
+
+    }
+</script>
 <script src="../../../../static/js/jquery.min.js"></script>
 <script src="../../../../static/js/amazeui.min.js"></script>
 <script src="../../../../static/js/app.js"></script>

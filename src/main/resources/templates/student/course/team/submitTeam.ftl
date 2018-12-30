@@ -58,12 +58,12 @@
                         <div style="margin-top: 0.5rem">
                             <span class="myLabel">添加成员:</span>
                         </div>
+                        <#if noTeams?exists>
                         <table class="am-table">
                             <tbody>
+                            <#list noTeams as noteam>
                             <tr>
                                 <td>
-
-
                                     <table class="am-table am-table-striped am-table-hover table-main">
                                         <tr>
                                             <td><input type="checkbox" name="radio1" value="张三丰" class="data-am-ucheck"

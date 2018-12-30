@@ -64,7 +64,10 @@
                                                 <li class="tpl-left-nav-item">
                                                 <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
                                                 <span >${team.getKlassSerial()}-${team.getTeamSerial()}</span>
-                                                <span style="margin-left: 3rem">${team.getStatus()}</span>
+                                                <span style="margin-left: 3rem">
+                                                <#if team.getStatus()==0>不合法
+                                                <#else>合法</#if>
+                                                </span>
                                                 <span style="margin-left: 3rem">${team.getTeamName()}</span>
                                             <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                                                 </a>
@@ -128,7 +131,7 @@
                     </li>
 
                     <a class="am-btn am-btn-success" style="width: 100%;margin: 1% 0;"
-                       href="javascript:doPost('/student/submitTeam', {'id':'${student.getId()}'})">创建小组</a>
+                       href="javascript:doPost('/student/submitTeam',  {'id':'${student.getId()}','course_id':'${course.getId()}','klass_id':'${klass.getId()}'})">创建小组</a>
                 </div>
             </div>
         </div>

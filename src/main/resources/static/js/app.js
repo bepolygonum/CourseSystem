@@ -98,6 +98,5 @@ var pageData = {
             preventDefault: false,
             fadeScrollbars: true
         });
-
     }
 }

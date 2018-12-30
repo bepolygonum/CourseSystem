@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <title>个人信息管理</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="icon" type="image/png" href="../../static/i/favicon.png">
     <link rel="stylesheet" href="../../static/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../../static/css/admin.css">
@@ -76,6 +78,8 @@
             </div>
         </div>
     </div>
+
+
     <script src="../../static/js/jquery.min.js"></script>
     <script src="../../static/js/amazeui.min.js"></script>
     <script src="../../static/js/app.js"></script>
