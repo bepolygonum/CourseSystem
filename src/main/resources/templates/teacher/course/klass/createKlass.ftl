@@ -47,16 +47,17 @@
             <hr>
             <div class="Top">
                 <p style="margin-left: 6%;width: 30%;float: left">上课时间</p>
-                <input style="width: 20%;margin-left: 0%;float: left" class="border" type="number" name="firstCourse"
+                <input style="width: 10%;margin-left: 10%;float: left" class="border" type="number" name="firstCourse"
                        id="firstCourse"/>
-                <input style="width: 24%;margin-left: 10%;" class="border" type="number" name="secondCourse"
-                       id="secondCourse"/>
+                节~
+                <input style="width: 10%;margin-left: 0%;" class="border" type="number" name="secondCourse"
+                       id="secondCourse"/>节
             </div>
             <hr>
 
             <div class="Top">
                 <p style="margin-left: 6%;width: 30%;float: left">上课地点</p>
-                <input style="width: 60%;margin-left: 0%" class="border" type="text" name="location" id="location"/>
+                <input style="width: 30%;margin-left: 10%" class="border" type="text" name="location" id="location"/>
             </div>
             <hr>
             <div class="Top">

@@ -29,16 +29,12 @@ public class TeacherController {
     @Autowired
     private TeamServiceImpl teamService;
     @Autowired
-    private StudentServiceImpl studentService;
-    @Autowired
     private TeacherServiceImpl teacherService;
     @Autowired
     private SeminarServiceImpl seminarService;
     @Autowired
     private CourseMemberLimitStrategyServiceImpl courseMemberLimitStrategyService;
-
-
-
+    @Autowired
     private AttendanceServiceImpl attendanceService;
 
     @GetMapping(value = "/index")
@@ -122,16 +118,58 @@ public class TeacherController {
         }
 
         List<Team> teamList=teamService.getTeamByCourseID(courseid);
-        if(teamList!=null){
+        if(!teamList.isEmpty()){
             model.addAttribute(teamList);
         }
-        List<Klass> klassList=klassService.getKlassByCourseID(courseid);
-        if(klassList!=null) {
-            model.addAttribute(klassList);
+        else
+        {
+            Course course=courseService.getCourseByCourseID(courseid);
+            if(course.getTeamMainCourseId()>0)
+            {
+                teamList=teamService.getTeamByCourseID(course.getTeamMainCourseId());
+                if(!teamList.isEmpty()){
+                    model.addAttribute(teamList);
+                }
+            }
+
         }
+        //List<Klass> klassList=klassService.getKlassByCourseID(courseid);
+        //if(klassList!=null) {
+          //  model.addAttribute(klassList);
+        //}
+        model.addAttribute("courseId",courseid);
         model.addAttribute("id",tid);
         return "/teacher/course/grade";
     }
+
+    @RequestMapping(value = "/course/modifyGrade")
+    public String modifyAGrade(Model model,@RequestParam int id,@RequestParam int courseId,@RequestParam int teamId,
+                               @RequestParam int klassSeminarId,@RequestParam int roundId,
+                               @RequestParam double preScore,@RequestParam double qaScore,@RequestParam double reportScore)
+    {
+        seminarService.updateSeminarScoreByKlassSeminarIdTeamId(klassSeminarId,teamId,preScore,qaScore,reportScore);
+        Round round=roundService.getRoundByRoundID(roundId);
+        List<Integer> seminarIds=seminarService.selectSeminarIdsByRoundId(roundId);
+        Team team=teamService.getTeamById(teamId);
+        List<Integer> klassSeminarIds=new ArrayList<>();
+        for(int i=0;i<seminarIds.size();i++)
+        {
+            klassSeminarIds.add(klassService.getKlassSeminarIdByKlassIdAndSeminarId(team.getKlassId(),seminarIds.get(i)));
+        }
+        List<SeminarScore> seminarScores=seminarService.getSeminarScoreByKlassSeminarIDTeamID(klassSeminarIds,teamId);
+        double presentationScore=0,questionScore=0,reScore=0,totalScore=0;
+        List<Double> scoreList=roundService.computeModifyScore(round,seminarScores,courseId);
+        totalScore=scoreList.get(0);
+        presentationScore=scoreList.get(1);
+        questionScore=scoreList.get(2);
+        reScore=scoreList.get(3);
+
+        roundService.updateRoundScoreByRoundIdTeamId(roundId,teamId,totalScore,presentationScore,questionScore,reScore);
+        String tid=String.valueOf(id);
+        String courseid=String.valueOf(courseId);
+        return findAllGrade(model,tid,courseid);
+    }
+
 
     @RequestMapping(value = "/course/teamList")
     public String findAllTeam(Model model,@RequestParam String id,@RequestParam String courseId)
@@ -483,7 +521,7 @@ public class TeacherController {
     @RequestMapping(value = "course/seminar/createSeminar", method = RequestMethod.POST)
     public String createASeminar(Model model, @RequestParam String id, @RequestParam String courseId, @RequestParam String seminarName, @RequestParam String mainContent,
                                  @RequestParam String serial, @RequestParam String isVisible, @RequestParam String startDate, @RequestParam String endDate,
-                                 @RequestParam String number, @RequestParam String order, @RequestParam String round, HttpServletResponse response) throws IOException {
+                                 @RequestParam String number, @RequestParam String round, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=gb2312");
         PrintWriter out = response.getWriter();
         int tid = Integer.parseInt(id);
@@ -493,18 +531,13 @@ public class TeacherController {
             int seminarSerial = Integer.parseInt(serial);
             int teamNumber = Integer.parseInt(number);
             int roundId = Integer.parseInt(round);
-            int nisVisible, norder;
+            int nisVisible;
             if (isVisible.isEmpty()) {
                 nisVisible = 0;
             } else {
                 nisVisible = 1;
             }
 
-            if (order.isEmpty()) {
-                norder = 0;
-            } else {
-                norder = 1;
-            }
 
             System.out.print(startDate);
             System.out.print(endDate);
@@ -514,8 +547,6 @@ public class TeacherController {
             String tstartTime = start[0] + " " + start[1] + ":00";
             String tendTime = end[0] + " " + end[1] + ":00";
 
-            System.out.print(isVisible);
-            System.out.print(order);
 
             if (roundId == 0) {
                 int max = 0;
@@ -552,6 +583,42 @@ public class TeacherController {
         model.addAttribute(klassSeminarList);
         model.addAttribute("id", tid);
         return "/teacher/course/seminarList";
+    }
+
+    @RequestMapping(value = "/course/roundSet")
+    public String roundSet(Model model, @RequestParam int id, @RequestParam int courseId,@RequestParam int roundId) {
+        Round round=roundService.getRoundByRoundID(roundId);
+        List<Seminar> seminarList=seminarService.selectSeminarsByRoundId(roundId);
+        if(!seminarList.isEmpty())
+        {model.addAttribute("seminarList",seminarList);}
+        int count=seminarList.size();
+        List<Integer> numbers=new ArrayList<>();
+        for(int i=1;i<=count;i++)
+        {
+            numbers.add(i);
+        }
+        List<Klass> klassList=klassService.getKlassByCourseID(courseId);
+        if(!klassList.isEmpty()){model.addAttribute("klassList",klassList);}
+        model.addAttribute("numbers",numbers);
+        model.addAttribute(round);
+        model.addAttribute("id",id);
+        model.addAttribute("courseId",courseId);
+        return "/teacher/course/roundSet";
+    }
+
+    @RequestMapping(value = "/course/setRound",method = RequestMethod.POST)
+    public String modifyRound(Model model, @RequestParam int id, @RequestParam int courseId,@RequestParam int roundId,
+                              @RequestParam int pre,@RequestParam int question,@RequestParam int report,
+                              @RequestParam List<Integer> klassIds,@RequestParam List<Integer> apply) {
+        roundService.updateRoundByRoundId(roundId,pre,report,question);
+       // List<Klass> klassList=klassService.getKlassesByKlassIDs(klassIds);
+        for(int i=0;i<klassIds.size();i++)
+        {
+            klassService.updateKlassRoundByRoundIdKlassId(klassIds.get(i),roundId,apply.get(i));
+        }
+        String tid=String.valueOf(id);
+        String courseid=String.valueOf(courseId);
+        return findAllSeminar(model,tid,courseid);
     }
 
 
@@ -878,4 +945,6 @@ public class TeacherController {
         model.addAttribute(attendances);
         return "teacher/seminar/seminar-running";
     }
+
+
 }

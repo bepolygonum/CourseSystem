@@ -92,18 +92,20 @@
                         </a>
 
                         <ul class="tpl-left-nav-sub-menu">
-                            <#if klassList?exists>
-                                <#list klassList as klass>
+
+
                                     <#if teamList?exists>
                                         <#list teamList as team>
-                                            <#if klass.getId()==team.getKlassId()>
+
                                                 <#if roundScoreList?exists>
                                                     <#list  roundScoreList as item>
                                                         <#if round.getId()==item.getRoundId()>
                                                             <#if team.getId()==item.getTeamId()>
                             <li class="tpl-left-nav-item">
                                 <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
-                                    <span>${klass.getKlassSerial()}-${team.getTeamSerial()}</span>
+                                    <span>${team.getKlassSerial()}-${team.getTeamSerial()}</span>
+                                    <span hidden="hidden">${team.getId()}</span>
+                                    <span hidden="hidden">${round.getId()}</span>
                                     <span style="margin-left: 4rem">${item.getTotalScore()}</span>
                                     <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                                 </a>
@@ -135,6 +137,7 @@
                                                 <td name="pre"><#if seminarScore.getPresentationScore()?exists>${seminarScore.getPresentationScore()}</#if></td>
                                                 <td name="qa"><#if seminarScore.getQuestionScore()?exists>${seminarScore.getQuestionScore()}</#if></td>
                                                 <td name="report"><#if seminarScore.getReportScore()?exists>${seminarScore.getReportScore()}</#if></td>
+                                                <td hidden="hidden">${klassSeminar.getId()}</td>
                                                 <td>
                                                     <button class="am-btn am-btn-default am-btn-xs am-text-secondary"
                                                             onclick="modify(this)">
@@ -163,11 +166,10 @@
                                                         </#if>
                                                     </#list>
                                                 </#if>
-                                            </#if>
+
                                         </#list>
                                     </#if>
-                                </#list>
-                            </#if>
+
                         </ul>
                     </li>
                         </#list>
@@ -180,21 +182,26 @@
 </div>
 <script id="myTr" type="text/html">
     <div class="modDiv" id="modDiv">
-        <form>
+        <form action="/teacher/course/modifyGrade" method="post">
+            <input value="${id}" name="id" hidden="hidden" type="number">
+            <input value="${courseId}" name="courseId" hidden="hidden" type="number">
             <div style="text-align: center">
                 <p class="myLabel2">当前小组为</p><span>{{group}}</span>
+                <input value="{{team}}" name="teamId" hidden="hidden" type="number">
+                <input value="{{klassSeminar}}" name="klassSeminarId" hidden="hidden" type="number">
+                <input value="{{round}}" name="roundId" hidden="hidden" type="number">
             </div>
             <br>
             <div style="text-align: center">
-                <p class="myLabel2">展示得分</p><input type="text" placeholder="{{preScore}}" style="width: 30%">
+                <p class="myLabel2">展示得分</p><input type="number" name="preScore" value="{{preScore}}" style="width: 30%">
             </div>
             <br>
             <div style="text-align: center">
-                <p class="myLabel2">提问得分</p><input type="text" placeholder="{{qaScore}}" style="width: 30%">
+                <p class="myLabel2">提问得分</p><input type="number" name="qaScore" value="{{qaScore}}" style="width: 30%">
             </div>
             <br>
             <div style="text-align: center">
-                <p class="myLabel2">报告得分</p><input type="text" placeholder="{{reportScore}}" style="width:30%">
+                <p class="myLabel2">报告得分</p><input type="number" name="reportScore" value="{{reportScore}}" style="width:30%">
             </div>
             <br>
             <input type="button" onclick="cancel()" class="am-btn am-btn-danger " style="width: 40%;margin-left: 5%"
@@ -230,11 +237,18 @@
         var qaScore = row.children[1].innerHTML;
         var reportScore = row.children[2].innerHTML;
         var groupNum = row.parentNode.parentNode.parentNode.parentNode.parentNode.children[0].children[0].innerHTML;
+        var teamId = row.parentNode.parentNode.parentNode.parentNode.parentNode.children[0].children[1].innerHTML;
+        var roundId = row.parentNode.parentNode.parentNode.parentNode.parentNode.children[0].children[2].innerHTML;
+        var klassSeminarId=row.children[3].innerHTML;
+        console.log(teamId);
         var title = new MyBuilder($("#body"), $("#myTr"), {
             preScore: preScore,
             qaScore: qaScore,
             reportScore: reportScore,
-            group: groupNum
+            group: groupNum,
+            team:teamId,
+            klassSeminar:klassSeminarId,
+            round:roundId
         });
     }
 </script>

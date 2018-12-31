@@ -88,4 +88,23 @@ public class SeminarServiceImpl {
         seminarDao.createASeminar(courseId,roundId, seminarName, introduction,
                 maxTeam,  isVisible, seminarSerial, startTime, endTime);
     }
+
+    public void updateSeminarScoreByKlassSeminarIdTeamId(int klassSeminarId,int teamId, double preScore,double qaScore,double reportScore)
+    {
+        seminarScoreDao.updateSeminarScoreByKlassSeminarIdTeamId(klassSeminarId,teamId,preScore,qaScore,reportScore);
+    }
+
+    public List<Integer> selectSeminarIdsByRoundId(int roundId)
+    { return seminarDao.selectSeminarIdsByRoundId(roundId);}
+
+    //public List<SeminarScore> getSeminarScoreByKlassSeminarID(List<Integer> klassSeminarIds)
+    //{ return seminarScoreDao.getSeminarScoreByKlassSeminarID(klassSeminarIds);}
+
+    public List<SeminarScore> getSeminarScoreByKlassSeminarIDTeamID(List<Integer> klassSeminarIds,int teamId)
+    {
+        return seminarScoreDao.getSeminarScoreByKlassSeminarIDTeamID(klassSeminarIds,teamId);
+    }
+
+    public List<Seminar> selectSeminarsByRoundId(int roundId)
+    {return seminarDao.selectSeminarsByRoundId(roundId);}
 }

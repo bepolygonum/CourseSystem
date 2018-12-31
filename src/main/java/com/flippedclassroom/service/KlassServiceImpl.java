@@ -22,6 +22,8 @@ public class KlassServiceImpl {
     KlassSeminarDao klassSeminarDao;
     @Autowired
     SeminarScoreDao seminarScoreDao;
+    @Autowired
+    KlassRoundDao klassRoundDao;
 
     public List<SeminarScore> getSeminarScoreByCourseSeminarID(int courseId, List<Integer> seminarIds)
     {
@@ -71,6 +73,16 @@ public class KlassServiceImpl {
         return klassDao.getKlassByKlassID(klassId);
     }
 
+    public List<Klass> getKlassesByKlassIDs(List<Integer> klassIds)
+    {
+        List<Klass> klassList=new ArrayList<>();
+        for(int i=0;i<klassIds.size();i++)
+        {
+            klassList.add(klassDao.getKlassByKlassID(klassIds.get(i)));
+        }
+        return klassList;
+    }
+
     public List<KlassSeminar> getKlassSeminarBySeminarID(List<Integer> seminarIds){return klassSeminarDao.getKlassSeminarBySeminarID(seminarIds);}
 
     public List<KlassSeminar> getKlassSeminarByKlassIdAndSeminarId(int klassId, int seminarid) {
@@ -108,4 +120,7 @@ public class KlassServiceImpl {
     public int getKlassSeminarIdByKlassIdAndSeminarId(int klassId, int id) {
         return klassSeminarDao.getKlassSeminarByKlassIDSeminarID(klassId,id);
     }
+
+    public void updateKlassRoundByRoundIdKlassId(int klassId,int roundId,int enrollNumber)
+    {klassRoundDao.updateKlassRoundByRoundIdKlassId(klassId,roundId,enrollNumber);}
 }
