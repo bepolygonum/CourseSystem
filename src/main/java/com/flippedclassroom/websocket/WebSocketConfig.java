@@ -23,7 +23,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         二是withSockJs()方法指定使用SockJS协议。SockJs是一个WebSocket的通信js库
         Spring对这个js库进行了后台的自动支持，如果使用它不需要进行过多配置。
         */
-        registry.addEndpoint("/websocket").withSockJS();
+        registry.addEndpoint("/websocket/seminar").withSockJS();
     }
 
     @Override
