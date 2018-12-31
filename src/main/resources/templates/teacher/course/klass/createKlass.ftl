@@ -60,10 +60,6 @@
                 <input style="width: 30%;margin-left: 10%" class="border" type="text" name="location" id="location"/>
             </div>
             <hr>
-            <div class="Top">
-                <p style="margin-left: 6%;width: 35%;">班级学生名单:</p>
-                <input class="am-btn" type="file" name="file" id="file"/>
-            </div>
             <button type="submit" class="am-btn am-btn-success"
                     style="width: 80%;margin-left: 10%;margin-top: 3rem;margin-bottom: 3rem">保存
             </button>
