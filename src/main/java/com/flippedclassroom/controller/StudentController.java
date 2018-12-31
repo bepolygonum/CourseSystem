@@ -41,7 +41,7 @@ public class StudentController {
     public String studentIndex(Model model) {
         Student student = studentService.getCurStudent();
         model.addAttribute("student", student);
-        if (!student.isActive()) {
+        if (student.isActive()==false) {
             return "/student/activation";
         }
         return "/student/home";
