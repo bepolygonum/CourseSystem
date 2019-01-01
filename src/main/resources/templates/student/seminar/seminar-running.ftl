@@ -10,6 +10,24 @@
     <link rel="stylesheet" href="../../../static/css/admin.css">
     <link rel="stylesheet" href="../../../static/css/app.css">
     <script src="../../../static/js/echarts.min.js"></script>
+    <script>
+        console.log(new Date() + "window.sessionStorage.getItem(): " + window.sessionStorage.getItem("studentId"));
+        function standardPost(to){
+            var form = $("<form method='post'></form>");
+            form.attr({"action": "/student/topnavigation"});
+            var input;
+            input = $("<input type='hidden'>");
+            input.attr({"name": "to"});
+            input.val(to);
+            form.append(input);
+            input = $("<input type='hidden'>");
+            input.attr({"name": "id"});
+            input.val(window.sessionStorage.getItem("teacherId"));
+            form.append(input);
+            $(document.body).append(form);
+            form.submit();
+        }
+    </script>
     <!-- 目前前端WebSocket所需js从cdn节点加载-->
     <#--<script src="https://cdn.bootcss.com/sockjs-client/1.3.0/sockjs.min.js" async="async"></script>-->
     <#--<script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js" async="async"></script>-->
@@ -17,8 +35,13 @@
 
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
+    <#--<div class="am-topbar-brand1">-->
+        <#--<a href="homepage.html">-->
+            <#--<div class="am-icon-chevron-left" style="color: darkgray"></div>-->
+        <#--</a>-->
+    <#--</div>-->
     <div class="am-topbar-brand1">
-        <a href="homepage.html">
+        <a href="javascript:window.history.go(-1);">
             <div class="am-icon-chevron-left" style="color: darkgray"></div>
         </a>
     </div>
@@ -30,11 +53,15 @@
         <span class="am-icon-bars"></span>
     </button>
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+        <#--<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">-->
+            <#--<li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>-->
+            <#--<li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>-->
+            <#--<li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>-->
+        <#--</ul>-->
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-            <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
-            <li><a href="login.html" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
+            <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
     </div>
 </header>

@@ -10,14 +10,37 @@
     <link rel="stylesheet" href="../../../static/css/admin.css">
     <link rel="stylesheet" href="../../../static/css/app.css">
     <script src="../../../static/js/echarts.min.js"></script>
+    <script>
+        console.log(new Date() + "window.sessionStorage.getItem(): " + window.sessionStorage.getItem("teacherId"));
+        function standardPost(to){
+            var form = $("<form method='post'></form>");
+            form.attr({"action": "/teacher/topnavigation"});
+            var input;
+            input = $("<input type='hidden'>");
+            input.attr({"name": "to"});
+            input.val(to);
+            form.append(input);
+            input = $("<input type='hidden'>");
+            input.attr({"name": "id"});
+            input.val(window.sessionStorage.getItem("teacherId"));
+            form.append(input);
+            $(document.body).append(form);
+            form.submit();
+        }
+    </script>
 </head>
 
 <body data-type="index">
 <header class="am-topbar am-topbar-inverse admin-header">
+    <#--<div class="am-topbar-brand1">-->
+            <#--<a href="/teacher/course/seminar?id=${id}&courseId=${courseId}">-->
+                <#--<div class="am-icon-chevron-left" style="color: darkgray"></div>-->
+            <#--</a>-->
+    <#--</div>-->
     <div class="am-topbar-brand1">
-            <a href="/teacher/course/seminar?id=${id}&courseId=${courseId}">
-                <div class="am-icon-chevron-left" style="color: darkgray"></div>
-            </a>
+        <a href="javascript:window.history.go(-1);">
+            <div class="am-icon-chevron-left" style="color: darkgray"></div>
+        </a>
     </div>
     <div class="am-topbar-brand">
         <h3>第${round.getRoundSerial()}轮</h3>
@@ -33,10 +56,14 @@
                     <span class="tpl-header-list-user-nick">用户名</span>
                 </a>
                 <ul class="am-dropdown-content" id="topbat-content">
-                    <li><a href="index_message.html"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
-                    <li><a href="index_personal.html"><span class="am-icon-user"></span> 个人信息</a></li>
-                    <li><a href="index_personal.html"><span class="am-icon-leanpub"></span> 讨论课</a></li>
-                    <li><a href="login.html"><span class="am-icon-power-off"></span>退出</a></li>
+                    <#--<li><a href="index_message.html"><span class="am-icon-envelope-o"></span> 消息管理</a></li>-->
+                    <#--<li><a href="index_personal.html"><span class="am-icon-user"></span> 个人信息</a></li>-->
+                    <#--<li><a href="index_personal.html"><span class="am-icon-leanpub"></span> 讨论课</a></li>-->
+                    <#--<li><a href="/logout"><span class="am-icon-power-off"></span>退出</a></li>-->
+                    <li><a onclick="standardPost('message')" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
+                    <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+                    <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+                    <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
                 </ul>
 
             </li>

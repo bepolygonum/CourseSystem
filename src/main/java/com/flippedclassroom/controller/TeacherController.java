@@ -113,9 +113,7 @@ public class TeacherController {
                     model.addAttribute(klassSeminarList);
                 }
             }
-
         }
-
         List<Team> teamList=teamService.getTeamByCourseID(courseid);
         if(!teamList.isEmpty()){
             model.addAttribute(teamList);
@@ -132,7 +130,6 @@ public class TeacherController {
             }
 
         }
-
         model.addAttribute("courseId",courseid);
         model.addAttribute("id",tid);
         return "/teacher/course/grade";
@@ -834,7 +831,6 @@ public class TeacherController {
         return "/teacher/person/personalInfo";
     }
 
-
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
     public String modifyPassword(Model model, @RequestParam(name = "id") String tid) {
         int id = Integer.valueOf(tid);
@@ -842,7 +838,6 @@ public class TeacherController {
         model.addAttribute(teacher);
         return "/teacher/person/modifyPassword";
     }
-
 
     @RequestMapping(value = "/newpass", method = RequestMethod.POST)
     public String newPass(Model model, @RequestParam(name = "id") String tid, @RequestParam String newpass) {
@@ -926,6 +921,67 @@ public class TeacherController {
         //这里得到的是一个集合，里面的每一个元素是String[]数组
         List<String[]> list = POIUtil.readExcel(file);
         importFileService.saveBath(list,klassid);
+    }
+
+    private static final String PERSONAL_MESSAGE = "message";
+    private static final String PERSONAL_INFO = "personalInfo";
+    private static final String PERSONAL_SEMINAR = "seminar";
+    @RequestMapping(value = "/topnavigation", method = RequestMethod.POST)
+    public String mapTopNavigation(Model model, @RequestParam("id") String id, @RequestParam("to") String to){
+        System.out.println(new Date() + "Class: TeacherController; " + "Method: MapTopNavigation;" + " id: " + id + " to: " + to);
+        if("".equals(id)){
+            System.out.println("1");
+            return null;
+        }else{
+            Integer teacherId = Integer.parseInt(id);
+            if(PERSONAL_INFO.equals(to)){
+                System.out.println("2");
+                Teacher teacher = teacherService.getTeacherByTeacherID(teacherId);
+                model.addAttribute("teacher", teacher);
+                return "/teacher/person/personalInfo";
+            }else if(PERSONAL_MESSAGE.equals(to)){
+                return "";
+            }else if(PERSONAL_SEMINAR.equals(to)){
+                System.out.println("3");
+                Teacher teacher = teacherService.getTeacherByTeacherID(teacherId);
+                List<Course> coursesList = courseService.getCourseByTeacherID(teacher.getId());
+                //添加所有klass
+                List<Klass> klassList = new ArrayList<>();
+                for (int i = 0; i < coursesList.size(); i++) {
+                    klassList.addAll(klassService.getKlassByCourseID(coursesList.get(i).getId()));
+                }
+                //添加所有klassId
+                List klassIds = new ArrayList<>();
+                for (int i = 0; i < klassList.size(); i++) {
+                    klassIds.add(klassList.get(i).getId());
+                }
+                //添加所有running的讨论课
+                List<KlassSeminar> klassSeminarList = klassService.getKlassSeminarRunning(klassIds);
+                List<Seminar> seminarList = new ArrayList<>();
+                klassList.clear();
+                for (int i = 0; i < klassSeminarList.size(); i++) {
+                    seminarList.add(seminarService.getSeminarBySeminarId(klassSeminarList.get(i).getSeminarId()));
+                    klassList.add(klassService.getKlassByKlassID(klassSeminarList.get(i).getKlassId()));
+                }
+                //添加所有running的讨论课的课程
+                List<Integer> courseIds = new ArrayList<>();
+                for (int i = 0; i < klassList.size(); i++) {
+                    courseIds.add(klassList.get(i).getCourseId());
+                }
+                List<Course> courseKlassList = new ArrayList<>();
+                for (int i = 0; i < courseIds.size(); i++) {
+                    courseKlassList.add(courseService.getCourseByCourseID(courseIds.get(i)));
+                }
+                model.addAttribute("courseKlassList", courseKlassList);
+                model.addAttribute(seminarList);
+                model.addAttribute(klassList);
+                model.addAttribute(coursesList);
+                model.addAttribute(teacher);
+                return "teacher/seminar/seminar-home";
+            }else{
+                return null;
+            }
+        }
     }
 }
 

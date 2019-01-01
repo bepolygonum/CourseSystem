@@ -14,16 +14,20 @@
 
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
+    <#--<div class="am-topbar-brand1">-->
+        <#--<a href="/">-->
+            <#--<div class="am-icon-times" style="color: darkgray"></div>-->
+        <#--</a>-->
+    <#--</div>-->
     <div class="am-topbar-brand1">
-        <a href="/">
-            <div class="am-icon-times" style="color: darkgray"></div>
+        <a href="javascript:window.history.go(-1);">
+            <div class="am-icon-chevron-left" style="color: darkgray"></div>
         </a>
     </div>
     <div class="am-topbar-brand" style="width:75%;text-align: center">
         <h3>申请理由</h3>
     </div>
 </header>
-
 
 <div class="tpl-page-container1 tpl-page-header-fixed">
     <div class="tpl-portlet-components2">
@@ -42,11 +46,10 @@
             </div>
         </div>
     </div>
-
-
-    <script src="../../static/js/jquery.min.js"></script>
-    <script src="../../static/js/amazeui.min.js"></script>
-    <script src="../../static/js/app.js"></script>
+</div>
+<script src="../../static/js/jquery.min.js"></script>
+<script src="../../static/js/amazeui.min.js"></script>
+<script src="../../static/js/app.js"></script>
 </body>
 
 </html>
