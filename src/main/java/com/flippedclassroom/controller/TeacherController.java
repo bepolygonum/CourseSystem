@@ -913,9 +913,10 @@ public class TeacherController {
         List<Team> teamList = teamService.getTeamByIds(teamIds);
         model.addAttribute("seminar", seminar);
         //展示的team，按展示顺序排列
-        model.addAttribute(teamList);
+        model.addAttribute("teamList", teamList);
         //展示的attendance，按展示顺序排列
-        model.addAttribute(attendances);
+        model.addAttribute("attendance", attendances);
+        model.addAttribute("klassSeminarId", klassSeminarId);
         return "teacher/seminar/seminar-running";
     }
 

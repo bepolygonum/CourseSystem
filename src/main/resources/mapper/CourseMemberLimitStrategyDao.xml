@@ -27,4 +27,8 @@
     <select id="selectCourseMemberLimitStrategyMaxId" resultType="Integer">
         select max(id) from standard_seminar_system.course_member_limit_strategy;
     </select>
+
+    <select id="getCourseMemberLimitStrategyById" resultMap="courseMemberLimitStrategyResultMap">
+        select * from standard_seminar_system.course_member_limit_strategy where id=#{0}
+    </select>
 </mapper>

@@ -17,4 +17,11 @@ public interface TeamStudentDao {
      * @return
      */
     List<TeamStudent> getTeamStudentsByTeamIds(@Param("teamIds") List<Integer> teamIds);
+
+    /**
+     * getTeamIdByStudentId
+     * @param studentId
+     * @return
+     */
+    Integer getTeamIdByStudentId(Integer studentId);
 }

@@ -25,7 +25,6 @@
                 <div class="am-icon-chevron-left" style="color: darkgray"></div>
             </a>
         </form>
-
     </div>
     <div class="am-topbar-brand">
         <h3>课程管理</h3>

@@ -502,9 +502,10 @@ public class StudentController {
             teamids.add(attendances.get(i).getTeamId());
         }
         List<Team> teamList = teamService.getTeamByIds(teamids);
-        model.addAttribute(attendances);
-        model.addAttribute(teamList);
-        model.addAttribute(seminar);
+        System.out.println("teamList: " + teamList);
+        model.addAttribute("attendance", attendances);
+        model.addAttribute("teamList", teamList);
+        model.addAttribute("seminar", seminar);
         model.addAttribute("student", student);
         return "/student/seminar/seminar-running";
     }
@@ -575,28 +576,18 @@ public class StudentController {
             list.add(studentService.getStudentByAccounti(team[i]).getId());
         }
         model.addAttribute(student);
-        if(teamService.isValid(list,tempteam.getCourseId()))
-        teamService.createValidTeam(tempteam.getKlassId(), tempteam.getCourseId(), id, tempteam.getTeamName(), tempteam.getTeamSerial(), tempteam.getKlassSerial(), list);
-        //        , @RequestParam(name = "id") String sid,@RequestParam String teamid,  @RequestParam(name = "course_id") String courseid
-//        int id= Integer.valueOf(sid);
-//        int team= Integer.valueOf(teamid);
-//        int courseId = Integer.valueOf(courseid);
-//        teamService.dimissByTeamID(team);
-//        Student student = studentService.getStudentByID(id);
-//        model.addAttribute(student);
-//        model.addAttribute("course", courseService.getCourseByCourseID(courseId));
-//        if( teamService.validate(team)){
-//            //teamService.createValidTeam(team);
-//            List<Klass> klassList = klassService.getKlassByStudentID(id);
-//            List<Course> courseList = courseService.getCourseByStudentID(id);
-//            model.addAttribute(courseList);
-//            model.addAttribute(klassList);
-//            return "/student/courseManage";
-//        }else{
-//            //teamService.createInvalidTeam(team);
-//            return "/student/course/team/applyReason";
-//        }
-        return "";
+        List<Klass> klassList = klassService.getKlassByStudentID(id);
+        List<Course> courseList = courseService.getCourseByStudentID(id);
+        model.addAttribute(courseList);
+        model.addAttribute(klassList);
+        if(teamService.isValid(list,tempteam.getCourseId())){
+            teamService.createValidTeam(tempteam.getKlassId(), tempteam.getCourseId(), id, tempteam.getTeamName(), tempteam.getTeamSerial(), tempteam.getKlassSerial(), list);
+            return "/student/courseManage";
+        }
+        else{
+            teamService.createInValidTeam(tempteam.getKlassId(), tempteam.getCourseId(), id, tempteam.getTeamName(), tempteam.getTeamSerial(), tempteam.getKlassSerial(), list);
+            return "/student/course/team/applyReason";
+        }
     }
 
     @RequestMapping(value = "/application", method = RequestMethod.POST)
@@ -606,6 +597,7 @@ public class StudentController {
         int team = teamService.getTeamIdByLeaderId(id);
         int teacher = courseService.getTeacherIdByCourseId(courseId);
         teamService.sendApplication(team, teacher, reason);
+        teamService.changeStatusByTeamId(team);
         List<Klass> klassList = klassService.getKlassByStudentID(id);
         List<Course> courseList = courseService.getCourseByStudentID(id);
         Student student = studentService.getStudentByID(id);

@@ -1,7 +1,9 @@
 package com.flippedclassroom.dao;
 
+import com.flippedclassroom.entity.TeamAndStrategy;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import java.util.List;
 
 /**
  * @author DELL
@@ -21,4 +23,6 @@ public interface TeamAndStrategyDao {
      * @return
      */
     int selectTeamAndStrategyMaxId();
+
+    List<TeamAndStrategy> getTeamAndStrategyById(@Param("0") int strategyId);
 }

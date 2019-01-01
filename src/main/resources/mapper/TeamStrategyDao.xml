@@ -4,9 +4,22 @@
 
 <mapper namespace="com.flippedclassroom.dao.TeamStrategyDao">
     <!-- 目的：为dao接口方法提供sql语句配置 -->
-
+    <resultMap type="com.flippedclassroom.entity.TeamStrategy" id="TeamStrategyResultMap">
+        <!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id -->
+        <!-- property：主键在pojo中的属性名 -->
+        <!-- column：主键在数据库中的列名 -->
+        <id property="courseId" column="course_id" />
+        <id property="strategySerial" column="strategy_serial" />
+        <!-- 定义普通属性 -->
+        <result property="strategyName" column="strategy_name" />
+        <result property="strategyId" column="strategy_id" />
+    </resultMap>
     <insert id="createTeamStrategy">
         insert into standard_seminar_system.team_strategy(course_id,strategy_serial,strategy_name,strategy_id)
         values (#{0},#{1},#{2},#{3});
     </insert>
+
+    <select id="getTeamStrategyByCourseId" resultMap="TeamStrategyResultMap">
+        select * from standard_seminar_system.team_strategy where course_id= #{0}
+    </select>
 </mapper>

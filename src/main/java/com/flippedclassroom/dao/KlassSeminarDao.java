@@ -4,6 +4,7 @@ import com.flippedclassroom.entity.KlassSeminar;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 /**
  * @author KEKE
@@ -55,4 +56,10 @@ public interface KlassSeminarDao {
      */
     int getKlassSeminarByKlassIDSeminarID(@Param("0") int klassId, @Param("1") int seminaeId);
 
+    /**
+     * WebsocketServiceImpl updateDdlByKlassSeminarId
+     * @param klassSeminarId
+     * @param reportDdl
+     */
+    Integer updateReportDdlByKlassSeminarId(Integer klassSeminarId, Date reportDdl);
 }

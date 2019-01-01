@@ -65,7 +65,11 @@ public interface TeamDao {
 
     void insertValidTableTeam(@Param("0") int klassId, @Param("1") int courseId, @Param("2") int id, @Param("3") String teamName, @Param("4") int teamSerial, @Param("5") int klassSerial);
 
-    void insertTableTeamStudent(@Param("0") int teamid, List<Integer> team);
+    void insertTableTeamStudent(@Param("0") int teamid, @Param("1") int team);
 
     void insertTableKlassTeam(@Param("0") int klassId, @Param("1") int teamid);
+
+    void insertInValidTableTeam(@Param("0") int klassId, @Param("1") int courseId, @Param("2") int id, @Param("3") String teamName, @Param("4") int teamSerial, @Param("5") int klassSerial);
+
+    void changeStatusByTeamId(int team);
 }

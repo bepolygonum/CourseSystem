@@ -6,9 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MemberLimitStrategyDao {
-
-    MemberLimitStrategy getMemberLimitByCourseId(@Param("0") int id);
-
     /**
      * createMemberLimitStrategy
      * @param minMember
@@ -21,4 +18,6 @@ public interface MemberLimitStrategyDao {
      * @return
      */
     int selectMaxId();
+
+    MemberLimitStrategy getMemberLimitById(@Param("0") int strategyId);
 }

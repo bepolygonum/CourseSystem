@@ -4,6 +4,7 @@ import com.flippedclassroom.entity.KlassStudent;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -48,4 +49,6 @@ public interface KlassStudentDao {
      * @param courseId
      */
     void addStudent(@Param("0")int id, @Param("1")int klassId, @Param("2")int courseId);
+
+    List<KlassStudent> getKlassStudentByIdAndCourseId(@Param("0") Integer integer,@Param("1") int courseId);
 }

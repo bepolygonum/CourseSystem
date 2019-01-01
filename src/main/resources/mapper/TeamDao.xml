@@ -72,7 +72,7 @@
         select * from standard_seminar_system.team where id=#{0}
     </select>
 
-    <insert id="insertTableTeam">
+    <insert id="insertValidTableTeam">
         INSERT INTO standard_seminar_system.team(klass_id,course_id,leader_id,team_name,team_serial,klass_serial,status) VALUES (#{0},#{1},#{2},#{3},#{4},#{5},1)
     </insert>
 
@@ -81,8 +81,14 @@
     </insert>
 
     <insert id="insertTableTeamStudent">
-        <foreach  collection="list" item="teamid" open="(" separator="," close=")">
-            insert into standard_seminar_system.team_student values (#{0}, #{teamid})
-        </foreach>
+        insert into standard_seminar_system.team_student values (#{0}, #{1})
     </insert>
+
+    <insert id="insertInValidTableTeam">
+         INSERT INTO standard_seminar_system.team(klass_id,course_id,leader_id,team_name,team_serial,klass_serial,status) VALUES (#{0},#{1},#{2},#{3},#{4},#{5},0)
+    </insert>
+
+    <update id="changeStatusByTeamId">
+        update standard_seminar_system.team set status = 2 where id= #{0}
+    </update>
 </mapper>
