@@ -24,6 +24,9 @@ public class TeamServiceImpl  {
     @Autowired
     TeamStudentDao teamStudentDao;
     @Autowired
+    TeamValidApplicationDao teamValidApplicationDao;
+@Autowired
+MemberLimitStrategyDao memberLimitStrategyDao;
     MemberLimitStrategyDao memberLimitStrategyDao;
     @Autowired
     TeamStrategyDao teamStrategyDao;
@@ -96,6 +99,39 @@ public class TeamServiceImpl  {
         return teamStudentDao.getTeamStudentsByTeamIds(teamIds);
     }
 
+    public void dimissByTeamID(int team) {
+        teamDao.dismissTableTeamStudent(team);
+        teamDao.dismissTableKlassTeam(team);
+        teamDao.dismissTableTeam(team);
+    }
+
+
+    public void sendApplication(int teamid, int teacherid,String reason) {
+        teamValidApplicationDao.sendApplication(teamid, teacherid,reason);
+    }
+
+    public int getTeamIdByLeaderId(int id) {
+        return teamDao.getTeamIdByLeaderId(id);
+    }
+
+    public Team getTeamByTeamID(int teamId) {
+        return teamDao.getTeamByTeamID(teamId);
+    }
+
+    public void createValidTeam(int klassId, int courseId, int id, String teamName, int teamSerial, int klassSerial,List<Integer> team) {
+        teamDao.insertValidTableTeam(klassId, courseId, id, teamName, teamSerial, klassSerial);
+        int teamid=teamDao.getTeamIdByLeaderId(id);
+        teamDao.insertTableTeamStudent(teamid,team);
+        teamDao.insertTableKlassTeam(klassId,teamid);
+    }
+
+
+    public boolean isValid(List<Integer> list, int courseId) {
+        List<TeamStrategy> teamStrategies=teamStrategyDao.getTeamStrategyByCourseId(courseId);
+        if(memberLimitStrategyDao.getMemberLimitByCourseId(courseId).isValid(list.size()))
+            if()
+
+    }
     public int createMemberLimitStrategy(int minMember,int maxMember)
     {
         memberLimitStrategyDao.createMemberLimitStrategy(minMember,maxMember);

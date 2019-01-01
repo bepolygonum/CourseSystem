@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -421,24 +422,6 @@ public class StudentController {
         return "/student/seminar/enrollDetail";
     }
 
-    // @RequestMapping(value = "/enroll")
-    // public String seminarEnroll(Model model, @RequestParam(name = "id") String
-    // sid,@RequestParam (name = "seminarid") String seminarId,@RequestParam(name =
-    // "order") int order) {
-    // int id=Integer.valueOf(sid);
-    // int seminarid=Integer.valueOf(seminarId);
-    // Student student=studentService.getStudentByID(id);
-    // Seminar seminar=seminarService.getSeminarBySeminarId(seminarid);
-    // int teamid
-    // =teamService.getTeamIdByStudentIdAndCourseId(id,seminar.getCourseId()).get(0);
-    // Team team=teamService.getTeamById(teamid);
-    // seminarService.insertEnrollByTeamIdAndSeminarId(team.getId(),seminar.getId(),order);
-    //
-    // model.addAttribute(seminar);
-    // model.addAttribute(student);
-    // return "student/seminar/seminarDetail";
-    // }
-
     @RequestMapping(value = "/personalInfo", method = RequestMethod.POST)
     public String personalInformation(Model model, @RequestParam(name = "id") String sid) {
         int id = Integer.valueOf(sid);
@@ -541,4 +524,70 @@ public class StudentController {
         model.addAttribute(seminarScoreList);
         return "/student/seminar/seminarScore";
     }
+    @RequestMapping(value = "/dismiss", method = RequestMethod.POST)
+    public String dismiss(Model model, @RequestParam(name = "id") String sid, @RequestParam String teamid) {
+        int id = Integer.valueOf(sid);
+        int team = Integer.valueOf(teamid);
+        teamService.dimissByTeamID(team);
+        List<Klass> klassList = klassService.getKlassByStudentID(id);
+        List<Course> courseList = courseService.getCourseByStudentID(id);
+        Student student = studentService.getStudentByID(id);
+        model.addAttribute(courseList);
+        model.addAttribute(klassList);
+        model.addAttribute(student);
+        return "/student/courseManage";
+    }
+
+    @RequestMapping(value = "/check", method = RequestMethod.POST)
+    public String check(@RequestParam(value = "team") String[] team, String teamid, String sid, Model model) {
+        int teamId = Integer.valueOf(teamid);
+        Team tempteam = teamService.getTeamByTeamID(teamId);
+        teamService.dimissByTeamID(teamId);
+        int id = Integer.valueOf(sid);
+        Student student = studentService.getStudentByID(id);
+        List<Integer> list = Arrays.asList(1);
+        for (int i = 0; i < team.length; i++) {
+            list.add(studentService.getStudentByAccounti(team[i]).getId());
+        }
+        model.addAttribute(student);
+        if(teamService.isValid(list,tempteam.getCourseId()))
+        teamService.createValidTeam(tempteam.getKlassId(), tempteam.getCourseId(), id, tempteam.getTeamName(), tempteam.getTeamSerial(), tempteam.getKlassSerial(), list);
+        //        , @RequestParam(name = "id") String sid,@RequestParam String teamid,  @RequestParam(name = "course_id") String courseid
+//        int id= Integer.valueOf(sid);
+//        int team= Integer.valueOf(teamid);
+//        int courseId = Integer.valueOf(courseid);
+//        teamService.dimissByTeamID(team);
+//        Student student = studentService.getStudentByID(id);
+//        model.addAttribute(student);
+//        model.addAttribute("course", courseService.getCourseByCourseID(courseId));
+//        if( teamService.validate(team)){
+//            //teamService.createValidTeam(team);
+//            List<Klass> klassList = klassService.getKlassByStudentID(id);
+//            List<Course> courseList = courseService.getCourseByStudentID(id);
+//            model.addAttribute(courseList);
+//            model.addAttribute(klassList);
+//            return "/student/courseManage";
+//        }else{
+//            //teamService.createInvalidTeam(team);
+//            return "/student/course/team/applyReason";
+//        }
+        return "";
+    }
+
+    @RequestMapping(value = "/application", method = RequestMethod.POST)
+    public String application(Model model, @RequestParam(name = "id") String sid, @RequestParam String reason, @RequestParam(name = "course_id") String courseid) {
+        int id = Integer.valueOf(sid);
+        int courseId = Integer.valueOf(courseid);
+        int team = teamService.getTeamIdByLeaderId(id);
+        int teacher = courseService.getTeacherIdByCourseId(courseId);
+        teamService.sendApplication(team, teacher, reason);
+        List<Klass> klassList = klassService.getKlassByStudentID(id);
+        List<Course> courseList = courseService.getCourseByStudentID(id);
+        Student student = studentService.getStudentByID(id);
+        model.addAttribute(courseList);
+        model.addAttribute(klassList);
+        model.addAttribute(student);
+        return "/student/courseManage";
+    }
+
 }

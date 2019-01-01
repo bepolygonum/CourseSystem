@@ -86,6 +86,10 @@
             <#list teacherList2 as teacher>
                 <#if teacher.getId()==teamMainCourse.getTeacherId()>
 
+
+            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="login.html" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
                 <div class="am-u-sm-12" >
                     <li class="tpl-left-nav-item">
                         <a href="javascript:;" class="nav-link tpl-left-nav-link-list" style="width: 100%;">
