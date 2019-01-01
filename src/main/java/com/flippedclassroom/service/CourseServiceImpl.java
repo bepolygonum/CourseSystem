@@ -123,6 +123,6 @@ public class CourseServiceImpl  {
     public List<ShareSeminarApplication> selectUntreatedShareSeminarApplicationByTeacherId(int teacherId)
     {return shareSeminarApplicationDao.selectUntreatedShareSeminarApplicationByTeacherId(teacherId);}
     public List<ShareTeamApplication> selectUntreatedShareTeamApplicationByTeacherId(int teacherId)
-    {return shareTeamApplicationDao.selectUntreatedShareTeamApplicationByTeacherId(teacherId);}
+    { return shareTeamApplicationDao.selectUntreatedShareTeamApplicationByTeacherId(teacherId);}
 
 }

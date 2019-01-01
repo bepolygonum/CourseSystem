@@ -20,7 +20,7 @@
         values (#{0},#{1},#{2})
     </insert>
     <select id="selectUntreatedShareTeamApplicationByTeacherId" resultMap="shareTeamApplicationResultMap">
-        select * from standard_seminar_system.share_team_application where status is null and sub_course_teacher_id=${0};
+        select * from standard_seminar_system.share_team_application where status is null and sub_course_teacher_id=#{0};
     </select>
 
 </mapper>

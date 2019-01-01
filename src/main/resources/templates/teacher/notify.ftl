@@ -112,7 +112,113 @@
             </#list>
         </#if>
     </#list>
-                    </#if>
+    </#if>
+
+    <#if shareTeamApplicationList?exists>
+    <#list shareTeamApplicationList as shareTeam>
+        <#if teamCourseList?exists>
+        <#list teamCourseList as teamCourse>
+        <#if teamCourse.getId()==shareTeam.getMainCourseId()>
+            <#if teamTeacherList?exists>
+            <#list teamTeacherList as teacher>
+            <#if teamCourse.getTeacherId()==teacher.getId()>
+        <div class="tpl-block">
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    <li class="tpl-left-nav-item">
+                        <a href="javascript:;"
+                           class="nav-link tpl-left-nav-link-list">
+
+                            <span>${teamCourse.getCourseName()}${teacher.getTeacherName()}的共享分组申请</span>
+
+                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                        </a>
+
+                        <ul class="tpl-left-nav-sub-menu">
+                            <li>
+                                <div class="nav-link tpl-left-nav-link-list">
+                                    <div>
+                                        <lable style="width:100%;text-align:center;">${teacher.getTeacherName()}提出
+                                        </lable>
+                                    </div>
+                                    <div>
+                                        <span>共享分组申请</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="am-icon-times"
+                                   style="color: #e93c4d;float: left;margin-left: 7rem;"></i>
+                                <i class="am-icon-check"
+                                   style="color: #5fc9da;float: left;margin-left: 11rem;"></i>
+                            </li>
+                        </ul>
+                    </li>
+                </div>
+
+            </div>
+        </div>
+            </#if>
+            </#list>
+            </#if>
+        </#if>
+        </#list>
+        </#if>
+    </#list>
+    </#if>
+
+        <#if shareSeminarApplicationList?exists>
+            <#list shareSeminarApplicationList as shareSeminar>
+                <#if seminarCourseList?exists>
+                    <#list seminarCourseList as seminarCourse>
+                        <#if seminarCourse.getId()==shareSeminar.getMainCourseId()>
+                            <#if seminarTeacherList?exists>
+                                <#list seminarTeacherList as teacher>
+                                    <#if seminarCourse.getTeacherId()==teacher.getId()>
+        <div class="tpl-block">
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    <li class="tpl-left-nav-item">
+                        <a href="javascript:;"
+                           class="nav-link tpl-left-nav-link-list">
+
+                            <span>${seminarCourse.getCourseName()}${teacher.getTeacherName()}的共享討論課申请</span>
+
+                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                        </a>
+
+                        <ul class="tpl-left-nav-sub-menu">
+                            <li>
+                                <div class="nav-link tpl-left-nav-link-list">
+                                    <div>
+                                        <lable style="width:100%;text-align:center;">${teacher.getTeacherName()}提出
+                                        </lable>
+                                    </div>
+                                    <div>
+                                        <span>共享討論課申请</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="am-icon-times"
+                                   style="color: #e93c4d;float: left;margin-left: 7rem;"></i>
+                                <i class="am-icon-check"
+                                   style="color: #5fc9da;float: left;margin-left: 11rem;"></i>
+                            </li>
+                        </ul>
+                    </li>
+                </div>
+
+            </div>
+        </div>
+                                    </#if>
+                                </#list>
+                            </#if>
+                        </#if>
+                    </#list>
+                </#if>
+            </#list>
+        </#if>
 
     </div>
 

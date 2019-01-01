@@ -907,7 +907,6 @@ public class TeacherController {
             List<Integer> courseIds = teamList.stream().map(Team::getCourseId).collect(Collectors.toList());
             List<Course> courseList=courseService.getCoursesByCourseID(courseIds);
             List<Integer> klassIds = teamList.stream().map(Team::getKlassId).collect(Collectors.toList());
-            //List<Klass> klassList=klassService.getKlassesByKlassIDs(klassIds);
             List<Klass> klassList=klassService.getNewKlassesByKlassIds(klassIds);
             model.addAttribute("teamValidApplicationList",teamValidApplicationList);
             System.out.print(teamValidApplicationList);
@@ -930,16 +929,32 @@ public class TeacherController {
         }
 
 
-
-
-
-
         List<ShareSeminarApplication> shareSeminarApplicationList=courseService.selectUntreatedShareSeminarApplicationByTeacherId(id);
+        if(!shareSeminarApplicationList.isEmpty())
+        {
+            List<Integer> mainCourseIds = shareSeminarApplicationList.stream().map(ShareSeminarApplication::getMainCourseId).collect(Collectors.toList());
+            List<Course> mainCourseList=courseService.getCoursesByCourseID(mainCourseIds);
+            List<Integer> mainCourseTeacherIds = mainCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
+            List<Teacher> teacherList=teacherService.getTeachersByTeacherID(mainCourseTeacherIds);
+            model.addAttribute("shareSeminarApplicationList",shareSeminarApplicationList);
+            model.addAttribute("seminarCourseList",mainCourseList);
+            model.addAttribute("seminarTeacherList",teacherList);
+        }
+
+
         List<ShareTeamApplication> shareTeamApplicationList=courseService.selectUntreatedShareTeamApplicationByTeacherId(id);
 
-
-
-
+        System.out.print("share"+shareTeamApplicationList.size());
+        if(!shareTeamApplicationList.isEmpty())
+        {
+            List<Integer> mainCourseIds = shareTeamApplicationList.stream().map(ShareTeamApplication::getMainCourseId).collect(Collectors.toList());
+            List<Course> mainCourseList=courseService.getCoursesByCourseID(mainCourseIds);
+            List<Integer> mainCourseTeacherIds = mainCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
+            List<Teacher> teacherList=teacherService.getTeachersByTeacherID(mainCourseTeacherIds);
+            model.addAttribute("shareTeamApplicationList",shareTeamApplicationList);
+            model.addAttribute("teamCourseList",mainCourseList);
+            model.addAttribute("teamTeacherList",teacherList);
+        }
 
         return "/teacher/notify";
     }
