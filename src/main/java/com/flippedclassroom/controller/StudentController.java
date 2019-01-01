@@ -470,9 +470,10 @@ public class StudentController {
             teamids.add(attendances.get(i).getTeamId());
         }
         List<Team> teamList = teamService.getTeamByIds(teamids);
-        model.addAttribute(attendances);
-        model.addAttribute(teamList);
-        model.addAttribute(seminar);
+        System.out.println("teamList: " + teamList);
+        model.addAttribute("attendance", attendances);
+        model.addAttribute("teamList", teamList);
+        model.addAttribute("seminar", seminar);
         model.addAttribute("student", student);
         return "/student/seminar/seminar-running";
     }

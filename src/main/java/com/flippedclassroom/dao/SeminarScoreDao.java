@@ -24,4 +24,21 @@ public interface SeminarScoreDao {
      */
     void insertEnrollByTeamIdAndSeminarId(@Param("0") int teamid, @Param("1") int seminarid);
 
+    /**
+     * updateQuestionScoreByKlassSeminarIdAndTeamId
+     * @param questionScore
+     * @param klassSeminarId
+     * @param teamId
+     * @return
+     */
+   Integer updateQuestionScoreByKlassSeminarIdAndTeamId(Integer questionScore, Integer klassSeminarId, Integer teamId);
+
+    /**
+     * updatePresentationScoreByKlassSeminarIdAndTeamId
+     * @param presentationScore
+     * @param klassSeminarId
+     * @param teamId
+     * @return
+     */
+   Integer updatePresentationScoreByKlassSeminarIdAndTeamId(Integer presentationScore, Integer klassSeminarId, Integer teamId);
 }
