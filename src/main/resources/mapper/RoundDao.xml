@@ -32,5 +32,12 @@
         set presentation_score_method=#{1},report_score_method=#{2},question_score_method=#{3}
         where id=#{0};
     </update>
+    <insert id="createRound">
+        insert into standard_seminar_system.round(course_id,round_serial,presentation_score_method,report_score_method,question_score_method)
+        values (#{0},#{1},#{2},#{3},#{4});
+    </insert>
+    <select id="getRoundMaxId" resultType="Integer">
+        select max(id) from standard_seminar_system.round;
+    </select>
 
 </mapper>

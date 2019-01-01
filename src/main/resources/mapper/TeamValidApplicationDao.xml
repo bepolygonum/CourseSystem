@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flippedclassroom.dao.TeamValidApplicationDao">
+    <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <resultMap type="com.flippedclassroom.entity.TeamValidApplication" id="teamValidApplicationResultMap">
+        <!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id -->
+        <!-- property：主键在pojo中的属性名 -->
+        <!-- column：主键在数据库中的列名 -->
+        <id property="id" column="id" />
+        <!-- 定义普通属性 -->
+        <result property="teamId" column="team_id" />
+        <result property="teacherId" column="teacher_id" />
+        <result property="reason" column="reason" />
+        <result property="status" column="status" />
+
+    </resultMap>
+    <select id="selectUntreatedTeamValidApplicationByTeacherId" resultMap="teamValidApplicationResultMap">
+        select * from standard_seminar_system.team_valid_application where status is null and teacher_id=#{0};
+    </select>
+
+</mapper>

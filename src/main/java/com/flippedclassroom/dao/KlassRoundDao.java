@@ -9,4 +9,6 @@ public interface KlassRoundDao {
 
     void updateKlassRoundByRoundIdKlassId(@Param("0")int klassId,@Param("1")int roundId,@Param("2")int enrollNumber);
 
+    void createKlassRound(@Param("0")int klassId,@Param("1")int roundId,@Param("2")int enrollNumber);
+
 }

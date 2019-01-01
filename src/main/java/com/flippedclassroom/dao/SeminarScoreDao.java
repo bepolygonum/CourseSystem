@@ -36,4 +36,12 @@ public interface SeminarScoreDao {
 
     List<SeminarScore> getSeminarScoreByKlassSeminarIDTeamID(@Param("klassSeminarIds") List<Integer> klassSeminarIds,@Param("0")int teamId);
 
+    /**
+     * updateSeminarReportScoreByKlassSeminarIdTeamId
+     * @param klassSeminarId
+     * @param teamId
+     * @param reportScore
+     */
+    void updateSeminarReportScoreByKlassSeminarIdTeamId(@Param("0") int klassSeminarId,@Param("1") int teamId,@Param("2") double reportScore);
+
 }

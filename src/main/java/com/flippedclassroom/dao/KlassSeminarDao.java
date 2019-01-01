@@ -55,4 +55,8 @@ public interface KlassSeminarDao {
      */
     int getKlassSeminarByKlassIDSeminarID(@Param("0") int klassId, @Param("1") int seminaeId);
 
+    KlassSeminar getKlassSeminarByKlassSeminarId(@Param("0") int klassSeminarId);
+
+    void createKlassSeminar(@Param("0")int klassId,@Param("1")int seminarId,@Param("2")int status);
+
 }

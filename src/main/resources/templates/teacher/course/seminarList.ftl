@@ -102,10 +102,15 @@
                                             <#list klassList as klass>
                                                 <#if klass.getId()==klassSeminar.getKlassId()>
                                                     <li class="tpl-left-nav-item">
-                                                        <a href="seminar.html">
-                                                            <span>${klass.getGrade()}-(${klass.getKlassSerial()})</span>
-                                                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
-                                                        </a>
+                                                        <form id="bform" action="/teacher/course/seminar/report" method="post">
+                                                            <a onclick="document.getElementById('bform').submit();">
+                                                                <input value="${id}" name="id" hidden="hidden">
+                                                                <input value="${course.getId()}" name="courseId" hidden="hidden">
+                                                                <input value="${klassSeminar.getId()}" name="klassSeminarId" hidden="hidden">
+                                                                <span>${klass.getGrade()}-(${klass.getKlassSerial()})</span>
+                                                                <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                                                            </a>
+                                                        </form>
                                                     </li>
                                                 </#if>
                                             </#list>

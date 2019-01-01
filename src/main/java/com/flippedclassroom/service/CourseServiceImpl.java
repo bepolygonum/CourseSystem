@@ -116,4 +116,9 @@ public class CourseServiceImpl  {
     }
     public int selectConflictCourseStrategyMaxId()
     {return conflictCourseStrategyDao.selectConflictCourseStrategyMaxId();}
+    public List<ShareSeminarApplication> selectUntreatedShareSeminarApplicationByTeacherId(int teacherId)
+    {return shareSeminarApplicationDao.selectUntreatedShareSeminarApplicationByTeacherId(teacherId);}
+    public List<ShareTeamApplication> selectUntreatedShareTeamApplicationByTeacherId(int teacherId)
+    {return shareTeamApplicationDao.selectUntreatedShareTeamApplicationByTeacherId(teacherId);}
+
 }

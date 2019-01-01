@@ -31,7 +31,7 @@
 
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
 
-            <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a>
+            <li><a href="/teacher/notify?id=${teacher.getId()}" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a>
             </li>
             <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a>
             </li>
@@ -69,11 +69,16 @@
                 </a>
             </form>
 
-            <a class="nav-link tpl-left-nav-link-list">
-                <i class="am-icon-unlock-alt"></i>
-                <label style="font-size: 1.8rem;">账户与设置</label>
-                <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
-            </a>
+
+            <form id="sform" action="/teacher/personalInfo" method="post">
+                <a onclick="document.getElementById('sform').submit();" class="nav-link tpl-left-nav-link-list">
+                    <i class="am-icon-unlock-alt"></i>
+                    <label style="font-size: 1.8rem;">账户与设置</label>
+                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                    <input value="${teacher.getId()}" name="id" hidden="hidden">
+                </a>
+            </form>
+
         </li>
     </div>
 </div>

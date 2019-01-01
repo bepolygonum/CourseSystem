@@ -50,13 +50,13 @@
                     <div>
                         <lable class="mylabel">姓名：</lable>
                         <div class="myDiv">
-                            <label class="myLabel">${student.getStudentName()}</label>
+                            <label class="myLabel">${teacher.getTeacherName()}</label>
                         </div>
                     </div>
                     <div>
                         <lable class="mylabel">学号：</lable>
                         <div class="myDiv">
-                            <label class="myLabel">${student.getAccount()}</label>
+                            <label class="myLabel">${.getAccount()}</label>
                         </div>
                     </div>
                     <#if student.getEmail()?exists>

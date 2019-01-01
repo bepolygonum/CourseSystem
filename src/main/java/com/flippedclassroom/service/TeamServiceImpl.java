@@ -31,6 +31,8 @@ public class TeamServiceImpl  {
     TeamAndStrategyDao teamAndStrategyDao;
     @Autowired
     TeamOrStrategyDao teamOrStrategyDao;
+    @Autowired
+    TeamValidApplicationDao teamValidApplicationDao;
 
     public List<Team> getTeamByCourseID(int courseId)
     {
@@ -113,5 +115,8 @@ public class TeamServiceImpl  {
     {
         teamOrStrategyDao.createTeamOrStrategy(id,strategyName,strategyId);
     }
+    public List<TeamValidApplication> selectUntreatedTeamValidApplication(int teacherId)
+    {return teamValidApplicationDao.selectUntreatedTeamValidApplicationByTeacherId(teacherId);}
+
 
 }

@@ -55,4 +55,6 @@ public interface KlassDao {
      * @param klassId
      */
     void deleteKlassByKlassId(@Param("0")int klassId);
+
+    List<Klass> getNewKlassesByKlassIds(@Param("klassIds")List<Integer> klassIds);
 }

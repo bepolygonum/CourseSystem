@@ -107,4 +107,15 @@ public class SeminarServiceImpl {
 
     public List<Seminar> selectSeminarsByRoundId(int roundId)
     {return seminarDao.selectSeminarsByRoundId(roundId);}
+
+    public void updateSeminarReportScoreByKlassSeminarIdTeamId(int klassSeminarId,int teamId,double report)
+    {seminarScoreDao.updateSeminarReportScoreByKlassSeminarIdTeamId(klassSeminarId,teamId,report);}
+
+    public List<SeminarScore> getSeminarScoreByKlassSeminarID(List<Integer> klassSeminarIds)
+    {return seminarScoreDao.getSeminarScoreByKlassSeminarID(klassSeminarIds);}
+
+    public int getSeminarMaxSerialByRoundId(int roundId)
+    {return seminarDao.getSeminarMaxSerialByRoundId(roundId);}
+
+    public int getSeminarMaxId(){return seminarDao.getSeminarMaxId();}
 }

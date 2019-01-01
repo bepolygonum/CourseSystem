@@ -43,4 +43,9 @@
             #{item}
         </foreach>
     </select>
+    <update id="updateSeminarReportScoreByKlassSeminarIdTeamId">
+        update standard_seminar_system.seminar_score
+        set report_score=#{2}
+        where klass_seminar_id=#{0} and team_id=#{1};
+    </update>
 </mapper>
