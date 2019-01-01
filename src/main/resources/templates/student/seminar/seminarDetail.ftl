@@ -118,6 +118,13 @@
                 </form>
             </div>
         </div>
+<#if status=0>
+ <a href="/student/delete-enroll?id=${student.getId()}&seminarid=${seminar.getId()}"
+    class="am-btn am-btn-danger  am-radius"
+    style="width: 80%;margin-left: 10%;background-color: #23c0c0;border: none;margin-top: 3rem">
+     取消报名
+ </a>
+</#if>
 </#if>
 
 <#if attendance?exists&&before?exists>

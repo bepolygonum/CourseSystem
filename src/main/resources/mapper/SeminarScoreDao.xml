@@ -26,11 +26,6 @@
         insert  into standard_seminar_system.seminar_score
         (klass_seminar_id,team_id) values (#{0},#{1})
     </insert>
-    <insert id="insertAttendByTeamIdAndSeminarId">
-        insert  into standard_seminar_system.attendance
-         (klass_seminar_id,team_id,team_order,is_present)
-                values (#{0},#{1},#{2},0)
-    </insert>
     <update id="updateSeminarScoreByKlassSeminarIdTeamId">
         update standard_seminar_system.seminar_score
         set presentation_score=#{2},question_score=#{3},report_score=#{4}
@@ -43,4 +38,7 @@
             #{item}
         </foreach>
     </select>
+    <delete id="deleteEnroll">
+        DELETE FROM standard_seminar_system.seminar_score WHERE team_id=#{0} and klass_seminar_id=#{1}
+    </delete>
 </mapper>

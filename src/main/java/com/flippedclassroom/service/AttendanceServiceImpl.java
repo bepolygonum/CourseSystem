@@ -33,8 +33,8 @@ public class AttendanceServiceImpl{
             return ;
         }
         String fileName = file.getOriginalFilename();
-        String path = "D:/test/"+type ;
-        File dest = new File(path + "/" + fileName);
+        String path = "D:\\\\test\\\\"+type+ "\\\\" + fileName ;
+        File dest = new File(path);
         if(!dest.getParentFile().exists()){
             //判断文件父目录是否存在
             dest.getParentFile().mkdir();
@@ -42,10 +42,10 @@ public class AttendanceServiceImpl{
         try {
             file.transferTo(dest);
             if(type.equals("PPT")) {
-                attendanceDao.uploadPPT(fileName, dest.getAbsolutePath(), klassSeminarId, teamId);
+                attendanceDao.uploadPPT(path ,fileName, klassSeminarId, teamId);
             }
             else {
-                attendanceDao.uploadReport(fileName,dest.getAbsolutePath(),klassSeminarId,teamId);
+                attendanceDao.uploadReport(path ,fileName,klassSeminarId,teamId);
             }
             //保存文件
             return ;

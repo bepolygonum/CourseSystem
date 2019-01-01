@@ -54,6 +54,7 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <#if seminarScoreList?exists>
                     <#list seminarScoreList as seminarScore>
                         <#list teamList as team>
                         <#if team_index=seminarScore_index>
@@ -67,7 +68,7 @@
                         </#if>
                         </#list>
                     </#list>
-
+                    </#if>
                     </tbody>
                 </table>
                 <button class="am-btn am-btn-success" style="width: 100%;margin-top: 3rem">确认</button>
