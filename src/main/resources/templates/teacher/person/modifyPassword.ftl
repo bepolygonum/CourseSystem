@@ -35,6 +35,7 @@
             </li>
             <li><a href="javascript:doPost('/teacher/personalInfo', {'id':'${teacher.getId()}'})"
                    class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+
             <li><a href="" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
             <li><a href="/" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
