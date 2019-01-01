@@ -56,25 +56,25 @@
                     <div>
                         <lable class="mylabel">学号：</lable>
                         <div class="myDiv">
-                            <label class="myLabel">${.getAccount()}</label>
+                            <label class="myLabel">${teacher.getAccount()}</label>
                         </div>
                     </div>
-                    <#if student.getEmail()?exists>
+                    <#if teacher.getEmail()?exists>
                         <div>
-                        <lable class="mylabel">邮箱：</lable>
-                        <div class="myDiv">
-                        <label class="myLabel">${student.getEmail()}</label>
-                    <br>
-                        <div style="margin-top: -1rem;margin-left: 8rem">
-                    <a style="font-size: 1rem;color: #1b961b;"
-                    href="javascript:doPost('/student/modifyEmail', {'id':'${student.getId()}'})">修改</a>
-                        </div>
-                        </div>
+                            <lable class="mylabel">邮箱：</lable>
+                            <div class="myDiv">
+                                <label class="myLabel">${teacher.getEmail()}</label>
+                                <br>
+                                <div style="margin-top: -1rem;margin-left: 8rem">
+                                    <a style="font-size: 1rem;color: #1b961b;"
+                                       href="javascript:doPost('/teacher/modifyEmail', {'id':'${teacher.getId()}'})">修改</a>
+                                </div>
+                            </div>
                         </div>
                     </#if>
                     <div>
                         <lable class="mylabel">账户密码：</lable>
-                        <a href="javascript:doPost('/student/modifyPassword', {'id':'${student.getId()}'})">
+                        <a href="javascript:doPost('/teacher/modifyPassword', {'id':'${teacher.getId()}'})">
                             <div class="myDiv">
                                 <label class="am-icon-angle-right"></label>
                             </div>
@@ -87,7 +87,7 @@
                         </div>
                     </div>
                     <a class="am-btn am-btn-success am-radius am-button" style="margin-top: 3rem; float: right;" type="submit"
-                            href="/">退出登录
+                       href="/">退出登录
                     </a>
                 </div>
             </div>

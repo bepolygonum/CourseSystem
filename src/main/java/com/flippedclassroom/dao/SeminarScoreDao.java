@@ -60,6 +60,8 @@ public interface SeminarScoreDao {
      */
     void updateSeminarReportScoreByKlassSeminarIdTeamId(@Param("0") int klassSeminarId,@Param("1") int teamId,@Param("2") double reportScore);
 
+
+    /**
      * deleteEnroll
      *  @param teamid
      * @param klassSeminarId

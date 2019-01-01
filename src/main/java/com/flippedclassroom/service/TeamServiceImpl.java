@@ -34,8 +34,6 @@ public class TeamServiceImpl {
     @Autowired
     TeamOrStrategyDao teamOrStrategyDao;
     @Autowired
-    TeamValidApplicationDao teamValidApplicationDao;
-    @Autowired
     CourseMemberLimitStrategyDao courseMemberLimitStrategyDao;
     @Autowired
     ConflictCourseStrategyDao conflictCourseStrategyDao;

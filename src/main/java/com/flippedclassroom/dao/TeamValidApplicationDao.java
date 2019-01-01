@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * @author DELL
  */
+@Repository
 public interface TeamValidApplicationDao {
     /**
      * selectAllTeamValidApplication
