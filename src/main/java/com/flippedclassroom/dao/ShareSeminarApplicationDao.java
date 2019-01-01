@@ -1,10 +1,12 @@
 package com.flippedclassroom.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author DELL
  */
+@Repository
 public interface ShareSeminarApplicationDao {
 
     /**

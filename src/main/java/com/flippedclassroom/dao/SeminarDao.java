@@ -60,4 +60,12 @@ public interface SeminarDao {
                         @Param("6") int seminarSerial,@Param("7") Timestamp startTime,
                         @Param("8") Timestamp endTime);
 
+    /**
+     * selectSeminarIdsByRoundId
+     * @param roundId
+     * @return
+     */
+    List<Integer> selectSeminarIdsByRoundId(@Param("0") int roundId);
+
+    List<Seminar> selectSeminarsByRoundId(@Param("0") int roundId);
 }

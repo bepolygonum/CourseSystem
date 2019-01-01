@@ -1,6 +1,7 @@
 package com.flippedclassroom.dao;
 
 import com.flippedclassroom.entity.Team;
+import com.flippedclassroom.entity.TeamStrategy;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -51,4 +52,24 @@ public interface TeamDao {
      * @return
      */
     List<Team> getTeamByIds(List<Integer> ids);
+
+    void dismissTableTeamStudent(@Param("0") int team);
+
+    void dismissTableKlassTeam(@Param("0") int team);
+
+    void dismissTableTeam(@Param("0") int team);
+
+    int getTeamIdByLeaderId(@Param("0") int id);
+
+    Team getTeamByTeamID(@Param("0") int teamId);
+
+    void insertValidTableTeam(@Param("0") int klassId, @Param("1") int courseId, @Param("2") int id, @Param("3") String teamName, @Param("4") int teamSerial, @Param("5") int klassSerial);
+
+    void insertTableTeamStudent(@Param("0") int teamid, @Param("1") int team);
+
+    void insertTableKlassTeam(@Param("0") int klassId, @Param("1") int teamid);
+
+    void insertInValidTableTeam(@Param("0") int klassId, @Param("1") int courseId, @Param("2") int id, @Param("3") String teamName, @Param("4") int teamSerial, @Param("5") int klassSerial);
+
+    void changeStatusByTeamId(int team);
 }

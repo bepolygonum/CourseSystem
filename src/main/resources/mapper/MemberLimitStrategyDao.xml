@@ -3,12 +3,26 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.flippedclassroom.dao.MemberLimitStrategyDao">
+    <resultMap type="com.flippedclassroom.entity.MemberLimitStrategy" id="MemberLimitStrategyResultMap">
+        <!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id -->
+        <!-- property：主键在pojo中的属性名 -->
+        <!-- column：主键在数据库中的列名 -->
+        <id property="courseId" column="course_id" />
+        <id property="strategySerial" column="strategy_serial" />
+        <!-- 定义普通属性 -->
+        <result property="strategyName" column="strategy_name" />
+        <result property="strategyId" column="strategy_id" />
+    </resultMap>
     <!-- 目的：为dao接口方法提供sql语句配置 -->
-<insert id="createMemberLimitStrategy">
-    insert into standard_seminar_system.member_limit_strategy(min_member,max_member)
-    values (#{0},#{1});
-</insert>
+    <insert id="createMemberLimitStrategy">
+      insert into standard_seminar_system.member_limit_strategy(min_member,max_member)
+      values (#{0},#{1});
+    </insert>
     <select id="selectMaxId" resultType="Integer">
         select max(id) from standard_seminar_system.member_limit_strategy;
+    </select>
+
+    <select id="getMemberLimitById" resultMap="MemberLimitStrategyResultMap">
+        select * from standard_seminar_system.member_limit_strategy where id=#{0}
     </select>
 </mapper>

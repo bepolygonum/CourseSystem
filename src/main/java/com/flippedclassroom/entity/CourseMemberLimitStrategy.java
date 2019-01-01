@@ -41,4 +41,12 @@ public class CourseMemberLimitStrategy {
         this.maxMember = maxMember;
     }
 
+    public boolean isValid(int size) {
+        if(size>=minMember && size<=maxMember){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

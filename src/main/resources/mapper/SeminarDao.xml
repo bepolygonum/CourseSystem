@@ -41,4 +41,10 @@
         insert into standard_seminar_system.seminar(course_id, round_id, seminar_name, introduction, max_team, is_visible, seminar_serial, enroll_start_time, enroll_end_time)
         values(#{0},#{1},#{2},#{3},#{4},#{5},#{6},#{7},#{8});
     </insert>
+    <select id="selectSeminarIdsByRoundId" resultType="Integer">
+        SELECT  id FROM  standard_seminar_system.seminar WHERE round_id=#{0}
+    </select>
+    <select id="selectSeminarsByRoundId" resultMap="seminarResultMap">
+        SELECT  * FROM  standard_seminar_system.seminar WHERE round_id=#{0}
+    </select>
 </mapper>

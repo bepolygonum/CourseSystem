@@ -25,4 +25,33 @@ public interface AttendanceDao {
      * @return
      */
     List<Attendance> getAttendanceByKlassSeminarId(@Param("0") int klassSeminarId);
+
+    /**
+     * getAttendanceByKlassSeminarIdAndTeamId
+     * @param id
+     * @param teamid
+     * @return
+     */
+    Attendance getAttendanceByKlassSeminarIdAndTeamId(@Param("0") int id, @Param("1") int teamid);
+
+    /**
+     * uploadPPT
+     * @param url
+     * @param fileName
+     * @param klassSeminarId
+     * @param teamId
+     */
+    void uploadPPT(@Param("0") String url, @Param("1") String fileName,
+                   @Param("2") int klassSeminarId, @Param("3") int teamId);
+
+    /**
+     * uploadReport
+     * @param url
+     * @param fileName
+     * @param klassSeminarId
+     * @param teamId
+     */
+    void uploadReport(@Param("0") String url, @Param("1") String fileName,
+                   @Param("2") int klassSeminarId, @Param("3") int teamId);
+
 }

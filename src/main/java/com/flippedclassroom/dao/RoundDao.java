@@ -17,4 +17,8 @@ public interface RoundDao {
      */
     List<Round> getRoundByCourseID(@Param("0") int courseId);
 
+    Round getRoundByRoundID(@Param("0") int roundId);
+
+    void updateRoundByRoundId(@Param("0")int roundId,@Param("1")int presentationScoreMethod,@Param("2")int reportScoreMethod,@Param("3")int questionScoreMethod);
+
 }
