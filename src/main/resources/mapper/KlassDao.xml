@@ -42,4 +42,11 @@
     <delete id="deleteKlassByKlassId" parameterType="int">
         delete from  standard_seminar_system.klass where id = #{0};
     </delete>
+    <select id="getNewKlassesByKlassIds"  resultMap="klassResultMap">
+        SELECT * FROM  standard_seminar_system.klass
+        WHERE id in
+        <foreach  collection="klassIds" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

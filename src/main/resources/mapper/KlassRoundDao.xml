@@ -8,5 +8,9 @@
         set enroll_number=#{2}
         where klass_id=#{0} and round_id=#{1};
     </update>
+    <insert id="createKlassRound">
+        insert into standard_seminar_system.klass_round(klass_id,round_id,enroll_number)
+        values (#{0},#{1},#{2});
+    </insert>
 
 </mapper>

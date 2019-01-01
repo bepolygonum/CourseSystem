@@ -126,5 +126,10 @@ public class RoundServiceImpl  {
     public void updateRoundByRoundId(int roundId,int presentationScoreMethod,int reportScoreMethod,int questionScoreMethod)
     {roundDao.updateRoundByRoundId(roundId,presentationScoreMethod,reportScoreMethod,questionScoreMethod);}
 
+    public void createRound(int courseId,int roundSerial,int preMethod,int reMethod,int qaMethod)
+    { roundDao.createRound(courseId,roundSerial,preMethod,reMethod,qaMethod); }
+
+    public int getRoundMaxId(){return roundDao.getRoundMaxId();}
+
 
 }

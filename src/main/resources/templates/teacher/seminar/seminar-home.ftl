@@ -54,18 +54,18 @@
 <div class="tpl-page-container1 tpl-page-header-fixed">
     <div class="tpl-portlet-components2">
         <div class="tpl-block">
-            <#list courseList as course>
-                <div class="am-g">
-                    <div class="am-u-sm-12">
-                        <li class="tpl-left-nav-item">
-                            <a href="seminar.html" class="nav-link tpl-left-nav-link-list">
-                                <i class="am-icon-book"></i>
-                                <span>${course.getCourseName()}</span>
-                            </a>
-                        </li>
-                    </div>
-                </div>
-            </#list>
+    <#list courseList as course>
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <li class="tpl-left-nav-item">
+                    <a href="/teacher/course/seminar?id=${course.getTeacherId()}&courseId=${course.getId()}" class="nav-link tpl-left-nav-link-list">
+                        <i class="am-icon-book"></i>
+                        <span>${course.getCourseName()}</span>
+                    </a>
+                </li>
+            </div>
+        </div>
+    </#list>
         </div>
     </div>
     <button type="submit" class="am-btn am-btn-default" style="float:right;margin-top:5%;background-color: red;color: #ffffff;">正在进行讨论课</button>

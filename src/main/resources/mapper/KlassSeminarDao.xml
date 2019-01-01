@@ -42,6 +42,9 @@
     <select id="getKlassSeminarIDByKlassId" resultType="Integer">
         select id  from standard_seminar_system.klass_seminar where klass_id=#{0}
     </select>
+    <select id="getKlassSeminarByKlassSeminarId" resultMap="klassSeminarResultMap">
+        select *  from standard_seminar_system.klass_seminar where id=#{0}
+    </select>
     <select id="getKlassSeminarBySeminarID"  resultMap="klassSeminarResultMap">
         SELECT * FROM  standard_seminar_system.klass_seminar
         WHERE seminar_id in
@@ -60,6 +63,11 @@
         select id from standard_seminar_system.klass_seminar
         where klass_id=#{0} and seminar_id=#{1}
     </select>
+
+    <insert id="createKlassSeminar">
+        insert into standard_seminar_system.klass_seminar(klass_id,seminar_id,status)
+        values (#{0},#{1},#{2});
+    </insert>
 
     <update id="updateReportDdlByKlassSeminarId">
         UPDATE standard_seminar_system.klass_seminar SET report_ddl=#{reportDdl} WHERE id=#{klassSeminarId}

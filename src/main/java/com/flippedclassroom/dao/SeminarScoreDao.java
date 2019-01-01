@@ -20,9 +20,9 @@ public interface SeminarScoreDao {
     /**
      * insert Enroll By TeamId And SeminarId
      * @param teamid
-     * @param seminarid
+     * @param klassseminarid
      */
-    void insertEnrollByTeamIdAndSeminarId(@Param("0") int teamid, @Param("1") int seminarid);
+    void insertEnrollByTeamIdAndSeminarId(@Param("0") int klassseminarid,@Param("1") int teamid);
 
     /**
      * updateQuestionScoreByKlassSeminarIdAndTeamId
@@ -52,4 +52,19 @@ public interface SeminarScoreDao {
 
     List<SeminarScore> getSeminarScoreByKlassSeminarIDTeamID(@Param("klassSeminarIds") List<Integer> klassSeminarIds,@Param("0")int teamId);
 
+    /**
+     * updateSeminarReportScoreByKlassSeminarIdTeamId
+     * @param klassSeminarId
+     * @param teamId
+     * @param reportScore
+     */
+    void updateSeminarReportScoreByKlassSeminarIdTeamId(@Param("0") int klassSeminarId,@Param("1") int teamId,@Param("2") double reportScore);
+
+
+    /**
+     * deleteEnroll
+     *  @param teamid
+     * @param klassSeminarId
+     */
+    void deleteEnroll(@Param("0")int teamid, @Param("1")int klassSeminarId);
 }

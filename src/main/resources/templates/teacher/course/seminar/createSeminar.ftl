@@ -48,29 +48,6 @@
                 <textarea   placeholder="讨论课主要内容" style="border: none;width: 90%;" name="mainContent" id="mainContent"></textarea>
             </div>
             <hr>
-            <div style="margin-top: 1rem">
-
-                <p style="margin-left: 1rem;float: left;width: 40%" >讨论课次序号</p>
-
-                <select data-am-selected="{btnWidth: '40%',}" style="width: 60%"  id="serial" name="serial">
-                    <option value="1">1</option>
-                    <#if seminarList?exists>
-                    <#list seminarList as seminar>
-                    <option value="${seminar.getSeminarSerial()+1}">${seminar.getSeminarSerial()+1}</option>
-                    </#list>
-                    </#if>
-                </select>
-            </div>
-            <hr>
-            <div style="margin-top: 1rem">
-
-                <p style="margin-left: 1rem;float: left;width: 40%" >讨论课可见</p>
-                <label class="am-radio" style="margin-left: 50%">
-                    <input type="checkbox" name="isVisible" id="isVisible" value="1" data-am-ucheck style="margin-top: 0.4rem">
-                    可见
-                </label>
-            </div>
-            <hr>
 
             <p style="margin-left: 6%">展示报名</p>
             <div>
@@ -107,12 +84,11 @@
     function test() {
         var seminarName = document.getElementById('seminarName');
         var mainContent = document.getElementById('mainContent');
-        var serial = document.getElementById('serial');
         var startDate = document.getElementById('startDate');
         var endDate = document.getElementById('endDate');
         var number = document.getElementById('number');
         var round = document.getElementById('round');
-        if (seminarName.value == ''|mainContent.value == ''|serial.value == ''|startDate.value==''|endDate.value==''|number.value==''|round.value=='')
+        if (seminarName.value == ''|mainContent.value == ''|startDate.value==''|endDate.value==''|number.value==''|round.value=='')
         {
             alert("These items cannot be empty!");
             return false;

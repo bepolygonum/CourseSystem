@@ -74,10 +74,10 @@
                         <th style="width: 20%;">展示</th>
                         <th style="width:20%">提问</th>
                         <th style="width:20%">报告</th>
-                        <th style="width:20%">总分</th>
                     </tr>
                     </thead>
                     <tbody>
+                    <#if seminarScoreList?exists>
                     <#list seminarScoreList as seminarScore>
                         <#list teamList as team>
                         <#if team_index=seminarScore_index>
@@ -86,12 +86,11 @@
                             <td>${seminarScore.getPresentationScore()}</td>
                             <td> ${seminarScore.getQuestionScore()}</td>
                             <td>${seminarScore.getReportScore()}</td>
-                            <td>${seminarScore.getTotalScore()}</td>
                         </tr>
                         </#if>
                         </#list>
                     </#list>
-
+                    </#if>
                     </tbody>
                 </table>
                 <button class="am-btn am-btn-success" style="width: 100%;margin-top: 3rem">确认</button>

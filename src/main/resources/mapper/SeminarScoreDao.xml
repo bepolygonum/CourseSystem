@@ -51,4 +51,13 @@
             #{item}
         </foreach>
     </select>
+    <update id="updateSeminarReportScoreByKlassSeminarIdTeamId">
+        update standard_seminar_system.seminar_score
+        set report_score=#{2}
+        where klass_seminar_id=#{0} and team_id=#{1};
+    </update>
+
+    <delete id="deleteEnroll">
+        DELETE FROM standard_seminar_system.seminar_score WHERE team_id=#{0} and klass_seminar_id=#{1}
+    </delete>
 </mapper>

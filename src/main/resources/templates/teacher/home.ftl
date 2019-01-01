@@ -82,11 +82,16 @@
                 </a>
             </form>
 
-            <a class="nav-link tpl-left-nav-link-list">
-                <i class="am-icon-unlock-alt"></i>
-                <label style="font-size: 1.8rem;">账户与设置</label>
-                <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
-            </a>
+
+            <form id="sform" action="/teacher/personalInfo" method="post">
+                <a onclick="document.getElementById('sform').submit();" class="nav-link tpl-left-nav-link-list">
+                    <i class="am-icon-unlock-alt"></i>
+                    <label style="font-size: 1.8rem;">账户与设置</label>
+                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                    <input value="${teacher.getId()}" name="id" hidden="hidden">
+                </a>
+            </form>
+
         </li>
     </div>
 </div>

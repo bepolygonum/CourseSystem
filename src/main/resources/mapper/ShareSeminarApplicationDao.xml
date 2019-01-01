@@ -20,4 +20,9 @@
         values (#{0},#{1},#{2})
     </insert>
 
+    <select id="selectUntreatedShareSeminarApplicationByTeacherId" resultMap="shareSeminarApplicationResultMap">
+        select * from standard_seminar_system.share_seminar_application where status is null and sub_course_teacher_id=${0};
+    </select>
+
+
 </mapper>

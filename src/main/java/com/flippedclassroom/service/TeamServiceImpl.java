@@ -150,6 +150,9 @@ public class TeamServiceImpl {
     public void createTeamAndStrategy(int id, String strategyName, int strategyId) {
         teamAndStrategyDao.createTeamAndStrategy(id, strategyName, strategyId);
     }
+    public List<TeamValidApplication> selectUntreatedTeamValidApplication(int teacherId)
+    {return teamValidApplicationDao.selectUntreatedTeamValidApplicationByTeacherId(teacherId);}
+
 
     public void createTeamOrStrategy(int id, String strategyName, int strategyId) {
         teamOrStrategyDao.createTeamOrStrategy(id, strategyName, strategyId);

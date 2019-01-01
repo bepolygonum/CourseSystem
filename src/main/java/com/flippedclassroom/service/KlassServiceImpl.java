@@ -78,7 +78,10 @@ public class KlassServiceImpl {
         List<Klass> klassList=new ArrayList<>();
         for(int i=0;i<klassIds.size();i++)
         {
-            klassList.add(klassDao.getKlassByKlassID(klassIds.get(i)));
+            if(!klassList.contains(klassIds.get(i)))
+            {
+                klassList.add(klassDao.getKlassByKlassID(klassIds.get(i)));
+            }
         }
         return klassList;
     }
@@ -123,4 +126,18 @@ public class KlassServiceImpl {
 
     public void updateKlassRoundByRoundIdKlassId(int klassId,int roundId,int enrollNumber)
     {klassRoundDao.updateKlassRoundByRoundIdKlassId(klassId,roundId,enrollNumber);}
+
+    public KlassSeminar getKlassSeminarByKlassSeminarId(int klassSeminarId)
+    {return klassSeminarDao.getKlassSeminarByKlassSeminarId(klassSeminarId);}
+
+    public void createKlassSeminar(int klassId,int seminarId,int status)
+    { klassSeminarDao.createKlassSeminar(klassId,seminarId,status);}
+
+    public void createKlassRound(int klassId,int roundId,int enrollNumber)
+    {klassRoundDao.createKlassRound(klassId,roundId,enrollNumber);}
+
+    public List<Klass> getNewKlassesByKlassIds(List<Integer> klassIds)
+    {
+        return klassDao.getNewKlassesByKlassIds(klassIds);
+    }
 }
