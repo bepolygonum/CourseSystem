@@ -107,4 +107,10 @@ public class SeminarServiceImpl {
 
     public List<Seminar> selectSeminarsByRoundId(int roundId)
     {return seminarDao.selectSeminarsByRoundId(roundId);}
+
+    public List<SeminarScore> getSeminarScoreByKlassSeminarID(int klassSeminarId) {
+        List list=new ArrayList();
+        list.add(klassSeminarId);
+        return seminarScoreDao.getSeminarScoreByKlassSeminarID(list);
+    }
 }
