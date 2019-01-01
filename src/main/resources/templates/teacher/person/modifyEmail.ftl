@@ -47,7 +47,7 @@
         <div class="tpl-block">
             <div class="am-g">
                 <div class="am-u-sm-12">
-                    <form class="am-form" action="/teacher/newMail" method="post">
+                    <form class="am-form" action="/teacher/newmail" method="post">
                         <div class="am-form-group">
                             <input type="email" name="newmail" id="email" placeholder="填写新邮箱" required="required">
                             <input name="id" value="${teacher.getId()}" hidden="hidden"/>
