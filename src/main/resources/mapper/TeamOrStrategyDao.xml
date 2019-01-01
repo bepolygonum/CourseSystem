@@ -4,7 +4,7 @@
 
 <mapper namespace="com.flippedclassroom.dao.TeamOrStrategyDao">
     <!-- 目的：为dao接口方法提供sql语句配置 -->
-    <resultMap type="com.flippedclassroom.entity.TeamOrStrategyStrategy" id="TeamOrStrategyResultMap">
+    <resultMap type="com.flippedclassroom.entity.TeamOrStrategy" id="TeamOrStrategyResultMap">
         <!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id -->
         <!-- property：主键在pojo中的属性名 -->
         <!-- column：主键在数据库中的列名 -->
