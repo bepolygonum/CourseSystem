@@ -10,7 +10,16 @@
     <link rel="stylesheet" href="../../../../static/css/admin.css">
     <link rel="stylesheet" href="../../../../static/css/app.css">
     <script src="../../../../static/js/echarts.min.js"></script>
-
+    <script type="text/javascript">
+        var data = "";
+        function getAccount(){
+            $("#table2").find(":checkbox:checked").each(function(){
+                var val = $(this).parent().next().text();
+                data=data +val+",";
+            });
+            return data;
+        }
+    </script>
 </head>
 
 <body>
@@ -42,53 +51,46 @@
 <div class="tpl-page-container1 tpl-page-header-fixed">
     <div class="tpl-portlet-components2">
         <div class="tpl-block">
-
             <div class="am-g">
                 <div class="am-u-sm-12">
                     <form>
-                        <span class="myLabel">小组名:</span><input class="myLabel" type="text" placeholder="请填写小组名称"
-                                                                style="margin-top: -0.4rem;margin-left: 3rem"><br>
+                        <label class="myLabel" style="font-size: 1.6rem">小组名:</label>
+                        <input class="myLabel" type="text" placeholder="请填写小组名称" style="margin-top: -0.4rem;margin-left: 3rem;font-size: 1.6rem">
+                        <br>
                         <div style="margin-top: 0.5rem">
-                            <span class="myLabel">选择班级：</span>
+                            <label class="myLabel" style="font-size: 1.6rem">选择班级：</label>
                             <select class="data-am-selected" style="margin-left: 0.5rem;font-size: 1.5rem;width: 9rem">
-                                <option value="a">2016-(1)</option>
+                                <#if teamList?exists>
+                                <#list teamList as team>
+                                    <option value="${team.getKlassSerial()}-${team.getTeamSerial()}">${team.getKlassSerial()}-${team.getTeamSerial()}<</option>
+                                </#list>
+                                </#if>
                             </select>
                         </div>
-                        <div style="margin-top: 0.5rem">
-                            <span class="myLabel">添加成员:</span>
-                        </div>
                         <#if noTeams?exists>
-                        <table class="am-table">
+                            <div style="margin-top: 0.5rem">
+                                <label class="myLabel" style="font-size: 1.6rem">添加成员:</label>
+                            </div>
+                            <table class="am-table">
                             <tbody>
-                            <#list noTeams as noteam>
                             <tr>
-                                <td>
-                                    <table class="am-table am-table-striped am-table-hover table-main">
-                                        <tr>
-                                            <td><input type="checkbox" name="radio1" value="张三丰" class="data-am-ucheck"
-                                                       style="margin-left: 1rem"></td>
-                                            <td>24320162202001</td>
-                                            <td>张三丰</td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="checkbox" name="radio1" value="张三" class="data-am-ucheck"
-                                                       style="margin-left: 1rem"></td>
-                                            <td>24320162202001</td>
-                                            <td>张三</td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="checkbox" name="radio1" value="李四" class="data-am-ucheck"
-                                                       style="margin-left: 1rem"></td>
-                                            <td>24320162202001</td>
-                                            <td>李四</td>
-                                        </tr>
-                                    </table>
-                                </td>
+                            <td>
+                            <table class="am-table am-table-striped am-table-hover table-main" id="table2">
+                            <#list noTeams as noteam>
+                                <tr id="${noteam.getAccount()}">
+                                <td><input type="checkbox" name="check" class="data-am-ucheck" style="margin-left: 1rem"></td>
+                                <td><input type="text" value="${noteam.getAccount()}"></td>
+                                <td>${noteam.getStudentName()}</td>
+                                </tr>
+                            </#list>
+                            </table>
+                            </td>
                             </tr>
                             </tbody>
-                        </table>
-                        <button type="submit" class="am-btn am-btn-success" style="width: 100%;margin-top: 3rem">确认提交
-                        </button>
+                            </table>
+                        </#if>
+                        <a type="submit" class="am-btn am-btn-success" style="width: 100%;margin-top: 3rem" onclick="getAccount()">确认提交
+                        </a>
                     </form>
                 </div>
             </div>

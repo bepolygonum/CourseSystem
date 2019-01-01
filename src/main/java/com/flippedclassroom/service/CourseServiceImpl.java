@@ -124,4 +124,8 @@ public class CourseServiceImpl  {
     {
         courseDao.updateCourseTeamMainIdByCourseId(courseId);
     }
+
+    public int getTeacherIdByCourseId(int courseId) {
+        return courseDao.getTeacherIdByCourseId(courseId);
+    }
 }

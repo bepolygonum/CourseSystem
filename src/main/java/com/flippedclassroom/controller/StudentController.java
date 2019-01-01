@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class StudentController {
 
     @RequestMapping(value = "/newactivation", method = RequestMethod.POST)
     public String studentActivate(Model model, @RequestParam(name = "id") String sid, @RequestParam String newmail,
-            @RequestParam String newpass) {
+                                  @RequestParam String newpass) {
         int id = Integer.valueOf(sid);
         Student student = studentService.getStudentByID(id);
         studentService.setEmailByID(id, newmail);
@@ -73,7 +74,7 @@ public class StudentController {
 
     @RequestMapping(value = "/courseInfo", method = RequestMethod.POST)
     public String courseInfo(Model model, @RequestParam(name = "id") String sid,
-            @RequestParam(name = "course_id") String courseid) {
+                             @RequestParam(name = "course_id") String courseid) {
         int id = Integer.valueOf(sid);
         int courseId = Integer.valueOf(courseid);
         Course course = courseService.getCourseByCourseID(courseId);
@@ -90,8 +91,8 @@ public class StudentController {
 
     @RequestMapping(value = "/courseScore", method = RequestMethod.POST)
     public String courseScore(Model model, @RequestParam(name = "klass_id") String klassid,
-            @RequestParam(name = "id") String sid, @RequestParam(name = "course_id") String courseid,
-            HttpServletResponse response) throws IOException {
+                              @RequestParam(name = "id") String sid, @RequestParam(name = "course_id") String courseid,
+                              HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=utf-8");
         PrintWriter out = response.getWriter();
         int id = Integer.valueOf(sid);
@@ -140,7 +141,7 @@ public class StudentController {
 
     @RequestMapping(value = "/courseTeam", method = RequestMethod.POST)
     public String courseTeam(Model model, @RequestParam(name = "klass_id") String klassid,
-            @RequestParam(name = "id") String sid, @RequestParam(name = "course_id") String courseid) {
+                             @RequestParam(name = "id") String sid, @RequestParam(name = "course_id") String courseid) {
         int id = Integer.valueOf(sid);
         int courseId = Integer.valueOf(courseid);
         int klassId = Integer.valueOf(klassid);
@@ -201,7 +202,7 @@ public class StudentController {
 
     @RequestMapping(value = "/submitTeam", method = RequestMethod.POST)
     public String submitTeam(Model model, @RequestParam(name = "id") String sid,
-            @RequestParam(name = "course_id") String courseid, @RequestParam(name = "klass_id") String klassid) {
+                             @RequestParam(name = "course_id") String courseid, @RequestParam(name = "klass_id") String klassid) {
         int id = Integer.valueOf(sid);
         int courseId = Integer.valueOf(courseid);
         int klassId = Integer.valueOf(klassid);
@@ -258,7 +259,7 @@ public class StudentController {
 
     @RequestMapping(value = "/teamList", method = RequestMethod.POST)
     public String teamList(Model model, @RequestParam(name = "id") String sid,
-            @RequestParam(name = "course_id") String courseid, @RequestParam(name = "klass_id") String klassid) {
+                           @RequestParam(name = "course_id") String courseid, @RequestParam(name = "klass_id") String klassid) {
         int id = Integer.valueOf(sid);
         int courseId = Integer.valueOf(courseid);
         int klassId = Integer.valueOf(klassid);
@@ -345,7 +346,7 @@ public class StudentController {
 
     @RequestMapping(value = "/seminar-round")
     public String seminarRound(Model model, @RequestParam(name = "id") String sid,
-            @RequestParam(name = "courseid") String courseId) {
+                               @RequestParam(name = "courseid") String courseId) {
         int id = Integer.valueOf(sid);
         int courseid = Integer.valueOf(courseId);
         Student student = studentService.getStudentByID(id);
@@ -361,7 +362,7 @@ public class StudentController {
 
     @RequestMapping(value = "/seminar-detail")
     public String seminarDetail(Model model, @RequestParam(name = "id") String sid,
-            @RequestParam(name = "seminarid") String seminarId) {
+                                @RequestParam(name = "seminarid") String seminarId) {
         int id = Integer.valueOf(sid);
         int seminarid = Integer.valueOf(seminarId);
         Student student = studentService.getStudentByID(id);
@@ -375,7 +376,7 @@ public class StudentController {
 
     @RequestMapping(value = "/enroll-detail")
     public String seminarEnrollPage(Model model, @RequestParam(name = "id") String sid,
-            @RequestParam(name = "seminarid") String seminarId) {
+                                    @RequestParam(name = "seminarid") String seminarId) {
         int id = Integer.valueOf(sid);
         int seminarid = Integer.valueOf(seminarId);
 
@@ -395,24 +396,6 @@ public class StudentController {
         model.addAttribute(student);
         return "/student/seminar/enrollDetail";
     }
-
-    // @RequestMapping(value = "/enroll")
-    // public String seminarEnroll(Model model, @RequestParam(name = "id") String
-    // sid,@RequestParam (name = "seminarid") String seminarId,@RequestParam(name =
-    // "order") int order) {
-    // int id=Integer.valueOf(sid);
-    // int seminarid=Integer.valueOf(seminarId);
-    // Student student=studentService.getStudentByID(id);
-    // Seminar seminar=seminarService.getSeminarBySeminarId(seminarid);
-    // int teamid
-    // =teamService.getTeamIdByStudentIdAndCourseId(id,seminar.getCourseId()).get(0);
-    // Team team=teamService.getTeamById(teamid);
-    // seminarService.insertEnrollByTeamIdAndSeminarId(team.getId(),seminar.getId(),order);
-    //
-    // model.addAttribute(seminar);
-    // model.addAttribute(student);
-    // return "student/seminar/seminarDetail";
-    // }
 
     @RequestMapping(value = "/personalInfo", method = RequestMethod.POST)
     public String personalInformation(Model model, @RequestParam(name = "id") String sid) {
@@ -476,4 +459,71 @@ public class StudentController {
         model.addAttribute(student);
         return "/student/seminar/seminar-running";
     }
+
+    @RequestMapping(value = "/dismiss", method = RequestMethod.POST)
+    public String dismiss(Model model, @RequestParam(name = "id") String sid, @RequestParam String teamid) {
+        int id = Integer.valueOf(sid);
+        int team = Integer.valueOf(teamid);
+        teamService.dimissByTeamID(team);
+        List<Klass> klassList = klassService.getKlassByStudentID(id);
+        List<Course> courseList = courseService.getCourseByStudentID(id);
+        Student student = studentService.getStudentByID(id);
+        model.addAttribute(courseList);
+        model.addAttribute(klassList);
+        model.addAttribute(student);
+        return "/student/courseManage";
+    }
+
+    @RequestMapping(value = "/check", method = RequestMethod.POST)
+    public String check(@RequestParam(value = "team") String[] team, String teamid, String sid, Model model) {
+        int teamId = Integer.valueOf(teamid);
+        Team tempteam = teamService.getTeamByTeamID(teamId);
+        teamService.dimissByTeamID(teamId);
+        int id = Integer.valueOf(sid);
+        Student student = studentService.getStudentByID(id);
+        List<Integer> list = Arrays.asList(1);
+        for (int i = 0; i < team.length; i++) {
+            list.add(studentService.getStudentByAccounti(team[i]).getId());
+        }
+        model.addAttribute(student);
+        if(teamService.isValid(list,tempteam.getCourseId()))
+        teamService.createValidTeam(tempteam.getKlassId(), tempteam.getCourseId(), id, tempteam.getTeamName(), tempteam.getTeamSerial(), tempteam.getKlassSerial(), list);
+        //        , @RequestParam(name = "id") String sid,@RequestParam String teamid,  @RequestParam(name = "course_id") String courseid
+//        int id= Integer.valueOf(sid);
+//        int team= Integer.valueOf(teamid);
+//        int courseId = Integer.valueOf(courseid);
+//        teamService.dimissByTeamID(team);
+//        Student student = studentService.getStudentByID(id);
+//        model.addAttribute(student);
+//        model.addAttribute("course", courseService.getCourseByCourseID(courseId));
+//        if( teamService.validate(team)){
+//            //teamService.createValidTeam(team);
+//            List<Klass> klassList = klassService.getKlassByStudentID(id);
+//            List<Course> courseList = courseService.getCourseByStudentID(id);
+//            model.addAttribute(courseList);
+//            model.addAttribute(klassList);
+//            return "/student/courseManage";
+//        }else{
+//            //teamService.createInvalidTeam(team);
+//            return "/student/course/team/applyReason";
+//        }
+        return "";
+    }
+
+    @RequestMapping(value = "/application", method = RequestMethod.POST)
+    public String application(Model model, @RequestParam(name = "id") String sid, @RequestParam String reason, @RequestParam(name = "course_id") String courseid) {
+        int id = Integer.valueOf(sid);
+        int courseId = Integer.valueOf(courseid);
+        int team = teamService.getTeamIdByLeaderId(id);
+        int teacher = courseService.getTeacherIdByCourseId(courseId);
+        teamService.sendApplication(team, teacher, reason);
+        List<Klass> klassList = klassService.getKlassByStudentID(id);
+        List<Course> courseList = courseService.getCourseByStudentID(id);
+        Student student = studentService.getStudentByID(id);
+        model.addAttribute(courseList);
+        model.addAttribute(klassList);
+        model.addAttribute(student);
+        return "/student/courseManage";
+    }
+
 }

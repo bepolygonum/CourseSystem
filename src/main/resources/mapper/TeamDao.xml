@@ -50,4 +50,38 @@
         </foreach>
         order by team_serial
     </select>
+
+    <delete id="dismissTableTeamStudent">
+        DELETE FROM standard_seminar_system.team_student WHERE team_id = #{0}
+    </delete>
+
+    <delete id="dismissTableKlassTeam">
+        DELETE FROM standard_seminar_system.klass_team WHERE team_id = #{0}
+    </delete>
+
+    <delete id="dismissTableTeam">
+        DELETE FROM standard_seminar_system.team WHERE id = #{0}
+    </delete>
+
+    <select id="getTeamIdByLeaderId" resultType="Integer">
+        select id from standard_seminar_system.team where leader_id=#{0}
+    </select>
+
+    <select id="getTeamByTeamID" resultMap="teamResultMap">
+        select * from standard_seminar_system.team where id=#{0}
+    </select>
+
+    <insert id="insertTableTeam">
+        INSERT INTO standard_seminar_system.team(klass_id,course_id,leader_id,team_name,team_serial,klass_serial,status) VALUES (#{0},#{1},#{2},#{3},#{4},#{5},1)
+    </insert>
+
+    <insert id="insertTableKlassTeam">
+        insert into standard_seminar_system.klass_team values (#{0},#{1})
+    </insert>
+
+    <insert id="insertTableTeamStudent">
+        <foreach  collection="list" item="teamid" open="(" separator="," close=")">
+            insert into standard_seminar_system.team_student values (#{0}, #{teamid})
+        </foreach>
+    </insert>
 </mapper>
