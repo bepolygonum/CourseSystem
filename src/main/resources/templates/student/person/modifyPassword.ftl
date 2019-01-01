@@ -10,15 +10,32 @@
     <link rel="stylesheet" href="../../../static/css/admin.css">
     <link rel="stylesheet" href="../../../static/css/app.css">
     <script src="../../../static/js/echarts.min.js"></script>
+    <script>
+        function standardPost(to){
+            var form = $("<form method='post'></form>");
+            form.attr({"action": "/student/topnavigation"});
+            var input;
+            input = $("<input type='hidden'>");
+            input.attr({"name": "to"});
+            input.val(to);
+            form.append(input);
+            input = $("<input type='hidden'>");
+            input.attr({"name": "id"});
+            input.val(window.sessionStorage.getItem("teacherId"));
+            form.append(input);
+            $(document.body).append(form);
+            form.submit();
+        }
+    </script>
 </head>
 
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
-    <div class="am-topbar-brand1">
-        <a href="homepage.html">
-            <div class="am-icon-chevron-left" style="color: darkgray"></div>
-        </a>
-    </div>
+    <#--<div class="am-topbar-brand1">-->
+        <#--<a href="homepage.html">-->
+            <#--<div class="am-icon-chevron-left" style="color: darkgray"></div>-->
+        <#--</a>-->
+    <#--</div>-->
     <div class="am-topbar-brand">
         <h3>修改密码</h3>
     </div>
@@ -28,13 +45,15 @@
     </button>
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-
+        <#--<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">-->
+            <#--<li><a href="javascript:doPost('/student/personalInfo', {'id':'${student.getId()}'})" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>-->
+            <#--<li><a href="javascript:doPost('/student/seminar', {'id':'${student.getId()}'})" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>-->
+            <#--<li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>-->
+        <#--</ul>-->
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-            <li><a href="javascript:doPost('/student/personalInfo', {'id':'${student.getId()}'})"
-                   class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
-            <li><a href="javascript:doPost('/student/seminar', {'id':'${student.getId()}'})"
-                   class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
-            <li><a href="/" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
+            <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
     </div>
 </header>

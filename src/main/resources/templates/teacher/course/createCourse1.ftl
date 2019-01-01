@@ -14,13 +14,18 @@
 
 <body data-type="index">
 <header class="am-topbar am-topbar-inverse admin-header">
+    <#--<div class="am-topbar-brand1">-->
+        <#--<form id="_form" action="/teacher/courseManage" method="post">-->
+            <#--<a onclick="document.getElementById('_form').submit();">-->
+                <#--<input value="${id}" name="id" hidden="hidden">-->
+                <#--<div class="am-icon-times" style="color: darkgray"></div>-->
+            <#--</a>-->
+        <#--</form>-->
+    <#--</div>-->
     <div class="am-topbar-brand1">
-        <form id="_form" action="/teacher/courseManage" method="post">
-            <a onclick="document.getElementById('_form').submit();">
-                <input value="${id}" name="id" hidden="hidden">
-                <div class="am-icon-times" style="color: darkgray"></div>
-            </a>
-        </form>
+        <a href="javascript:window.history.go(-1);">
+            <div class="am-icon-chevron-left" style="color: darkgray"></div>
+        </a>
     </div>
     <div class="am-topbar-brand">
         <h3>新建课程</h3>

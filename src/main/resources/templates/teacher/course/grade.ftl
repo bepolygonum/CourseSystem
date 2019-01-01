@@ -15,6 +15,22 @@
         function cancel() {
             $("#modDiv").remove();
         }
+        console.log(new Date() + "window.sessionStorage.getItem(): " + window.sessionStorage.getItem("teacherId"));
+        function standardPost(to){
+            var form = $("<form method='post'></form>");
+            form.attr({"action": "/teacher/topnavigation"});
+            var input;
+            input = $("<input type='hidden'>");
+            input.attr({"name": "to"});
+            input.val(to);
+            form.append(input);
+            input = $("<input type='hidden'>");
+            input.attr({"name": "id"});
+            input.val(window.sessionStorage.getItem("teacherId"));
+            form.append(input);
+            $(document.body).append(form);
+            form.submit();
+        }
     </script>
     <style type="text/css">
         .pstyle {
@@ -44,13 +60,18 @@
 
 <body id="body">
 <header class="am-topbar am-topbar-inverse admin-header">
+    <#--<div class="am-topbar-brand1">-->
+        <#--<form id="_form" action="/teacher/courseManage" method="post">-->
+            <#--<a onclick="document.getElementById('_form').submit();">-->
+                <#--<input value="${id}" name="id" hidden="hidden">-->
+                <#--<div class="am-icon-chevron-left" style="color: darkgray"></div>-->
+            <#--</a>-->
+        <#--</form>-->
+    <#--</div>-->
     <div class="am-topbar-brand1">
-        <form id="_form" action="/teacher/courseManage" method="post">
-            <a onclick="document.getElementById('_form').submit();">
-                <input value="${id}" name="id" hidden="hidden">
-                <div class="am-icon-chevron-left" style="color: darkgray"></div>
-            </a>
-        </form>
+        <a href="javascript:window.history.go(-1);">
+            <div class="am-icon-chevron-left" style="color: darkgray"></div>
+        </a>
     </div>
     <div class="am-topbar-brand">
         <h3>学生成绩</h3>
@@ -59,19 +80,16 @@
             data-am-collapse="{target: '#topbar-collapse'}">
         <span class="am-icon-bars"></span>
     </button>
-
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-
-            <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a>
-            </li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a>
-            </li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a>
-            </li>
-            <li><a href="login.html" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
-
+            <#--<li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>-->
+            <#--<li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>-->
+            <#--<li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>-->
+            <#--<li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>-->
+            <li><a onclick="standardPost('message')" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
+            <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
     </div>
 </header>

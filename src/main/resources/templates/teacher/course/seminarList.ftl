@@ -24,14 +24,18 @@
 
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
+    <#--<div class="am-topbar-brand1">-->
+        <#--<form id="_form" action="/teacher/courseManage" method="post">-->
+            <#--<a onclick="document.getElementById('_form').submit();">-->
+                <#--<input value="${id}" name="id" hidden="hidden">-->
+                <#--<div class="am-icon-chevron-left" style="color: darkgray"></div>-->
+            <#--</a>-->
+        <#--</form>-->
+    <#--</div>-->
     <div class="am-topbar-brand1">
-        <form id="_form" action="/teacher/courseManage" method="post">
-            <a onclick="document.getElementById('_form').submit();">
-                <input value="${id}" name="id" hidden="hidden">
-                <div class="am-icon-chevron-left" style="color: darkgray"></div>
-            </a>
-        </form>
-
+        <a href="javascript:window.history.go(-1);">
+            <div class="am-icon-chevron-left" style="color: darkgray"></div>
+        </a>
     </div>
     <div class="am-topbar-brand">
         <h3>${course.getCourseName()}</h3>
@@ -42,17 +46,11 @@
     </button>
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-
-            <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a>
-            </li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a>
-            </li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a>
-            </li>
-            <li><a href="login.html" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
-
+            <li><a onclick="standardPost('message')" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
+            <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
     </div>
 </header>
@@ -102,15 +100,10 @@
                                             <#list klassList as klass>
                                                 <#if klass.getId()==klassSeminar.getKlassId()>
                                                     <li class="tpl-left-nav-item">
-                                                        <form id="bform" action="/teacher/course/seminar/report" method="post">
-                                                            <a onclick="document.getElementById('bform').submit();">
-                                                                <input value="${id}" name="id" hidden="hidden">
-                                                                <input value="${course.getId()}" name="courseId" hidden="hidden">
-                                                                <input value="${klassSeminar.getId()}" name="klassSeminarId" hidden="hidden">
-                                                                <span>${klass.getGrade()}-(${klass.getKlassSerial()})</span>
-                                                                <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
-                                                            </a>
-                                                        </form>
+                                                        <a href="/teacher/course/seminar/report?id=${id}&courseId=${course.getId()}&klassSeminarId=${klassSeminar.getId()}">
+                                                            <span>${klass.getGrade()}-(${klass.getKlassSerial()})</span>
+                                                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                                                        </a>
                                                     </li>
                                                 </#if>
                                             </#list>
@@ -128,12 +121,10 @@
                                 </ul>
                             </li>
                         </div>
-
                     </div>
                 </div>
             </#list>
         </#if>
-
         <a href="/teacher/course/seminar/createSeminar?id=${id}&courseId=${course.getId()}">
             <button class="am-btn am-btn-success" style="width: 100%;margin: 1% 0;" type="submit"><i
                     class="am-icon-plus" style="margin: 0 2%"></i>新建讨论课

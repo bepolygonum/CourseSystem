@@ -70,7 +70,9 @@
                             <td>
                                 第${attendance.getTeamOrder()}组:
                             </td>
-                            <td><#if attendance.getReportName()?exists>${attendance.getReportName()}</#if></td>
+                            <td><#if attendance.getReportName()?exists>
+                                <a onclick="javascript:doPost('/download', {'path':'${attendance.getReportUrl()}','name':'${attendance.getReportName()}'})">
+                                    ${attendance.getReportName()}</a></#if></td>
                             <td><input class="border" type="number" name="reportScore" value="${seminarScore.getReportScore()}"></td>
                             <input value="${attendance.getTeamId()}" name="teamId" hidden="hidden">
                         </tr>
@@ -81,8 +83,6 @@
                     </#if>
                     </tbody>
                 </table>
-
-                <button class="am-btn am-btn-default" style="width: 100%;margin-top: 3rem">批量下载</button>
                 <button type="submit" class="am-btn am-btn-success" style="width: 100%;margin-top: 1rem">确认</button>
             </div>
         </form>

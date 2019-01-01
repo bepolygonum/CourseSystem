@@ -76,7 +76,7 @@ public class UtilController {
         System.out.println(realPath);
         File file = new File(realPath);
         if (file.exists()) {
-            // 设置强制下载不打开
+            // 设置下载不打开
             response.setContentType("application/force-download");
             // 设置文件名
             response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);

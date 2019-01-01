@@ -607,6 +607,44 @@ public class StudentController {
         return "/student/courseManage";
     }
 
+    private static final String PERSONAL_MESSAGE = "message";
+    private static final String PERSONAL_INFO = "personalInfo";
+    private static final String PERSONAL_SEMINAR = "seminar";
+    @RequestMapping(value = "/topnavigation", method = RequestMethod.POST)
+    public String mapTopNavigation(Model model, @RequestParam("id") String id, @RequestParam("to") String to){
+        System.out.println(new Date() + "Class: StudentController; " + "Method: MapTopNavigation;" + " id: " + id + " to: " + to);
+        if("".equals(id)){
+            System.out.println("1");
+            return null;
+        }else{
+            Integer studentId = Integer.parseInt(id);
+            if(PERSONAL_INFO.equals(to)){
+                System.out.println("2");
+                Student student = studentService.getStudentByID(studentId);
+                model.addAttribute(student);
+                return "/student/person/personalInfo";
+            }else if(PERSONAL_MESSAGE.equals(to)){
+                System.out.println("3");
+                return "1234";
+            }else if(PERSONAL_SEMINAR.equals(to)){
+                System.out.println("4");
+                Student student = studentService.getStudentByID(studentId);
+                model.addAttribute(student);
+                List<Klass> klassList = klassService.getKlassByStudentID(studentId);
+                List<Course> courseList = new ArrayList<>();
+                for (int i = 0; i < klassList.size(); i++) {
+                    int courseid = klassList.get(i).getCourseId();
+                    if (seminarService.getSeminarByCourseID(courseid) != null) {
+                        courseList.add(courseService.getCourseByCourseID(courseid));
+                    }
+                }
+                model.addAttribute(courseList);
+                return "/student/seminar/seminarCourse";
+            }else{
+                return null;
+            }
+        }
+    }
     @RequestMapping(value = "/delete-enroll", method = RequestMethod.GET)
     public void deleteEnroll(@RequestParam(name = "id") String sid,
                              @RequestParam String seminarid, HttpServletResponse response) throws IOException {

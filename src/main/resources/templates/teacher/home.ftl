@@ -10,6 +10,25 @@
     <link rel="stylesheet" href="../../static/css/admin.css">
     <link rel="stylesheet" href="../../static/css/app.css">
     <script src="../../static/js/echarts.min.js"></script>
+    <script>
+        window.sessionStorage.setItem("teacherId", "${teacher.getId()}");
+        console.log(new Date() + "window.sessionStorage.getItem(): " + window.sessionStorage.getItem("teacherId"));
+        function standardPost(to){
+            var form = $("<form method='post'></form>");
+            form.attr({"action": "/teacher/topnavigation"});
+            var input;
+            input = $("<input type='hidden'>");
+            input.attr({"name": "to"});
+            input.val(to);
+            form.append(input);
+            input = $("<input type='hidden'>");
+            input.attr({"name": "id"});
+            input.val(window.sessionStorage.getItem("teacherId"));
+            form.append(input);
+            $(document.body).append(form);
+            form.submit();
+        }
+    </script>
 </head>
 
 <body>
@@ -28,17 +47,11 @@
     </button>
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-
-            <li><a href="/teacher/notify?id=${teacher.getId()}" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a>
-            </li>
-            <li><a href="javascript:doPost( , {})" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a>
-            </li>
-            <li><a href="/teacher/seminar?id=${teacher.getId()}" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a>
-            </li>
-            <li><a href="/" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
-
+            <li><a onclick="standardPost('message')" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
+            <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
     </div>
 </header>
