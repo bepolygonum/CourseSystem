@@ -40,4 +40,12 @@ public interface KlassStudentDao {
      * @return
      */
     int getKlassIdByStudentIdAndCourseId(@Param("0")int id, @Param("1")int courseid);
+
+    /**
+     * addStudent
+     * @param id
+     * @param klassId
+     * @param courseId
+     */
+    void addStudent(@Param("0")int id, @Param("1")int klassId, @Param("2")int courseId);
 }

@@ -65,4 +65,12 @@ public interface StudentDao {
      * @param account
      */
     void resetStudent(String account);
+
+
+    /**
+     * add student
+     * @param account
+     * @param studentName
+     */
+    void addStudent(@Param("0")String account, @Param("1")String studentName);
 }

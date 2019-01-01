@@ -4,14 +4,7 @@
 
 <mapper namespace="com.flippedclassroom.dao.ConflictCourseStrategyDao">
     <!-- 目的：为dao接口方法提供sql语句配置 -->
-    <select id="getCourse2IDByCourseID"  resultType="int">
-        SELECT course_2_id FROM  standard_seminar_system.conflict_course_strategy
-        WHERE course_1_id=#{0}
-    </select>
-    <select id="getCourse1IDByCourseID"  resultType="int">
-        SELECT course_1_id FROM  standard_seminar_system.conflict_course_strategy
-        WHERE course_2_id=#{0}
-    </select>
+
 
     <select id="getIdByCourseID"  resultType="Integer">
         SELECT  IFNULL(MAX(id),0)AS id  FROM  standard_seminar_system.conflict_course_strategy
@@ -29,5 +22,7 @@
         insert into standard_seminar_system.conflict_course_strategy(id,course_id)
         values(#{0},#{1});
     </insert>
-
+    <select id="selectConflictCourseStrategyMaxId" resultType="Integer">
+        select max(id) from standard_seminar_system.conflict_course_strategy;
+    </select>
 </mapper>

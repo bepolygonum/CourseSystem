@@ -5,15 +5,27 @@ public class TeamOrStrategy {
     private String strategyName;
     private int strategyId;
 
-    public String getStrategyName(){
-        return strategyName;
-    }
-
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public int getStrategyId(){
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getStrategyName() {
+        return strategyName;
+    }
+
+    public void setStrategyName(String strategyName) {
+        this.strategyName = strategyName;
+    }
+
+    public int getStrategyId() {
         return strategyId;
+    }
+
+    public void setStrategyId(int strategyId) {
+        this.strategyId = strategyId;
     }
 }

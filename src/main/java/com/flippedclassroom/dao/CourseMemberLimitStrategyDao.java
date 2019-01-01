@@ -16,4 +16,18 @@ public interface CourseMemberLimitStrategyDao {
      */
     CourseMemberLimitStrategy getCourseMemberLimitStrategyByCourseID(@Param("0") int courseId);
 
+    /**
+     * createCourseMemberLimitStrategy
+     * @param courseId
+     * @param min
+     * @param max
+     */
+    void createCourseMemberLimitStrategy(@Param("0")int courseId,@Param("1") int min,@Param("2") int max);
+
+    /**
+     * selectCourseMemberLimitStrategyMaxId
+     * @return
+     */
+    int selectCourseMemberLimitStrategyMaxId();
+
 }

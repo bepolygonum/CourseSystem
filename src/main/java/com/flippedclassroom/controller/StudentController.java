@@ -42,7 +42,7 @@ public class StudentController {
     public String studentIndex(Model model) {
         Student student = studentService.getCurStudent();
         model.addAttribute("student", student);
-        if (!student.isActive()) {
+        if (student.isActive()==false) {
             return "/student/activation";
         }
         return "/student/home";
@@ -456,7 +456,7 @@ public class StudentController {
         model.addAttribute(attendances);
         model.addAttribute(teamList);
         model.addAttribute(seminar);
-        model.addAttribute(student);
+        model.addAttribute("student", student);
         return "/student/seminar/seminar-running";
     }
 

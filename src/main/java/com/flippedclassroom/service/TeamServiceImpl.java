@@ -27,6 +27,13 @@ public class TeamServiceImpl  {
     TeamValidApplicationDao teamValidApplicationDao;
 @Autowired
 MemberLimitStrategyDao memberLimitStrategyDao;
+    MemberLimitStrategyDao memberLimitStrategyDao;
+    @Autowired
+    TeamStrategyDao teamStrategyDao;
+    @Autowired
+    TeamAndStrategyDao teamAndStrategyDao;
+    @Autowired
+    TeamOrStrategyDao teamOrStrategyDao;
 
     public List<Team> getTeamByCourseID(int courseId)
     {
@@ -125,4 +132,22 @@ MemberLimitStrategyDao memberLimitStrategyDao;
             if()
 
     }
+    public int createMemberLimitStrategy(int minMember,int maxMember)
+    {
+        memberLimitStrategyDao.createMemberLimitStrategy(minMember,maxMember);
+        return memberLimitStrategyDao.selectMaxId();
+    }
+    public void createTeamStrategy(int courseId, int strategySerial,String strategyName,int strategyId)
+    { teamStrategyDao.createTeamStrategy(courseId,strategySerial,strategyName,strategyId);}
+    public int selectTeamAndStrategyMaxId()
+    { return teamAndStrategyDao.selectTeamAndStrategyMaxId();}
+    public int selectTeamOrStrategyMaxId()
+    { return teamOrStrategyDao.selectTeamOrStrategyMaxId();}
+    public void createTeamAndStrategy(int id,String strategyName,int strategyId)
+    { teamAndStrategyDao.createTeamAndStrategy(id,strategyName,strategyId);}
+    public void createTeamOrStrategy(int id, String strategyName,int strategyId)
+    {
+        teamOrStrategyDao.createTeamOrStrategy(id,strategyName,strategyId);
+    }
+
 }

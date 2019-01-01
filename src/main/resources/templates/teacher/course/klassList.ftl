@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="utf-8">
@@ -10,6 +10,23 @@
     <link rel="stylesheet" href="../../../static/css/admin.css">
     <link rel="stylesheet" href="../../../static/css/app.css">
     <script src="../../../static/js/echarts.min.js"></script>
+    <script>
+    function submitFunction(id) {
+    //这里唯一需要注意的就是这个form-add的id
+        var index="#form-add"+id.toString();
+        var formData = new FormData($(index)[0]);
+        $.ajax({
+            //接口地址
+            url: '/teacher/importfile' ,
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+        });
+    }
+    </script>
 </head>
 
 <body>
@@ -46,49 +63,59 @@
         </ul>
     </div>
 </header>
-<div class="tpl-page-container1 tpl-page-header-fixed">
+<div class="tpl-content-wrapper" style="margin-top: 5rem">
     <#if klassList?exists>
         <#list klassList as klass>
             <div class="tpl-portlet-components1">
-            <div class="tpl-block">
-            <div class="am-g tpl-amazeui-form">
-            <div class="">
-            <div style="text-align: center">
-            <h3 style="color:#337ab7">${klass.getGrade()}-${klass.getKlassSerial()}</h3>
-            </div>
-            <div>
-        <lable class="mylabel">讨论课时间：</lable>
-            <div class="myDiv">
-            <label class="myLabel">${klass.getKlassTime()}</label>
-            </div>
-            </div>
-            <div>
-        <lable class="mylabel">讨论课地点：</lable>
-            <div class="myDiv">
-            <label class="myLabel">${klass.getKlassLocation()}</label>
-            </div>
-            </div>
-            <div>
-                <lable class="mylabel">学生名单：</lable>
-                <div class="myDiv">
-                    <input type="file" style="width: 80%;margin-left: 10%;">
+                <div class="tpl-block">
+                    <div class="am-g tpl-amazeui-form">
+                        <div class="">
+                            <div style="text-align: center">
+                                <h3 style="color:#337ab7">${klass.getGrade()}-${klass.getKlassSerial()}</h3>
+                            </div>
+                            <div>
+                                <lable class="mylabel">讨论课时间：</lable>
+                                <div class="myDiv">
+                                    <label class="myLabel">${klass.getKlassTime()}</label>
+                                </div>
+                            </div>
+                            <div>
+                                <lable class="mylabel">讨论课地点：</lable>
+                                <div class="myDiv">
+                                    <label class="myLabel">${klass.getKlassLocation()}</label>
+                                </div>
+                            </div>
+                            <form id="form-add${klass_index}">
+                            <div>
+                                <lable class="mylabel">学生名单：</lable>
+                                <div class="myDiv">
+                                        <input type="file" name="file">
+                                        <input type="text" hidden="hidden" name="klassid" value="${klass.getId()}">
+                                </div>
+                            </div>
+                                <input type="button" value="提交" onclick="submitFunction(${klass_index})" class="am-btn am-btn-default"
+                                         style="color: #337ab7;float: left;margin-top: 5%">
+                            </form>
+                            <div>
+                                <form id="_form" action="/teacher/course/klass/delete" method="post">
+                                    <input value="${id}" name="id" hidden="hidden">
+                                    <input value="${courseId}" name="courseId" hidden="hidden">
+                                    <input value="${klass.getId()}" name="klassId" hidden="hidden">
+                                    <button type="submit" class="am-btn am-btn-default"
+                                            style="float:right;margin-top:5%">删除班级
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <button type="submit" class="am-btn am-btn-success" style="float: left;margin-top: 5%">
-                    提交
-                </button>
-                <button type="submit" class="am-btn am-btn-danger" style="float:right;margin-top:5%">删除班级</button>
-            </div>
-            </div>
-            </div>
-            </div>
             </div>
         </#list>
     </#if>
-    <div class="tpl-portlet-components" style="margin-bottom: 0px; padding: 1rem 1rem;">
-        <a class="am-btn am-btn-success" style="width: 100%;" href=""><i class="am-icon-plus" style="margin: 0 2%"></i>新建班级</a>
-    </div>
+    <button class="am-btn am-btn-success" style="width: 100%;margin-bottom: 4%" type="submit"
+            onclick="window.location.href='/teacher/course/klass/createKlass?id=${id}&courseId=${courseId}'"><i
+            class="am-icon-plus" style="margin: 0 2%"></i>新增班级
+    </button>
 </div>
 
 

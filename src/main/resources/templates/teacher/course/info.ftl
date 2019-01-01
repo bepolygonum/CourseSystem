@@ -75,11 +75,10 @@
                             </div>
                             <#if courseMemberLimitStrategy?exists>
                                 <div>
-                                <lable class="mylabel">小组人数：</lable>
-                                <div class="myDiv">
-                                <label class="myLabel">${courseMemberLimitStrategy.getMinMember()}
-                            ~${courseMemberLimitStrategy.getMaxMember()}</label>
-                                </div>
+                                    <lable class="mylabel">小组人数：</lable>
+                                    <div class="myDiv">
+                                        <label class="myLabel">${courseMemberLimitStrategy.getMinMember()}~${courseMemberLimitStrategy.getMaxMember()}</label>
+                                    </div>
                                 </div>
                             </#if>
                             <div>
@@ -94,29 +93,33 @@
                                     <label class="myLabel">${course.getTeamEndTime()}</label>
                                 </div>
                             </div>
-                            <div>
-                                <lable class="mylabel">冲突课程：</lable>
-                                <div class="myDiv">
-                                    <#if courseList?exists>
-                                        <#list courseList as conflictCourse>
-                                            <#if teacherList?exists>
-                                                <#list teacherList as teacher>
-                                                    <#if teacher.getId()==conflictCourse.getTeacherId()>
-                                                        <label class="myLabel">${conflictCourse.getCourseName()}
-                                                    (${teacher.getTeacherName()}老师)</label>
-                                                    </#if>
-                                                </#list>
+                            <#if courseList?exists>
+                                <#list courseList as conflictCourse>
+                                    <#if teacherList?exists>
+                                        <#list teacherList as teacher>
+                                            <#if teacher.getId()==conflictCourse.getTeacherId()>
+                                                <div>
+                                                    <lable class="mylabel">冲突课程：</lable>
+                                                    <div class="myDiv">
+                                                        <label class="myLabel">${conflictCourse.getCourseName()}(${teacher.getTeacherName()}老师)</label>
+                                                    </div>
+                                                </div>
                                             </#if>
                                         </#list>
-                                    <#else>
-                                        <label class="myLabel">无</label>
                                     </#if>
 
-
-                                </div>
-                                <button type="submit" class="am-btn am-btn-danger" style="float: right;margin-top: 5%">删除此课程</button>
-                            </div>
-
+                                </#list>
+                            </#if>
+                        </div>
+                    </div>
+                </div>
+                <form id="_form" action="/teacher/course/delete" method="post">
+                    <input value="${id}" name="id" hidden="hidden">
+                    <input value="${course.getId()}" name="courseId" hidden="hidden">
+                    <button type="submit" class="am-btn am-btn-default" style="float: right">删除此课程</button>
+                </form>
+            </div>
+        </div>
 
 
                             <script src="../../../static/js/jquery.min.js"></script>

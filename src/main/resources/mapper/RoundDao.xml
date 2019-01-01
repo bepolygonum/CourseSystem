@@ -21,6 +21,16 @@
     <select id="getRoundByCourseID"  resultMap="roundResultMap">
         SELECT * FROM  standard_seminar_system.round
         WHERE course_id=#{0}
+        order by round_serial
     </select>
+    <select id="getRoundByRoundID"  resultMap="roundResultMap">
+        SELECT * FROM  standard_seminar_system.round
+        WHERE id=#{0}
+    </select>
+    <update id="updateRoundByRoundId">
+        update standard_seminar_system.round
+        set presentation_score_method=#{1},report_score_method=#{2},question_score_method=#{3}
+        where id=#{0};
+    </update>
 
 </mapper>

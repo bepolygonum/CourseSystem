@@ -25,4 +25,9 @@
               #{item}
         </foreach>
     </select>
+    <update id="updateRoundScoreByRoundIdTeamId">
+        update standard_seminar_system.round_score
+        set total_score=#{2},presentation_score=#{3},question_score=#{4},report_score=#{5}
+        where round_id=#{0} and team_id=#{1};
+    </update>
 </mapper>

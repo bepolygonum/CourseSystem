@@ -54,4 +54,5 @@ public interface KlassSeminarDao {
      * @return
      */
     int getKlassSeminarByKlassIDSeminarID(@Param("0") int klassId, @Param("1") int seminaeId);
+
 }

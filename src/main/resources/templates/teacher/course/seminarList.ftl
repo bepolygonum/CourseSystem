@@ -62,32 +62,39 @@
         <#if roundList?exists>
             <#list roundList as round>
                 <div class="tpl-block">
-                <div class="am-g">
-                <div class="am-u-sm-12">
-                <li class="tpl-left-nav-item">
-                <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
-                <span>第${round.getRoundSerial()}轮</span>
-            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
-                </a>
+                    <div class="am-g">
+                        <div class="am-u-sm-12">
+                            <li class="tpl-left-nav-item">
+                                <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                                    <span>第${round.getRoundSerial()}轮</span>
+                                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                                </a>
 
-                <ul class="tpl-left-nav-sub-menu">
-            <li>
-                <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
-                    <i class="am-icon-gear"></i>
-                    <span>该轮轮次设置</span>
-                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
-                </a>
-            </li>
+                                <ul class="tpl-left-nav-sub-menu">
+                                    <li>
+                                        <form id="sform" action="/teacher/course/roundSet"
+                                              class="nav-link tpl-left-nav-link-list" method="post">
+                                            <a onclick="document.getElementById('sform').submit();">
+                                                <i class="am-icon-gear"></i>
+                                                <input value="${id}" name="id" hidden="hidden">
+                                                <input value="${course.getId()}" name="courseId" hidden="hidden">
+                                                <input value="${round.getId()}" name="roundId" hidden="hidden">
+                                                <span>该轮轮次设置</span>
+                                                <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                                            </a>
+
+                                        </form>
+                                    </li>
 
                 <#if seminarList?exists>
                     <#list seminarList as seminar>
                         <#if seminar.getRoundId()==round.getId()>
                             <li class="tpl-left-nav-item">
-                            <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
-                            <span>${seminar.getSeminarName()}</span>
-                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
-                            </a>
-                            <ul class="tpl-left-nav-sub-menu">
+                                <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                                    <span>${seminar.getSeminarName()}</span>
+                                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                                </a>
+                                <ul class="tpl-left-nav-sub-menu">
                             <#if klassSeminarList?exists>
                                 <#list klassSeminarList as klassSeminar>
                                     <#if klassSeminar.getSeminarId()==seminar.getId()>
@@ -95,10 +102,10 @@
                                             <#list klassList as klass>
                                                 <#if klass.getId()==klassSeminar.getKlassId()>
                                                     <li class="tpl-left-nav-item">
-                                                    <a href="seminar.html">
-                                                    <span>${klass.getGrade()}-(${klass.getKlassSerial()})</span>
-                                                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
-                                                    </a>
+                                                        <a href="seminar.html">
+                                                            <span>${klass.getGrade()}-(${klass.getKlassSerial()})</span>
+                                                            <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                                                        </a>
                                                     </li>
                                                 </#if>
                                             </#list>
@@ -106,26 +113,25 @@
                                     </#if>
                                 </#list>
                             </#if>
-                            </ul>
+                                </ul>
                             </li>
                         </#if>
                     </#list>
                 </#if>
 
 
-                </ul>
-                </li>
-                </div>
+                                </ul>
+                            </li>
+                        </div>
 
-                </div>
+                    </div>
                 </div>
             </#list>
         </#if>
 
-
         <a href="/teacher/course/seminar/createSeminar?id=${id}&courseId=${course.getId()}">
             <button class="am-btn am-btn-success" style="width: 100%;margin: 1% 0;" type="submit"><i
-                        class="am-icon-plus" style="margin: 0 2%"></i>新建讨论课
+                    class="am-icon-plus" style="margin: 0 2%"></i>新建讨论课
             </button>
         </a>
     </div>
