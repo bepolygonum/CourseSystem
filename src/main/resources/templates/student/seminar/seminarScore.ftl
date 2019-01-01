@@ -50,7 +50,6 @@
                         <th style="width: 20%;">展示</th>
                         <th style="width:20%">提问</th>
                         <th style="width:20%">报告</th>
-                        <th style="width:20%">总分</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -63,7 +62,6 @@
                             <td>${seminarScore.getPresentationScore()}</td>
                             <td> ${seminarScore.getQuestionScore()}</td>
                             <td>${seminarScore.getReportScore()}</td>
-                            <td>${seminarScore.getTotalScore()}</td>
                         </tr>
                         </#if>
                         </#list>

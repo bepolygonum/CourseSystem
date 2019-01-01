@@ -70,7 +70,15 @@
                     <div>
                         <lable class="mylabel">课程情况：</lable>
                         <div class="myDiv">
-                            <label class="myLabel">正在进行<a href="editseminar.html" style=" word-break: keep-all; white-space: nowrap;margin-left:1%; text-decoration:underline; ">查看信息</a></label>
+                            <label class="myLabel">
+                                <#if status=1>
+                                正在进行
+                                <#elseif status=0>
+                                未开始
+                                <#elseif status=2>
+                                已结束
+                                </#if>
+                                <a href="editseminar.html" style=" word-break: keep-all; white-space: nowrap;margin-left:1%; text-decoration:underline; ">查看信息</a></label>
                         </div>
                     </div>
                 </div>

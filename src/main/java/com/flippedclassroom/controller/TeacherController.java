@@ -406,7 +406,6 @@ public class TeacherController {
 
         List<Integer> seminarIds = seminarList.stream().map(Seminar::getId).collect(Collectors.toList());
         List<KlassSeminar> klassSeminarList = klassService.getKlassSeminarBySeminarID(seminarIds);
-
         model.addAttribute(course);
         model.addAttribute(roundList);
         model.addAttribute(seminarList);
@@ -557,7 +556,7 @@ public class TeacherController {
         return "/teacher/course/seminarList";
     }
 
-    @RequestMapping(value = "/course/seminar/report",method = RequestMethod.POST)
+    @RequestMapping(value = "/course/seminar/report",method = RequestMethod.GET)
     public String seminarStatus(Model model, @RequestParam int id, @RequestParam int courseId,@RequestParam int klassSeminarId)
     {
         KlassSeminar klassSeminar=klassService.getKlassSeminarByKlassSeminarId(klassSeminarId);
@@ -568,8 +567,9 @@ public class TeacherController {
         List<SeminarScore> seminarScoreList=seminarService.getSeminarScoreByKlassSeminarID(klassSeminarIds);
         //0未开始 1正在进行 2结束
         int noStart=0;
-        int progress=1;
+        System.out.println(klassSeminar.getStatus());
         int end =2;
+        model.addAttribute("status",klassSeminar.getStatus());
         if(klassSeminar.getStatus()==end)
         {
             model.addAttribute("id",id);
