@@ -4,11 +4,25 @@
 
 <mapper namespace="com.flippedclassroom.dao.TeamOrStrategyDao">
     <!-- 目的：为dao接口方法提供sql语句配置 -->
+    <resultMap type="com.flippedclassroom.entity.TeamOrStrategy" id="TeamOrStrategyResultMap">
+        <!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id -->
+        <!-- property：主键在pojo中的属性名 -->
+        <!-- column：主键在数据库中的列名 -->
+        <id property="id" column="id" />
+        <id property="strategyName" column="strategy_name" />
+        <id property="strategyId" column="strategy_id" />
+    </resultMap>
+
     <insert id="createTeamOrStrategy">
         insert into standard_seminar_system.team_or_strategy(id,strategy_name,strategy_id)
         values (#{0},#{1},#{2});
     </insert>
+
     <select id="selectTeamOrStrategyMaxId()" resultType="Integer">
         select max(id) from standard_seminar_system.team_or_strategy;
+    </select>
+
+    <select id="getTeamOrStrategyByid" resultMap="TeamOrStrategyResultMap">
+        select * from standard_seminar_system.team_or_strategy where id=#{0};
     </select>
 </mapper>

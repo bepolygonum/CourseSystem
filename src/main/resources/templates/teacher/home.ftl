@@ -15,7 +15,7 @@
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand1">
-        <a href="seminar.html">
+        <a href="javascript:window.history.go(-1);">
             <div class="am-icon-chevron-left" style="color: darkgray"></div>
         </a>
     </div>
@@ -33,7 +33,7 @@
 
             <li><a href="/teacher/notify?id=${teacher.getId()}" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a>
             </li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a>
+            <li><a href="javascript:doPost( , {})" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a>
             </li>
             <li><a href="/teacher/seminar?id=${teacher.getId()}" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a>
             </li>

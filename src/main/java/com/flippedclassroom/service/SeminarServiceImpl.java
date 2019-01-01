@@ -69,10 +69,7 @@ public class SeminarServiceImpl {
         return  klassSeminarDao.getKlassSeminarByKlassIdSeminarID(list,list1);
     }
 
-    public void insertEnrollByTeamIdAndSeminarId(int teamid, int seminarid,int order) {
-        seminarScoreDao.insertEnrollByTeamIdAndSeminarId(teamid,seminarid);
-        attendanceDao.insertAttendByTeamIdAndSeminarId(teamid,seminarid,order);
-    }
+
 
     public List<Attendance> getAttendanceByKlassSeminarId(int klassSeminarId) {
         return  attendanceDao.getAttendanceByKlassSeminarId(klassSeminarId);
@@ -118,4 +115,25 @@ public class SeminarServiceImpl {
     {return seminarDao.getSeminarMaxSerialByRoundId(roundId);}
 
     public int getSeminarMaxId(){return seminarDao.getSeminarMaxId();}
+
+    public List<SeminarScore> getSeminarScoreByKlassSeminarID(int klassSeminarId) {
+        List list=new ArrayList();
+        list.add(klassSeminarId);
+        return seminarScoreDao.getSeminarScoreByKlassSeminarID(list);
+    }
+    public void insertEnrollByTeamIdAndSeminarId(int teamid, int klassSeminarid,int order) {
+        List list=new ArrayList();
+        list.add(klassSeminarid);
+        if(seminarScoreDao.getSeminarScoreByKlassSeminarIDTeamID(list,teamid).size()==0) {
+            seminarScoreDao.insertEnrollByTeamIdAndSeminarId(klassSeminarid, teamid);
+            attendanceDao.insertAttendByTeamIdAndSeminarId(klassSeminarid, teamid, order);
+        }
+        else {
+            attendanceDao.updateAttendByTeamIdAndSeminarId(klassSeminarid, teamid, order);
+        }
+    }
+    public void deleteEnroll(int teamid, int klassSeminarId) {
+        seminarScoreDao.deleteEnroll(teamid,klassSeminarId);
+        attendanceDao.deleteEnroll(teamid,klassSeminarId);
+    }
 }

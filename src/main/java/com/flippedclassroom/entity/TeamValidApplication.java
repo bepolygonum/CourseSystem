@@ -34,6 +34,7 @@ public class TeamValidApplication {
         this.teacherId = teacherId;
     }
 
+
     public String getReason() {
         return reason;
     }
@@ -49,4 +50,5 @@ public class TeamValidApplication {
     public void setStatus(int status) {
         this.status = status;
     }
+    
 }

@@ -20,10 +20,6 @@ import java.io.PrintWriter;
  */
 @Controller
 public class LoginController {
-    @Autowired
-    private TeacherServiceImpl teacherService;
-    @Autowired
-    private StudentServiceImpl studentService;
 
     @GetMapping(value = "/pc/login")
     public String loginOnPc(){

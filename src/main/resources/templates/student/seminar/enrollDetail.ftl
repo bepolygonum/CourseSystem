@@ -11,9 +11,10 @@
     <link rel="stylesheet" href="../../../static/css/app.css">
     <script src="../../../static/js/echarts.min.js"></script>
     <script>
-        function conf() {
+        function conf(order) {
             var r = confirm("确认报名该次讨论课？");
             if (r == true) {
+                doPost('/student/enroll',{'order':order,'sid':'${student.getId()}','seminarId':'${seminar.getId()}'})
             } else {
             }
         }
@@ -49,6 +50,7 @@
 </header>
 <div class="tpl-content-wrapper" style="margin-top: 5rem">
     <div class="tpl-portlet-components1">
+
         <#assign count =0/>
         <div class="tpl-block">
             <div class="am-g tpl-amazeui-form">
@@ -56,36 +58,45 @@
                     <#if attendanceList?exists>
                         <#list attendanceList?sort_by("teamOrder")  as attendance >
                             <#assign count++>
-                            <#if attendance.getTeamOrder() == count>
+                            <#if attendance.getTeamOrder() != count>
+                                <#list count..attendance.getTeamOrder()-1 as i>
+                                    <div>
+                                        <lable class="mylabel">第${i}组</lable>
+                                        <div class="myDiv">
+                                            <a onclick="conf(${i})"
+                                               style="color: #23c0c0;font-size: 1.5rem;font-weight: 800;">可报名</a>
+                                        </div>
+                                    </div>
+                                </#list>
+                                <#assign count=attendance.getTeamOrder()>
+                            </#if>
+                            <#if attendance.getTeamOrder() = count>
                                 <div style="margin-bottom:0.5rem">
-                                <lable class="mylabel">第${attendance.getTeamOrder()}组：</lable>
-                                <div class="myDiv">
-                                <label class="myLabel">
+                                    <lable class="mylabel">第${attendance.getTeamOrder()}组：</lable>
+                                    <div class="myDiv">
+                                        <label class="myLabel">
                                 <#if attendance.getPptName()?exists>
-                                    ${attendance.getPptName()}
+                                    <a onclick="javascript:doPost('/download', {'path':'${attendance.getPptUrl()}','name':'${attendance.getPptName()}'})">
+                                        ${attendance.getPptName()}</a>
                                 <#else>
                                     未上传
                                 </#if>
-                                </label>
-                                </div>
-                                </div>
-                            <#else>
-                                <div>
-                                <lable class="mylabel">第${count}组</lable>
-                                <div class="myDiv">
-                                    <a onclick="conf()"
-                                       style="color: #23c0c0;font-size: 1.5rem;font-weight: 800;">可报名</a>
-                                </div>
+                                        </label>
+                                    </div>
                                 </div>
                             </#if>
                         </#list>
-                    <#else>
-                        <#list 1..roundCount as i>
+                    </#if>
+
+                    <#if count < roundCount>
+                    <#assign count++/>
+                        <#list count..roundCount as i>
                             <div>
-                            <lable class="mylabel">第${i}组</lable>
-                            <div class="myDiv">
-                                <a onclick="conf()" style="color: #23c0c0;font-size: 1.5rem;font-weight: 800;">可报名</a>
-                            </div>
+                                <lable class="mylabel">第${i}组</lable>
+                                <div class="myDiv">
+                                    <a onclick="conf(${i})"
+                                       style="color: #23c0c0;font-size: 1.5rem;font-weight: 800;">可报名</a>
+                                </div>
                             </div>
                         </#list>
                     </#if>

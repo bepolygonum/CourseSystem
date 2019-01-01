@@ -17,9 +17,23 @@
     </script>
     <script src="../../../../static/js/jquery.min.js"></script>
     <script>
+        function submitFunction() {
+            var tableId = document.getElementById("groupTable");
+            var myArray=new Array();
+            for (var i = 0; i < tableId.rows.length; i++){
+                myArray.push(tableId.rows[i].cells[1].innerHTML)
+            }
+
+            $.ajax({
+                //接口地址
+                url: '/student/check',
+                type: 'POST',
+                data: {team:myArray,klass:${klass.getId()},teamid:${myteam.getId()},sid:${student.getId()}},
+                traditional:true,
+            });
+        }
+
         function removeMember(td) {
-            console.log("removeMember");
-            console.log(td);
             if (window.confirm("确定将学生:" + $(td).parent().attr("id") + "移出小组?\n当前页面所有操作最终需要点击下方保存按钮才会生效")) {
                 $(td.parentNode).find("td:first").html("<input type=\"checkbox\" name=\"radio\" class=\"data-am-ucheck\" style=\"margin-left: 1rem\" class=\"data-am-ucheck\"  style=\"margin-left: 1rem\">");
                 console.log($(td.parentNode).find("td:last").find("a").html());
@@ -31,13 +45,16 @@
         }
 
         function addMemberToTeam() {
-            console.log("addMemberToTeam");
             $("table input[type=checkbox]:checked").each(function () {
                 var tr = $(this).parent("td").parent("tr");
                 $(this).parent("td").parent("tr").find("td:last").html("<a onclick=\"removeMember(this.parentNode)\">" + $(this).parent("td").parent("tr").find("td:last").html() + "</a>");
                 $(this).parent("td").parent("tr").find("td:first").html("组员");
                 $("#groupTable").append(tr);
             })
+        }
+
+        function dismiss() {
+            return confirm("确定解散该小组吗?");
         }
     </script>
 </head>
@@ -72,76 +89,71 @@
     <div class="tpl-portlet-components2">
         <div class="tpl-block">
             <div class="am-g">
-                <form>
-                    <div class="am-u-sm-12">
-                        <div style="text-align: center"><label class="myLabel">${myteam.getTeamName()}</label>
-                            <label style="font-size: 1.5rem; color: #0b76ac">
-                                <#if myteam.getStatus()==0>不合法
-                                <#else>合法</#if>
-                            </label>
-                        </div>
 
-                        <table class="am-table am-table-striped am-table-hover table-main" id="groupTable">
-                            <tbody id="myBody">
-                            <tr>
-                                <td>组长</td>
-                                <td>${student.getAccount()}</td>
-                                <td>${student.getStudentName()}</td>
-                            </tr>
-                            <#if memberTeam?exists>
-                                <#list memberTeam as member>
-                                    <#if member.getId()!=student.getId()>
-                                        <tr id="${member.getAccount()}">
-                                    <td>组员</td>
-                                        <td>${member.getAccount()}</td>
-                                        <td>
-                                        <a onclick="removeMember(this.parentNode)">${member.getStudentName()}</a></td>
-                                        </tr>
-                                    </#if>
-                                </#list>
-                            </#if>
-                            </tbody>
-                        </table>
-
-                        <#if noTeams?exists>
-                            <div style="margin-top: 0.5rem">
-                                <label class="myLabel">添加成员:</label>
-                            </div>
-                            <table class="am-table">
-                            <tbody>
-                            <tr>
-                            <td>
-                            <table class="am-table am-table-striped am-table-hover table-main" id="table2">
-                            <#list noTeams as noteam>
-                                <tr id="${noteam.getAccount()}">
-                                    <td><input type="checkbox" name="radio" class="data-am-ucheck" style="margin-left: 1rem"
-                                       class="data-am-ucheck" style="margin-left: 1rem"></td>
-                                    <td>${noteam.getAccount()}</td>
-                                    <td>${noteam.getStudentName()}</td>
-                                </tr>
-                            </#list>
-                            </table>
-                            </td>
-                            </tr>
-                            </tbody>
-                            </table>
-                        </#if>
-                        <a class="am-btn am-btn-danger"
-                                style="margin-left:2rem;width: 25%;margin-top: 2rem;border-radius: 0.5rem;">
-                            解散
-                        </a>
-
-                        <a onclick="addMemberToTeam()" class="am-btn am-btn-primary"
-                                style="margin-left:1rem;width: 25%;margin-top: 2rem;border-radius: 0.5rem">
-                            添加
-                        </a>
-                        <a class="am-btn am-btn-success"
-                                style="margin-left:1rem;width: 25%;margin-top: 2rem;border-radius: 0.5rem">
-                            保存
-                        </a>
-
+                <div class="am-u-sm-12">
+                    <div style="text-align: center"><label class="myLabel">${myteam.getTeamName()}</label>
+                        <label style="font-size: 1.5rem; color: #0b76ac">
+                            <#if myteam.getStatus()==0>不合法
+                            <#else>合法</#if>
+                        </label>
                     </div>
-                </form>
+                    <table class="am-table am-table-striped am-table-hover table-main" id="groupTable">
+                        <tbody id="myBody">
+                        <tr>
+                            <td>组长</td>
+                            <td>${student.getAccount()}</td>
+                            <td>${student.getStudentName()}</td>
+                        </tr>
+                        <#if memberTeam?exists>
+                            <#list memberTeam as member>
+                                <#if member.getId()!=student.getId()>
+                                    <tr id="${member.getAccount()}">
+                                <td>组员</td>
+                                    <td>${member.getAccount()}</td>
+                                    <td>
+                                    <a onclick="removeMember(this.parentNode)">${member.getStudentName()}</a></td>
+                                    </tr>
+                                </#if>
+                            </#list>
+                        </#if>
+                        </tbody>
+                    </table>
+                    <a class="am-btn am-btn-danger" onclick="return dismiss()"
+                       href="javascript:doPost('/student/dismiss', {'id':'${student.getId()}','teamid':'${myteam.getId()}'})"
+                       style="margin-left:2rem;width: 25%;margin-top: 2rem;border-radius: 0.5rem;">
+                        解散
+                    </a>
+                    <a onclick="addMemberToTeam()" class="am-btn am-btn-primary"
+                       style="margin-left:1rem;width: 25%;margin-top: 2rem;border-radius: 0.5rem">
+                        添加
+                    </a>
+                    <a class="am-btn am-btn-success" type="submit" onclick="submitFunction()"
+                       style="margin-left:1rem;width: 25%;margin-top: 2rem;border-radius: 0.5rem">
+                        保存
+                    </a>
+                    <#if noTeams?exists>
+                        <div style="margin-top: 0.5rem">
+                            <label class="myLabel">添加成员:</label>
+                        </div>
+                        <table class="am-table">
+                        <tbody>
+                        <tr>
+                        <td>
+                        <table class="am-table am-table-striped am-table-hover table-main" id="table2">
+                        <#list noTeams as noteam>
+                            <tr id="${noteam.getAccount()}">
+                        <td><input type="checkbox" name="radio" class="data-am-ucheck" style="margin-left: 1rem"></td>
+                            <td>${noteam.getAccount()}</td>
+                            <td>${noteam.getStudentName()}</td>
+                            </tr>
+                        </#list>
+                        </table>
+                        </td>
+                        </tr>
+                        </tbody>
+                        </table>
+                    </#if>
+                </div>
             </div>
         </div>
     </div>

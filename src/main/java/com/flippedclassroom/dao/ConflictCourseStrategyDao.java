@@ -1,5 +1,6 @@
 package com.flippedclassroom.dao;
 
+import com.flippedclassroom.entity.ConflictCourseStrateqy;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -44,4 +45,6 @@ public interface ConflictCourseStrategyDao {
      * @return
      */
     int selectConflictCourseStrategyMaxId();
+
+    List<ConflictCourseStrateqy> getConflictCourseStrategy(@Param("0") int strategyId);
 }

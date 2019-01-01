@@ -101,4 +101,6 @@ public interface CourseDao {
      * @param courseId
      */
     void deleteCourseByCourseId(@Param("0") int courseId);
+
+    int getTeacherIdByCourseId(@Param("0") int courseId);
 }

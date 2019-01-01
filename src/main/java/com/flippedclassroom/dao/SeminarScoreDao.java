@@ -20,12 +20,28 @@ public interface SeminarScoreDao {
     /**
      * insert Enroll By TeamId And SeminarId
      * @param teamid
-     * @param seminarid
+     * @param klassseminarid
      */
-    void insertEnrollByTeamIdAndSeminarId(@Param("0") int teamid, @Param("1") int seminarid);
+    void insertEnrollByTeamIdAndSeminarId(@Param("0") int klassseminarid,@Param("1") int teamid);
 
     /**
-     * updateSeminarScoreByKlassSeminarIdTeamId
+     * updateQuestionScoreByKlassSeminarIdAndTeamId
+     * @param questionScore
+     * @param klassSeminarId
+     * @param teamId
+     * @return
+     */
+   Integer updateQuestionScoreByKlassSeminarIdAndTeamId(Integer questionScore, Integer klassSeminarId, Integer teamId);
+
+    /**
+     * updatePresentationScoreByKlassSeminarIdAndTeamId
+     * @param presentationScore
+     * @param klassSeminarId
+     * @param teamId
+     * @return
+     */
+   Integer updatePresentationScoreByKlassSeminarIdAndTeamId(Integer presentationScore, Integer klassSeminarId, Integer teamId);
+    /** updateSeminarScoreByKlassSeminarIdTeamId
      * @param klassSeminarId
      * @param teamId
      * @param preScore
@@ -44,4 +60,9 @@ public interface SeminarScoreDao {
      */
     void updateSeminarReportScoreByKlassSeminarIdTeamId(@Param("0") int klassSeminarId,@Param("1") int teamId,@Param("2") double reportScore);
 
+     * deleteEnroll
+     *  @param teamid
+     * @param klassSeminarId
+     */
+    void deleteEnroll(@Param("0")int teamid, @Param("1")int klassSeminarId);
 }

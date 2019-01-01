@@ -4,6 +4,7 @@
 <mapper namespace="com.flippedclassroom.dao.TeamValidApplicationDao">
     <!-- 目的：为dao接口方法提供sql语句配置 -->
     <resultMap type="com.flippedclassroom.entity.TeamValidApplication" id="teamValidApplicationResultMap">
+
         <!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id -->
         <!-- property：主键在pojo中的属性名 -->
         <!-- column：主键在数据库中的列名 -->
@@ -19,4 +20,8 @@
         select * from standard_seminar_system.team_valid_application where status is null and teacher_id=#{0};
     </select>
 
+    <insert id="sendApplication">
+        INSERT INTO team_valid_application(team_id, teacher_id, reason) VALUES (#{0},#{1},#{2})
+    </insert>
+    
 </mapper>

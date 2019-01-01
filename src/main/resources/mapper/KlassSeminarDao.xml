@@ -63,8 +63,13 @@
         select id from standard_seminar_system.klass_seminar
         where klass_id=#{0} and seminar_id=#{1}
     </select>
+
     <insert id="createKlassSeminar">
         insert into standard_seminar_system.klass_seminar(klass_id,seminar_id,status)
         values (#{0},#{1},#{2});
     </insert>
+
+    <update id="updateReportDdlByKlassSeminarId">
+        UPDATE standard_seminar_system.klass_seminar SET report_ddl=#{reportDdl} WHERE id=#{klassSeminarId}
+    </update>
 </mapper>

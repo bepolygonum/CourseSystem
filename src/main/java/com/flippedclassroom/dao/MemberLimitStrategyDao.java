@@ -1,10 +1,10 @@
 package com.flippedclassroom.dao;
 
+import com.flippedclassroom.entity.MemberLimitStrategy;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-/**
- * @author DELL
- */
+@Repository
 public interface MemberLimitStrategyDao {
     /**
      * createMemberLimitStrategy
@@ -18,4 +18,6 @@ public interface MemberLimitStrategyDao {
      * @return
      */
     int selectMaxId();
+
+    MemberLimitStrategy getMemberLimitById(@Param("0") int strategyId);
 }

@@ -21,8 +21,26 @@
 <select id="getAttendanceByKlassSeminarId"  resultMap="attendanceResultMap">
     select * from standard_seminar_system.attendance where klass_seminar_id=#{0} order by team_order;
 </select>
-<insert id="insertAttendByTeamIdAndSeminarId" >
-    insert  into standard_seminar_system.attendance (klass_seminar_id,team_id,team_order) values
-        (#{0},#{1},#{2})
+    <insert id="insertAttendByTeamIdAndSeminarId" >
+    insert  into standard_seminar_system.attendance (klass_seminar_id,team_id,team_order,is_present) values
+        (#{0},#{1},#{2},0)
 </insert>
+<update id="updateAttendByTeamIdAndSeminarId" >
+   update standard_seminar_system.attendance set team_order= #{2}
+   where   klass_seminar_id=#{0} and team_id=#{1}
+</update>
+    <select id="getAttendanceByKlassSeminarIdAndTeamId" resultMap="attendanceResultMap">
+    select * from standard_seminar_system.attendance where klass_seminar_id=#{0} and team_id=#{1};
+</select>
+    <update id="uploadPPT">
+        update standard_seminar_system.attendance set ppt_name=#{1} ,ppt_url=#{0}
+        where klass_seminar_id=#{2} and team_id=#{3}
+    </update>
+    <update id="uploadReport">
+        update standard_seminar_system.attendance set report_name=#{1} ,report_url=#{0}
+        where klass_seminar_id=#{2} and team_id=#{3}
+    </update>
+    <delete id="deleteEnroll">
+        DELETE FROM standard_seminar_system.attendance WHERE team_id=#{0} and klass_seminar_id=#{1}
+    </delete>
 </mapper>

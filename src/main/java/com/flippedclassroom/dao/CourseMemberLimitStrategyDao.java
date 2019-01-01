@@ -4,6 +4,8 @@ import com.flippedclassroom.entity.CourseMemberLimitStrategy;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.jws.WebParam;
+
 /**
  * @author KEKE
  */
@@ -30,4 +32,5 @@ public interface CourseMemberLimitStrategyDao {
      */
     int selectCourseMemberLimitStrategyMaxId();
 
+    CourseMemberLimitStrategy getCourseMemberLimitStrategyById(@Param("0") int strategyId);
 }
