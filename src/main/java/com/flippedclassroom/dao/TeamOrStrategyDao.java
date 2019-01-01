@@ -4,7 +4,6 @@ import com.flippedclassroom.entity.TeamAndStrategy;
 import com.flippedclassroom.entity.TeamOrStrategy;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 /**

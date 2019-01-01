@@ -3,7 +3,6 @@ package com.flippedclassroom.dao;
 import com.flippedclassroom.entity.TeamStrategy;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 

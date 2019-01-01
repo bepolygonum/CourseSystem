@@ -25,4 +25,15 @@
     insert  into standard_seminar_system.attendance (klass_seminar_id,team_id,team_order) values
         (#{0},#{1},#{2})
 </insert>
+    <select id="getAttendanceByKlassSeminarIdAndTeamId" resultMap="attendanceResultMap">
+    select * from standard_seminar_system.attendance where klass_seminar_id=#{0} and team_id=#{1};
+</select>
+    <update id="uploadPPT">
+        update standard_seminar_system.attendance set ppt_name=#{1} ,ppt_url=#{0}
+        where klass_seminar_id=#{2} and team_id=#{3}
+    </update>
+    <update id="uploadReport">
+        update standard_seminar_system.attendance set report_name=#{1} ,report_url=#{0}
+        where klass_seminar_id=#{2} and team_id=#{3}
+    </update>
 </mapper>

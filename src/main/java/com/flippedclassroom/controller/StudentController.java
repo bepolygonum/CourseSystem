@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -42,7 +45,7 @@ public class StudentController {
     public String studentIndex(Model model) {
         Student student = studentService.getCurStudent();
         model.addAttribute("student", student);
-        if (student.isActive()==false) {
+        if (student.isActive() == false) {
             return "/student/activation";
         }
         return "/student/home";
@@ -360,6 +363,7 @@ public class StudentController {
         return "/student/seminar/seminarRound";
     }
 
+
     @RequestMapping(value = "/seminar-detail")
     public String seminarDetail(Model model, @RequestParam(name = "id") String sid,
                                 @RequestParam(name = "seminarid") String seminarId) {
@@ -367,12 +371,33 @@ public class StudentController {
         int seminarid = Integer.valueOf(seminarId);
         Student student = studentService.getStudentByID(id);
         Seminar seminar = seminarService.getSeminarBySeminarId(seminarid);
+        int teamid = teamService.getTeamIdByStudentIdAndCourseId(id, seminar.getCourseId()).get(0);
         List<KlassSeminar> status = seminarService.getSeminarStatusBySeminarAndStudentID(seminar, id);
+        //判断该小组是否报名本次讨论课
+
+        Timestamp reportDdl =status.get(0).getReportDdl();
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        if(reportDdl!=null){
+        model.addAttribute("before",reportDdl.compareTo(now));
+        }
+
+        Timestamp enrollDdl =seminar.getEnrollEndTime();
+        model.addAttribute("beforeEnroll",enrollDdl.compareTo(now));
+
+        Timestamp enrollStart =seminar.getEnrollStartTime();
+        model.addAttribute("beforeStart",enrollStart.compareTo(now));
+
+        Attendance attendance = attendanceService.getAttendanceByKlassSeminarIdAndTeamId(status.get(0).getId(), teamid);
+        if (attendance != null) {
+            //已报名
+            model.addAttribute("attendance", attendance);
+        }
         model.addAttribute("status", status.get(0).getStatus());
         model.addAttribute(seminar);
         model.addAttribute(student);
         return "/student/seminar/seminarDetail";
     }
+
 
     @RequestMapping(value = "/enroll-detail")
     public String seminarEnrollPage(Model model, @RequestParam(name = "id") String sid,
@@ -460,6 +485,45 @@ public class StudentController {
         return "/student/seminar/seminar-running";
     }
 
+    @RequestMapping(value = "/uploadPPT", method = RequestMethod.POST)
+    @ResponseBody
+    public void uploadPPT(@RequestParam int id, @RequestParam int seminarId,
+                          @RequestParam MultipartFile file) {
+        Seminar seminar = seminarService.getSeminarBySeminarId(seminarId);
+        int klassId=klassService.getKlassIdByStudentIdAndCourseId(id,seminar.getCourseId());
+        int teamId=teamService.getTeamIdByStudentIdAndCourseId(id,seminar.getCourseId()).get(0);
+        int klassSeminarId = klassService.getKlassSeminarIdByKlassIdAndSeminarId(klassId,seminarId);
+        attendanceService.upload(file,klassSeminarId,teamId,"PPT");
+    }
+
+    @RequestMapping(value = "/uploadReport", method = RequestMethod.POST)
+    @ResponseBody
+    public void uploadReport(@RequestParam int id, @RequestParam int seminarId,
+                          @RequestParam MultipartFile file) {
+        Seminar seminar = seminarService.getSeminarBySeminarId(seminarId);
+        int klassId=klassService.getKlassIdByStudentIdAndCourseId(id,seminar.getCourseId());
+        int teamId=teamService.getTeamIdByStudentIdAndCourseId(id,seminar.getCourseId()).get(0);
+        int klassSeminarId = klassService.getKlassSeminarIdByKlassIdAndSeminarId(klassId,seminarId);
+        attendanceService.upload(file,klassSeminarId,teamId,"report");
+    }
+
+    @RequestMapping(value = "/seminar-score")
+    public String seminarScore(Model model,@RequestParam String id, @RequestParam String seminarId) {
+        Student student=studentService.getStudentByID(Integer.parseInt(id));
+        Seminar seminar=seminarService.getSeminarBySeminarId(Integer.parseInt(seminarId));
+        int klassId=klassService.getKlassIdByStudentIdAndCourseId(student.getId(),seminar.getCourseId());
+        int klassSeminarId=klassService.getKlassSeminarIdByKlassIdAndSeminarId(klassId,seminar.getId());
+        List<SeminarScore> seminarScoreList=seminarService.getSeminarScoreByKlassSeminarID(klassSeminarId);
+        List teamids=new ArrayList();
+        for(int i=0;i<seminarScoreList.size();i++){
+            teamids.add(seminarScoreList.get(i).getTeamId());
+        }
+
+        List<Team> teamList=teamService.getTeamByIds(teamids);
+        model.addAttribute(teamList);
+        model.addAttribute(seminarScoreList);
+        return "/student/seminar/seminarScore";
+    }
     @RequestMapping(value = "/dismiss", method = RequestMethod.POST)
     public String dismiss(Model model, @RequestParam(name = "id") String sid, @RequestParam String teamid) {
         int id = Integer.valueOf(sid);
