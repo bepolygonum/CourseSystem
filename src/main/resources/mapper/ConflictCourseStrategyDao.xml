@@ -4,7 +4,14 @@
 
 <mapper namespace="com.flippedclassroom.dao.ConflictCourseStrategyDao">
     <!-- 目的：为dao接口方法提供sql语句配置 -->
-
+    <resultMap type="com.flippedclassroom.entity.ConflictCourseStrateqy" id="ConflictCourseStrateqyResultMap">
+        <!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id -->
+        <!-- property：主键在pojo中的属性名 -->
+        <!-- column：主键在数据库中的列名 -->
+        <id property="id" column="id" />
+        <id property="courseId" column="course_id" />
+        <!-- 定义普通属性 -->
+    </resultMap>
 
     <select id="getIdByCourseID"  resultType="Integer">
         SELECT  IFNULL(MAX(id),0)AS id  FROM  standard_seminar_system.conflict_course_strategy
@@ -24,5 +31,9 @@
     </insert>
     <select id="selectConflictCourseStrategyMaxId" resultType="Integer">
         select max(id) from standard_seminar_system.conflict_course_strategy;
+    </select>
+
+    <select id="getConflictCourseStrategy" resultMap="ConflictCourseStrateqyResultMap">
+        select * from standard_seminar_system.conflict_course_strategy where id=#{0}
     </select>
 </mapper>

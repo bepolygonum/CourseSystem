@@ -38,4 +38,8 @@
         insert into standard_seminar_system.klass_student (klass_id, student_id, course_id)
         values (#{1},#{0},#{2})
     </insert>
+
+    <select id="getKlassStudentByIdAndCourseId" resultMap="klassStudentResultMap">
+        select * from standard_seminar_system.klass_student where student_id= #{0} and course_id = #{1}
+    </select>
 </mapper>
