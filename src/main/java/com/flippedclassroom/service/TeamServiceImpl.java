@@ -25,8 +25,7 @@ public class TeamServiceImpl  {
     TeamStudentDao teamStudentDao;
     @Autowired
     TeamValidApplicationDao teamValidApplicationDao;
-@Autowired
-MemberLimitStrategyDao memberLimitStrategyDao;
+    @Autowired
     MemberLimitStrategyDao memberLimitStrategyDao;
     @Autowired
     TeamStrategyDao teamStrategyDao;
@@ -127,9 +126,7 @@ MemberLimitStrategyDao memberLimitStrategyDao;
 
 
     public boolean isValid(List<Integer> list, int courseId) {
-        List<TeamStrategy> teamStrategies=teamStrategyDao.getTeamStrategyByCourseId(courseId);
-        if(memberLimitStrategyDao.getMemberLimitByCourseId(courseId).isValid(list.size()))
-            if()
+        return true;
 
     }
     public int createMemberLimitStrategy(int minMember,int maxMember)
