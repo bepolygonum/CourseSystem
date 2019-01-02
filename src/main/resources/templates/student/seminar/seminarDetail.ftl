@@ -11,12 +11,30 @@
     <link rel="stylesheet" href="../../../static/css/admin.css">
     <link rel="stylesheet" href="../../../static/css/app.css">
     <script src="../../../static/js/echarts.min.js"></script>
+    <script>
+        console.log(new Date() + "window.sessionStorage.getItem(): " + window.sessionStorage.getItem("studentId"));
+        function standardPost(to){
+            var form = $("<form method='post'></form>");
+            form.attr({"action": "/student/topnavigation"});
+            var input;
+            input = $("<input type='hidden'>");
+            input.attr({"name": "to"});
+            input.val(to);
+            form.append(input);
+            input = $("<input type='hidden'>");
+            input.attr({"name": "id"});
+            input.val(window.sessionStorage.getItem("studentId"));
+            form.append(input);
+            $(document.body).append(form);
+            form.submit();
+        }
+    </script>
 </head>
 
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand1">
-        <a href="homepage.html">
+        <a href="javascript:window.history.go(-1);">
             <div class="am-icon-chevron-left" style="color: darkgray"></div>
         </a>
     </div>
@@ -27,14 +45,12 @@
             data-am-collapse="{target: '#topbar-collapse'}">
         <span class="am-icon-bars"></span>
     </button>
-    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
 
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-            <li><a href="javascript:doPost('/student/personalInfo', {'id':'${student.getId()}'})"
-                   class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
-            <li><a href="javascript:doPost('/student/seminar', {'id':'${student.getId()}'})"
-                   class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
-            <li><a href="/" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
+            <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
     </div>
 </header>
@@ -118,6 +134,13 @@
                 </form>
             </div>
         </div>
+<#if status=0>
+ <a href="/student/delete-enroll?id=${student.getId()}&seminarid=${seminar.getId()}"
+    class="am-btn am-btn-danger  am-radius"
+    style="width: 80%;margin-left: 10%;background-color: #23c0c0;border: none;margin-top: 3rem">
+     取消报名
+ </a>
+</#if>
 </#if>
 
 <#if attendance?exists&&before?exists>

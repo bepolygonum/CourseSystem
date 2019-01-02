@@ -9,9 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -217,22 +217,46 @@ public class StudentController {
                                     @RequestParam(name = "seminarid") String seminarId) {
         int id = Integer.valueOf(sid);
         int seminarid = Integer.valueOf(seminarId);
-
         Student student = studentService.getStudentByID(id);
         Seminar seminar = seminarService.getSeminarBySeminarId(seminarid);
         int teamid = teamService.getTeamIdByStudentIdAndCourseId(id, seminar.getCourseId()).get(0);
         Team team = teamService.getTeamById(teamid);
+
         int roundCount = 0;
-        List<KlassSeminar> klassSeminars = klassService.getKlassSeminarByKlassIdAndSeminarId(team.getKlassId(),
-                seminarid);
+        List<KlassSeminar> klassSeminars = klassService.getKlassSeminarByKlassIdAndSeminarId(team.getKlassId(), seminarid);
         List<Attendance> attandances = seminarService.getAttendanceByKlassSeminarId(klassSeminars.get(0).getId());
+        System.out.println(attandances.size());
+
         roundCount = seminar.getMaxTeam();
-        System.out.println(roundCount);
         model.addAttribute("roundCount", roundCount);
         model.addAttribute(attandances);
         model.addAttribute(seminar);
         model.addAttribute(student);
         return "/student/seminar/enrollDetail";
+    }
+
+    @RequestMapping(value = "/enroll",method = RequestMethod.POST)
+     public String seminarEnroll(Model model, @RequestParam String sid,@RequestParam  String seminarId,
+                                 @RequestParam(value = "order") String orders) {
+     int id=Integer.valueOf(sid);
+     int order=Integer.parseInt(orders);
+     int seminarid=Integer.valueOf(seminarId);
+     Seminar seminar=seminarService.getSeminarBySeminarId(seminarid);
+     int teamid =teamService.getTeamIdByStudentIdAndCourseId(id,seminar.getCourseId()).get(0);
+     Team team=teamService.getTeamById(teamid);
+      List<KlassSeminar> klassSeminar=klassService.getKlassSeminarByKlassIdAndSeminarId(team.getKlassId(),seminarid);
+     seminarService.insertEnrollByTeamIdAndSeminarId(team.getId(),klassSeminar.get(0).getId(),order);
+
+     Student student = studentService.getStudentByID(id);
+     int roundCount = 0;
+     List<KlassSeminar> klassSeminars = klassService.getKlassSeminarByKlassIdAndSeminarId(team.getKlassId(),seminarid);
+     List<Attendance> attandances = seminarService.getAttendanceByKlassSeminarId(klassSeminars.get(0).getId());
+     roundCount = seminar.getMaxTeam();
+     model.addAttribute("roundCount", roundCount);
+     model.addAttribute(attandances);
+     model.addAttribute(seminar);
+     model.addAttribute(student);
+     return "/student/seminar/enrollDetail";
     }
 
     @RequestMapping(value = "/personalInfo", method = RequestMethod.POST)
@@ -291,9 +315,10 @@ public class StudentController {
             teamids.add(attendances.get(i).getTeamId());
         }
         List<Team> teamList = teamService.getTeamByIds(teamids);
-        model.addAttribute(attendances);
-        model.addAttribute(teamList);
-        model.addAttribute(seminar);
+        System.out.println("teamList: " + teamList);
+        model.addAttribute("attendance", attendances);
+        model.addAttribute("teamList", teamList);
+        model.addAttribute("seminar", seminar);
         model.addAttribute("student", student);
         return "/student/seminar/seminar-running";
     }
@@ -331,10 +356,11 @@ public class StudentController {
         for (int i = 0; i < seminarScoreList.size(); i++) {
             teamids.add(seminarScoreList.get(i).getTeamId());
         }
-
-        List<Team> teamList = teamService.getTeamByIds(teamids);
-        model.addAttribute(teamList);
-        model.addAttribute(seminarScoreList);
+        if(teamids.size()!=0){
+        List<Team> teamList=teamService.getTeamByIds(teamids);
+            model.addAttribute(teamList);
+            model.addAttribute(seminarScoreList);
+        }
         return "/student/seminar/seminarScore";
     }
 
@@ -497,6 +523,61 @@ public class StudentController {
         model.addAttribute(klassList);
         model.addAttribute(student);
         return "/student/courseManage";
+    }
+
+    private static final String PERSONAL_MESSAGE = "message";
+    private static final String PERSONAL_INFO = "personalInfo";
+    private static final String PERSONAL_SEMINAR = "seminar";
+    @RequestMapping(value = "/topnavigation", method = RequestMethod.POST)
+    public String mapTopNavigation(Model model, @RequestParam("id") String id, @RequestParam("to") String to){
+        System.out.println(new Date() + "Class: StudentController; " + "Method: MapTopNavigation;" + " id: " + id + " to: " + to);
+        if("".equals(id)){
+            System.out.println("1");
+            return null;
+        }else{
+            Integer studentId = Integer.parseInt(id);
+            if(PERSONAL_INFO.equals(to)){
+                System.out.println("2");
+                Student student = studentService.getStudentByID(studentId);
+                model.addAttribute(student);
+                return "/student/person/personalInfo";
+            }else if(PERSONAL_MESSAGE.equals(to)){
+                System.out.println("3");
+                return "1234";
+            }else if(PERSONAL_SEMINAR.equals(to)){
+                System.out.println("4");
+                Student student = studentService.getStudentByID(studentId);
+                model.addAttribute(student);
+                List<Klass> klassList = klassService.getKlassByStudentID(studentId);
+                List<Course> courseList = new ArrayList<>();
+                for (int i = 0; i < klassList.size(); i++) {
+                    int courseid = klassList.get(i).getCourseId();
+                    if (seminarService.getSeminarByCourseID(courseid) != null) {
+                        courseList.add(courseService.getCourseByCourseID(courseid));
+                    }
+                }
+                model.addAttribute(courseList);
+                return "/student/seminar/seminarCourse";
+            }else{
+                return null;
+            }
+        }
+    }
+    @RequestMapping(value = "/delete-enroll", method = RequestMethod.GET)
+    public void deleteEnroll(@RequestParam(name = "id") String sid,
+                             @RequestParam String seminarid, HttpServletResponse response) throws IOException {
+            response.setContentType("text/html;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            int id = Integer.valueOf(sid);
+            int seminarId = Integer.valueOf(seminarid);
+            Student student = studentService.getStudentByID(id);
+            Seminar seminar = seminarService.getSeminarBySeminarId(seminarId);
+            int teamid = teamService.getTeamIdByStudentIdAndCourseId(id, seminar.getCourseId()).get(0);
+            Team team = teamService.getTeamById(teamid);
+            List<KlassSeminar> klassSeminar=klassService.getKlassSeminarByKlassIdAndSeminarId(team.getKlassId(),seminarId);
+            seminarService.deleteEnroll(teamid,klassSeminar.get(0).getId());
+
+            out.print("<script>history.go(-1);</script>");
     }
 
 }

@@ -11,11 +11,28 @@
     <link rel="stylesheet" href="../../../static/css/app.css">
     <script src="../../../static/js/echarts.min.js"></script>
     <script>
-        function conf() {
+        function conf(order) {
             var r = confirm("确认报名该次讨论课？");
             if (r == true) {
+                doPost('/student/enroll',{'order':order,'sid':'${student.getId()}','seminarId':'${seminar.getId()}'})
             } else {
             }
+        }
+        console.log(new Date() + "window.sessionStorage.getItem(): " + window.sessionStorage.getItem("studentId"));
+        function standardPost(to){
+            var form = $("<form method='post'></form>");
+            form.attr({"action": "/student/topnavigation"});
+            var input;
+            input = $("<input type='hidden'>");
+            input.attr({"name": "to"});
+            input.val(to);
+            form.append(input);
+            input = $("<input type='hidden'>");
+            input.attr({"name": "id"});
+            input.val(window.sessionStorage.getItem("studentId"));
+            form.append(input);
+            $(document.body).append(form);
+            form.submit();
         }
     </script>
 </head>
@@ -23,7 +40,7 @@
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand1">
-        <a href="homepage.html">
+        <a href="javascript:window.history.go(-1);">
             <div class="am-icon-chevron-left" style="color: darkgray"></div>
         </a>
     </div>
@@ -36,19 +53,16 @@
     </button>
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-            <li><a href="javascript:doPost('/student/personalInfo', {'id':'${student.getId()}'})"
-                   class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
-            <li><a href="javascript:doPost('/student/seminar', {'id':'${student.getId()}'})"
-                   class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
-            <li><a href="/" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
-
+            <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
     </div>
 </header>
 <div class="tpl-content-wrapper" style="margin-top: 5rem">
     <div class="tpl-portlet-components1">
+
         <#assign count =0/>
         <div class="tpl-block">
             <div class="am-g tpl-amazeui-form">
@@ -56,36 +70,45 @@
                     <#if attendanceList?exists>
                         <#list attendanceList?sort_by("teamOrder")  as attendance >
                             <#assign count++>
-                            <#if attendance.getTeamOrder() == count>
+                            <#if attendance.getTeamOrder() != count>
+                                <#list count..attendance.getTeamOrder()-1 as i>
+                                    <div>
+                                        <lable class="mylabel">第${i}组</lable>
+                                        <div class="myDiv">
+                                            <a onclick="conf(${i})"
+                                               style="color: #23c0c0;font-size: 1.5rem;font-weight: 800;">可报名</a>
+                                        </div>
+                                    </div>
+                                </#list>
+                                <#assign count=attendance.getTeamOrder()>
+                            </#if>
+                            <#if attendance.getTeamOrder() = count>
                                 <div style="margin-bottom:0.5rem">
-                                <lable class="mylabel">第${attendance.getTeamOrder()}组：</lable>
-                                <div class="myDiv">
-                                <label class="myLabel">
+                                    <lable class="mylabel">第${attendance.getTeamOrder()}组：</lable>
+                                    <div class="myDiv">
+                                        <label class="myLabel">
                                 <#if attendance.getPptName()?exists>
-                                    ${attendance.getPptName()}
+                                    <a onclick="javascript:doPost('/download', {'path':'${attendance.getPptUrl()}','name':'${attendance.getPptName()}'})">
+                                        ${attendance.getPptName()}</a>
                                 <#else>
                                     未上传
                                 </#if>
-                                </label>
-                                </div>
-                                </div>
-                            <#else>
-                                <div>
-                                <lable class="mylabel">第${count}组</lable>
-                                <div class="myDiv">
-                                    <a onclick="conf()"
-                                       style="color: #23c0c0;font-size: 1.5rem;font-weight: 800;">可报名</a>
-                                </div>
+                                        </label>
+                                    </div>
                                 </div>
                             </#if>
                         </#list>
-                    <#else>
-                        <#list 1..roundCount as i>
+                    </#if>
+
+                    <#if count < roundCount>
+                    <#assign count++/>
+                        <#list count..roundCount as i>
                             <div>
-                            <lable class="mylabel">第${i}组</lable>
-                            <div class="myDiv">
-                                <a onclick="conf()" style="color: #23c0c0;font-size: 1.5rem;font-weight: 800;">可报名</a>
-                            </div>
+                                <lable class="mylabel">第${i}组</lable>
+                                <div class="myDiv">
+                                    <a onclick="conf(${i})"
+                                       style="color: #23c0c0;font-size: 1.5rem;font-weight: 800;">可报名</a>
+                                </div>
                             </div>
                         </#list>
                     </#if>

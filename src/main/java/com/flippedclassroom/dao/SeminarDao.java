@@ -68,4 +68,14 @@ public interface SeminarDao {
     List<Integer> selectSeminarIdsByRoundId(@Param("0") int roundId);
 
     List<Seminar> selectSeminarsByRoundId(@Param("0") int roundId);
+
+    /**
+     * getSeminarMaxSerialByRoundId
+     * @param roundId
+     * @return
+     */
+    int getSeminarMaxSerialByRoundId(@Param("0")int roundId);
+
+    int getSeminarMaxId();
+
 }

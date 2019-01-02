@@ -15,8 +15,8 @@
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand1">
-        <a href="homepage.html">
-            <div class="am-icon-times" style="color: darkgray"></div>
+        <a href="javascript:window.history.go(-1);">
+            <div class="am-icon-chevron-left" style="color: darkgray"></div>
         </a>
     </div>
     <div class="am-topbar-brand" style="width:75%;text-align: center">
@@ -43,8 +43,6 @@
         </div>
     </div>
 </div>
-
-
 <script src="../../static/js/jquery.min.js"></script>
 <script src="../../static/js/amazeui.min.js"></script>
 <script src="../../static/js/app.js"></script>

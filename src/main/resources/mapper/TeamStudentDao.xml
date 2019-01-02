@@ -16,4 +16,7 @@
             #{item}
         </foreach>
     </select>
+    <select id="getTeamIdByStudentId" parameterType="Integer" resultType="Integer">
+        SELECT team_id FROM standard_seminar_system.team_student where student_id=#{studentId}
+    </select>
 </mapper>

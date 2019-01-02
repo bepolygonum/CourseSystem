@@ -29,7 +29,7 @@
     </select>
 
     <select id="getSeminarByCourseID" resultMap="seminarResultMap">
-        SELECT  * FROM  standard_seminar_system.seminar WHERE course_id=#{0}
+        SELECT  * FROM  standard_seminar_system.seminar WHERE course_id=#{0} order by seminar_serial;
     </select>
     <select id="getSeminarBySeminarID" resultMap="seminarResultMap">
         SELECT  * FROM  standard_seminar_system.seminar WHERE id=#{0}
@@ -46,5 +46,11 @@
     </select>
     <select id="selectSeminarsByRoundId" resultMap="seminarResultMap">
         SELECT  * FROM  standard_seminar_system.seminar WHERE round_id=#{0}
+    </select>
+    <select id="getSeminarMaxSerialByRoundId" resultType="Integer">
+        select max(seminar_serial) from standard_seminar_system.seminar where round_id=#{0};
+    </select>
+    <select id="getSeminarMaxId" resultType="Integer">
+        select max(id) from standard_seminar_system.seminar;
     </select>
 </mapper>

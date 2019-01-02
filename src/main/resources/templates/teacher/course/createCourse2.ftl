@@ -15,14 +15,14 @@
 
 <body data-type="index">
 <header class="am-topbar am-topbar-inverse admin-header">
-    <div class="am-topbar-brand1">
-        <form id="_form" action="/teacher/courseManage" method="post">
-            <a onclick="document.getElementById('_form').submit();">
-                <input value="${id}" name="id" hidden="hidden">
-                <div class="am-icon-times" style="color: darkgray"></div>
-            </a>
-        </form>
-    </div>
+    <#--<div class="am-topbar-brand1">-->
+        <#--<form id="_form" action="/teacher/courseManage" method="post">-->
+            <#--<a onclick="document.getElementById('_form').submit();">-->
+                <#--<input value="${id}" name="id" hidden="hidden">-->
+                <#--<div class="am-icon-times" style="color: darkgray"></div>-->
+            <#--</a>-->
+        <#--</form>-->
+    <#--</div>-->
     <div class="am-topbar-brand">
         <h3>组队要求设置</h3>
     </div>

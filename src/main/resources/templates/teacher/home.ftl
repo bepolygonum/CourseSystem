@@ -10,12 +10,31 @@
     <link rel="stylesheet" href="../../static/css/admin.css">
     <link rel="stylesheet" href="../../static/css/app.css">
     <script src="../../static/js/echarts.min.js"></script>
+    <script>
+        window.sessionStorage.setItem("teacherId", "${teacher.getId()}");
+        console.log(new Date() + "window.sessionStorage.getItem(): " + window.sessionStorage.getItem("teacherId"));
+        function standardPost(to){
+            var form = $("<form method='post'></form>");
+            form.attr({"action": "/teacher/topnavigation"});
+            var input;
+            input = $("<input type='hidden'>");
+            input.attr({"name": "to"});
+            input.val(to);
+            form.append(input);
+            input = $("<input type='hidden'>");
+            input.attr({"name": "id"});
+            input.val(window.sessionStorage.getItem("teacherId"));
+            form.append(input);
+            $(document.body).append(form);
+            form.submit();
+        }
+    </script>
 </head>
 
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand1">
-        <a href="seminar.html">
+        <a href="javascript:window.history.go(-1);">
             <div class="am-icon-chevron-left" style="color: darkgray"></div>
         </a>
     </div>
@@ -28,17 +47,11 @@
     </button>
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-
-            <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a>
-            </li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a>
-            </li>
-            <li><a href="/teacher/seminar?id=${teacher.getId()}" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a>
-            </li>
-            <li><a href="/" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
-
+            <li><a onclick="standardPost('message')" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
+            <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
     </div>
 </header>
@@ -69,11 +82,16 @@
                 </a>
             </form>
 
-            <a class="nav-link tpl-left-nav-link-list">
-                <i class="am-icon-unlock-alt"></i>
-                <label style="font-size: 1.8rem;">账户与设置</label>
-                <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
-            </a>
+
+            <form id="sform" action="/teacher/personalInfo" method="post">
+                <a onclick="document.getElementById('sform').submit();" class="nav-link tpl-left-nav-link-list">
+                    <i class="am-icon-unlock-alt"></i>
+                    <label style="font-size: 1.8rem;">账户与设置</label>
+                    <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                    <input value="${teacher.getId()}" name="id" hidden="hidden">
+                </a>
+            </form>
+
         </li>
     </div>
 </div>

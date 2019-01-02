@@ -10,15 +10,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 
 /**
  *
  * @author KEKE
  */
 @Controller
-public class SendByEmailController {
+public class UtilController {
     @Autowired
     @Qualifier("sendByEmail")
     private SendByEmailTools service;
@@ -68,4 +67,50 @@ public class SendByEmailController {
             return "/forgetPassword";
         }
     }
+
+    @RequestMapping(value = "/download",method = RequestMethod.POST)
+    public void downloadPPT(@RequestParam(value = "name") String fileName,
+                            @RequestParam(value = "path") String realPath,HttpServletRequest request,
+                            HttpServletResponse response) {
+        //设置文件路径
+        System.out.println(realPath);
+        File file = new File(realPath);
+        if (file.exists()) {
+            // 设置下载不打开
+            response.setContentType("application/force-download");
+            // 设置文件名
+            response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);
+            byte[] buffer = new byte[1024];
+            FileInputStream fis = null;
+            BufferedInputStream bis = null;
+            try {
+                fis = new FileInputStream(file);
+                bis = new BufferedInputStream(fis);
+                OutputStream os = response.getOutputStream();
+                int i = bis.read(buffer);
+                while (i != -1) {
+                    os.write(buffer, 0, i);
+                    i = bis.read(buffer);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (bis != null) {
+                    try {
+                        bis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
 }
