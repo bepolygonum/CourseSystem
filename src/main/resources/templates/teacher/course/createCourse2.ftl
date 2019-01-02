@@ -15,14 +15,11 @@
 
 <body data-type="index">
 <header class="am-topbar am-topbar-inverse admin-header">
-    <#--<div class="am-topbar-brand1">-->
-        <#--<form id="_form" action="/teacher/courseManage" method="post">-->
-            <#--<a onclick="document.getElementById('_form').submit();">-->
-                <#--<input value="${id}" name="id" hidden="hidden">-->
-                <#--<div class="am-icon-times" style="color: darkgray"></div>-->
-            <#--</a>-->
-        <#--</form>-->
-    <#--</div>-->
+    <<div class="am-topbar-brand1">
+        <a href="javascript:window.history.go(-1);">
+            <div class="am-icon-chevron-left" style="color: darkgray"></div>
+        </a>
+    </div>
     <div class="am-topbar-brand">
         <h3>组队要求设置</h3>
     </div>
@@ -37,7 +34,7 @@
             <p style="margin-left: 6%">小组总人数（含组长）</p>
             <div class="top">
                 <p style="width: 30%;float: left;margin-left: 6%">上限:</p>
-                <input style="width: 30%;margin-left: 10%;" class="border"  type="number" name="max" id="max"/>
+                <input id="autoFocusInput" style="width: 30%;margin-left: 10%;" class="border"  type="number" name="max" id="max"/>
             </div>
             <div class="top">
                 <p style="width: 30%;float: left;margin-left: 6%">下限:</p>
@@ -49,9 +46,17 @@
                     <div class="top" style="margin-left: 6%" >
                         <select style="width: 40%"  id="elective" name="elective">
                             <option value="0">无</option>
-                        <#if courseList?exists><#list courseList as course><#if teacherList?exists><#list teacherList as teacher><#if course.getTeacherId()==teacher.getId()>
-                            <option value="${course.getId()}">${course.getCourseName()}(${teacher.getTeacherName()}老师)</option>
-                        </#if></#list></#if></#list></#if>
+                            <#if courseList?exists>
+                                <#list courseList as course>
+                                    <#if teacherList?exists>
+                                        <#list teacherList as teacher>
+                                            <#if course.getTeacherId()==teacher.getId()>
+                                                <option value="${course.getId()}">${course.getCourseName()}(${teacher.getTeacherName()}老师)</option>
+                                            </#if>
+                                        </#list>
+                                    </#if>
+                                </#list>
+                            </#if>
                         </select>
                         <div class="top">
                             <p style="width: 30%;float: left;margin-left: 6%" >上限:</p>
@@ -63,11 +68,9 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <button type="button" class="am-btn am-btn-success am-radius" style="margin-left:59%;margin-top: 1rem" onclick="Check()">新增</button><br>
             <hr>
-
             <div class="top">
                 <p style="width: 40%;margin-left: 6%">冲突课程:</p>
                 <hr>
@@ -75,29 +78,42 @@
                     <div class="top" style="margin-left: 6%;float: left">
                         <select  style="width: 40%" id="conflict" name="conflict" >
                             <option value="0">无</option>
-                        <#if courseList?exists><#list courseList as course><#if teacherList?exists><#list teacherList as teacher><#if course.getTeacherId()==teacher.getId()>
-                            <option value="${course.getId()}">${course.getCourseName()}(${teacher.getTeacherName()}老师)</option>
-                        </#if></#list></#if></#list></#if>
+                            <#if courseList?exists>
+                                <#list courseList as course>
+                                    <#if teacherList?exists>
+                                        <#list teacherList as teacher>
+                                            <#if course.getTeacherId()==teacher.getId()>
+                                                <option value="${course.getId()}">${course.getCourseName()}(${teacher.getTeacherName()}老师)</option>
+                                            </#if>
+                                        </#list>
+                                    </#if>
+                                </#list>
+                            </#if>
                         </select>
-
                     </div>
                 </div>
                 <button type="button" class="am-btn am-btn-success am-radius" style="margin-left: 60%;margin-top: -4rem" onclick="Check1()" >新增</button><br>
-
                 <button type="submit" class="am-btn am-btn-success" style="width: 80%;margin-left: 10%;margin-top: 3rem;margin-bottom: 3rem">保存</button>
             </div>
         </div>
     </div>
-
 
 </form>
 <script id="myTr" type="text/html">
     <div class="top" style="margin-left: 6%">
         <select data-am-selected="{btnWidth: '40%',}" style="width: 40%" id="elective" name="elective" >
             <option value="0">无</option>
-        <#if courseList?exists><#list courseList as course><#if teacherList?exists><#list teacherList as teacher><#if course.getTeacherId()==teacher.getId()>
-            <option value="${course.getId()}">${course.getCourseName()}(${teacher.getTeacherName()}老师)</option>
-        </#if></#list></#if></#list></#if>
+            <#if courseList?exists>
+                <#list courseList as course>
+                    <#if teacherList?exists>
+                        <#list teacherList as teacher>
+                            <#if course.getTeacherId()==teacher.getId()>
+                                <option value="${course.getId()}">${course.getCourseName()}(${teacher.getTeacherName()}老师)</option>
+                            </#if>
+                        </#list>
+                    </#if>
+                </#list>
+            </#if>
         </select>
         <div class="top">
             <p style="width: 30%;float: left;margin-left: 6%">上限:</p>
@@ -108,20 +124,25 @@
             <input style="width: 30%;margin-left: 10%;" class="border"  type="number" name="smin" id="smin"/>
         </div>
     </div>
-
 </script>
 <script id="myTr1" type="text/html">
     <br>
     <div class="top" style="margin-left: 6%;float: left;margin-top: 1rem">
         <select data-am-selected="{btnWidth: '40%',}" style="width: 40%"  id="conflict" name="conflict">
             <option value=\"0\">无</option>
-        <#if courseList?exists><#list courseList as course><#if teacherList?exists><#list teacherList as teacher><#if course.getTeacherId()==teacher.getId()>
-            <option value="${course.getId()}">${course.getCourseName()}(${teacher.getTeacherName()}老师)</option>
-        </#if></#list></#if></#list></#if>
+            <#if courseList?exists>
+                <#list courseList as course>
+                    <#if teacherList?exists>
+                        <#list teacherList as teacher>
+                            <#if course.getTeacherId()==teacher.getId()>
+                                <option value="${course.getId()}">${course.getCourseName()}(${teacher.getTeacherName()}老师)</option>
+                            </#if>
+                        </#list>
+                    </#if>
+                </#list>
+            </#if>
         </select>
-
     </div>
-
 </script>
 <script id="div1" type="text/html">
     <div style="margin-top: 1rem">
@@ -132,7 +153,9 @@
         </select>
     </div>
 </script>
+<script src="../../../static/js/jquery.min.js"></script>
 <script>
+    $("#autoFocusInput").focus();
     var MyBuilder = function(container,conId,model){
         this.container=container;
         this.model=model;
@@ -151,21 +174,17 @@
             },
         }
     }
-
     function Check() {
-
         var title=new MyBuilder($("#cou"),$("#myTr"));
         var aa = document.getElementById("cou").getElementsByTagName("div").length;
         if (aa==6)
             var aaa=new MyBuilder($("#ddd"),$("#div1"));
     }
     function Check1() {
-
         var title=new MyBuilder($("#ddd2"),$("#myTr1"));
     }
 </script>
 </script>
-<script src="../../../static/js/jquery.min.js"></script>
 <script src="../../../static/js/amazeui.min.js"></script>
 <script src="../../../static/js/app.js"></script>
 </body>

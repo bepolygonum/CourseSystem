@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../../static/css/admin.css">
     <link rel="stylesheet" href="../../../static/css/app.css">
     <script src="../../../static/js/echarts.min.js"></script>
+    <script src="../../../static/js/jquery.min.js"></script>
     <script>
         console.log(new Date() + "window.sessionStorage.getItem(): " + window.sessionStorage.getItem("teacherId"));
         function standardPost(to){
@@ -27,16 +28,14 @@
             $(document.body).append(form);
             form.submit();
         }
+        $(document).ready(function(){
+            $("#email").focus();
+        })
     </script>
 </head>
 
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
-    <#--<div class="am-topbar-brand1">-->
-        <#--<a href="homepage.html">-->
-            <#--<div class="am-icon-chevron-left" style="color: darkgray"></div>-->
-        <#--</a>-->
-    <#--</div>-->
     <div class="am-topbar-brand1">
         <a href="javascript:window.history.go(-1);">
             <div class="am-icon-chevron-left" style="color: darkgray"></div>
@@ -53,7 +52,6 @@
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
             <li><a onclick="standardPost('message')" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
-            <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
             <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
             <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
@@ -82,11 +80,10 @@
             </div>
         </div>
     </div>
-
-
-    <script src="../../../static/js/jquery.min.js"></script>
-    <script src="../../../static/js/amazeui.min.js"></script>
-    <script src="../../../static/js/app.js"></script>
+</div>
+<script src="../../../static/js/jquery.min.js"></script>
+<script src="../../../static/js/amazeui.min.js"></script>
+<script src="../../../static/js/app.js"></script>
 </body>
 
 </html>

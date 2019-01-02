@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../../static/css/admin.css">
     <link rel="stylesheet" href="../../../static/css/app.css">
     <script src="../../../static/js/echarts.min.js"></script>
+    <script src="../../../static/js/jquery.min.js"></script>
     <script>
         function standardPost(to){
             var form = $("<form method='post'></form>");
@@ -26,6 +27,9 @@
             $(document.body).append(form);
             form.submit();
         }
+        $(document).ready(function(){
+            $("#email").focus();
+        })
     </script>
 </head>
 
@@ -53,16 +57,15 @@
     </div>
 </header>
 
-
 <div class="tpl-page-container1 tpl-page-header-fixed">
     <div class="tpl-portlet-components1">
         <div class="tpl-block">
             <div class="am-g">
                 <div class="am-u-sm-12">
-                    <form class="am-form" action="/student/newMail" method="post">
+                    <form class="am-form" action="/student/newmail" method="post">
                         <div class="am-form-group">
                             <input type="email" name="newmail" id="email" placeholder="填写新邮箱" required="required">
-                            <input name="id" value="${student.getId()}" hidden="hidden"/>
+                            <input name="id" value="${student.getId()}" style="display: none;"/>
                             <p class="hidden" id="hidemail" style="float: left;font-size: 1rem;color: #be2924 "></p>
                         </div>
                         <div class="am-form-group">
@@ -75,11 +78,9 @@
             </div>
         </div>
     </div>
-
-
-    <script src="../../../static/js/jquery.min.js"></script>
-    <script src="../../../static/js/amazeui.min.js"></script>
-    <script src="../../../static/js/app.js"></script>
+</div>
+<script src="../../../static/js/amazeui.min.js"></script>
+<script src="../../../static/js/app.js"></script>
 </body>
 
 </html>
