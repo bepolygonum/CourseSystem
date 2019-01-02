@@ -33,17 +33,21 @@
 
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
-    <#--<div class="am-topbar-brand1">-->
-        <#--<form id="_form" action="/teacher/course/share" method="get">-->
-            <#--<a onclick="document.getElementById('_form').submit();">-->
-                <#--<input value="${id}" name="id" hidden="hidden">-->
-                <#--<input value="${courseId}" name="courseId" hidden="hidden">-->
-                <#--<div class="am-icon-times" style="color: darkgray"></div>-->
-            <#--</a>-->
-        <#--</form>-->
-    <#--</div>-->
+    <div class="am-topbar-brand1">
+        <a href="javascript:window.history.go(-1);">
+            <div class="am-icon-chevron-left" style="color: darkgray"></div>
+        </a>
+    </div>
     <div class="am-topbar-brand">
         <h3>新增共享</h3>
+    </div>
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+            <li><a onclick="standardPost('message')" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
+            <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
+        </ul>
     </div>
 </header>
 

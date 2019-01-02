@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../static/css/admin.css">
     <link rel="stylesheet" href="../../static/css/app.css">
     <script src="../../static/js/echarts.min.js"></script>
+    <script src="../../static/js/jquery.min.js"></script>
     <script>
         window.sessionStorage.setItem("teacherId", "${teacher.getId()}");
         console.log(new Date() + "window.sessionStorage.getItem(): " + window.sessionStorage.getItem("teacherId"));
@@ -28,6 +29,15 @@
             $(document.body).append(form);
             form.submit();
         }
+
+        $(document).ready(function(){
+            window.addEventListener("beforeunload", function(event) {
+                window.location.reload("/teacher/home")
+                console.log("typeof(event):" + typeof (event));
+                event.preventDefault();
+                console.log(new Date() + "beforeunload");
+            });
+        })
     </script>
 </head>
 
@@ -96,7 +106,6 @@
     </div>
 </div>
 
-<script src="../../static/js/jquery.min.js"></script>
 <script src="../../static/js/amazeui.min.js"></script>
 <script src="../../static/js/app.js"></script>
 </body>
