@@ -21,7 +21,7 @@
             form.append(input);
             input = $("<input type='hidden'>");
             input.attr({"name": "id"});
-            input.val(window.sessionStorage.getItem("teacherId"));
+            input.val(window.sessionStorage.getItem("studentId"));
             form.append(input);
             $(document.body).append(form);
             form.submit();
@@ -31,16 +31,15 @@
 
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
-    <#--<div class="am-topbar-brand1">-->
-        <#--<a href="seminar1.html">-->
-            <#--<div class="am-icon-chevron-left" style="color: darkgray"></div>-->
-        <#--</a>-->
-    <#--</div>-->
+    <div class="am-topbar-brand1">
+        <a href="javascript:window.history.go(-1);">
+            <div class="am-icon-chevron-left" style="color: darkgray"></div>
+        </a>
+    </div>
     <div class="am-topbar-brand">
         <h3>${course.getCourseName()}</h3>
     </div>
-    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
-            data-am-collapse="{target: '#topbar-collapse'}">
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}">
 
         <span class="am-icon-bars"></span>
     </button>

@@ -18,8 +18,8 @@
         .modDiv {
             display: none;
             position: absolute;
-            width: 80%;
-            margin-left: 10%;
+            width: 100%;
+            margin-left: 0%;
             margin-top: -35rem;
             background-color: #f7f7f7;
             padding: 5% 5% 5% 5%;
@@ -117,16 +117,16 @@
                             如果当前学生提问成绩您已经提交，则再次提交会覆盖掉上次提交的结果！
                         </tr>
                         <tr>
-                            <td style="width: 30%;">组号</td>
-                            <td style="width: 40%;">学生姓名</td>
-                            <td style="width: 30%;">打分</td>
+                            <td style="width: 25%;">组号</td>
+                            <td style="width: 35%;">学生姓名</td>
+                            <td style="width: 40%;">打分</td>
                         </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td id="currentQuestionStudentInfo0"></td>
                         <td id="currentQuestionStudentInfo1"></td>
-                        <td><input id="questionScoreInput" type="number" required="required" style="width: 4rem;background-color: #f7f7f7;border: 0.2rem solid #c8c8c8"></td>
+                        <td><input id="questionScoreInput" type="number" required="required" style="width: 6rem;background-color: #f7f7f7;border: 0.2rem solid #c8c8c8"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -162,6 +162,7 @@
         }).show();
         setTimeout(function () {
             $('div.tipsClass').fadeOut();
+            $('div.tipsClass').remove();
         }, (time * 1000));
     }
     var message = new Object();
@@ -316,7 +317,7 @@
         console.log(new Date() + "nextTeam! ");
         if((currentTeamIndex + 1) >= teamArray.length){
             showTips("当前已经是最后一组！", 200, 1);
-            $("#nextTeam").attr("disabled",true);
+            $("#nextTeam").html("修改报告截止日期");
             $("#my-prompt").modal();
             var $confirm = $('#my-prompt');
             var $confirmBtn = $confirm.find('[data-am-modal-confirm]');

@@ -29,7 +29,6 @@
     </div>
 </header>
 
-
 <div class="tpl-page-container1 tpl-page-header-fixed">
     <div class="tpl-portlet-components2">
         <div class="tpl-block">

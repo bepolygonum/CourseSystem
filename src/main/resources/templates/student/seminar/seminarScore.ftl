@@ -22,7 +22,7 @@
             form.append(input);
             input = $("<input type='hidden'>");
             input.attr({"name": "id"});
-            input.val(window.sessionStorage.getItem("teacherId"));
+            input.val(window.sessionStorage.getItem("studentId"));
             form.append(input);
             $(document.body).append(form);
             form.submit();
@@ -32,11 +32,6 @@
 
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
-    <#--<div class="am-topbar-brand1">-->
-        <#--<a href="homepage.html">-->
-            <#--<div class="am-icon-chevron-left" style="color: darkgray"></div>-->
-        <#--</a>-->
-    <#--</div>-->
     <div class="am-topbar-brand1">
         <a href="javascript:window.history.go(-1);">
             <div class="am-icon-chevron-left" style="color: darkgray"></div>
@@ -50,12 +45,6 @@
     </button>
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-        <#--<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">-->
-            <#--<li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>-->
-            <#--<li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>-->
-            <#--<li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>-->
-            <#--<li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>-->
-        <#--</ul>-->
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
             <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
             <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>

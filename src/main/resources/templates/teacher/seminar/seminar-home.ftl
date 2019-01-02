@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="utf-8">
@@ -73,7 +73,7 @@
         <#list  klassList as klass>
             <#list  seminarList as seminar>
                 <#if klass_index==courseKlass_index&&seminar_index==klass_index>
-                    <a href="/teacher/seminarRunning?klassid=${klass.getId()}&seminarid=${seminar.getId()}">${courseKlass.getCourseName()}-${klass.getGrade()}级${klass.getKlassSerial()}班-${seminar.getSeminarName()}</a>
+                    <a href="/teacher/seminarRunning?klassid=${klass.getId()}&seminarid=${seminar.getId()}">${courseKlass.getCourseName()}-${klass.getGrade()}级${klass.getKlassSerial()}班-${seminar.getSeminarName()}</a></br>
                 </#if>
             </#list>
         </#list>

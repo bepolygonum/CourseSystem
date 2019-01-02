@@ -52,20 +52,9 @@
 
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-            <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-                <li><a onclick="standardPost('message')" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
-                <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
-                <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
-            </ul>
-
-            <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a>
-            </li>
-            <li><a href="javascript:doPost('/teacher/personalInfo', {'id':'${teacher.getId()}'})"
-                   class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
-            <li><a href="/teacher/seminar?id=${teacher.getId()}"
-                   class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
-            <li><a href="/" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
-
+            <li><a onclick="standardPost('message')" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
+            <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
     </div>
 </header>
@@ -93,12 +82,10 @@
                                 <label class="myLabel">${teacher.getEmail()}</label><br>
                                 <div style="margin-top: -1rem;margin-left: 8rem">
                                     <a style="font-size: 1rem;color: #1b961b;" href="javascript:doPost('/student/modifyEmail', {'id':'${teacher.getId()}'})">修改</a>
-                                <label class="myLabel">${teacher.getEmail()}</label>
-                                <br>
-                                <div style="margin-top: -1rem;margin-left: 8rem">
-                                    <a style="font-size: 1rem;color: #1b961b;"
-                                       href="javascript:doPost('/teacher/modifyEmail', {'id':'${teacher.getId()}'})">修改</a>
-                                </div>
+                                <#--<label class="myLabel">${teacher.getEmail()}</label><br>-->
+                                <#--<div style="margin-top: -1rem;margin-left: 8rem">-->
+                                    <#--<a style="font-size: 1rem;color: #1b961b;" href="javascript:doPost('/teacher/modifyEmail', {'id':'${teacher.getId()}'})">修改</a>-->
+                                <#--</div>-->
                             </div>
                         </div>
                     </#if>

@@ -22,7 +22,7 @@
             form.append(input);
             input = $("<input type='hidden'>");
             input.attr({"name": "id"});
-            input.val(window.sessionStorage.getItem("teacherId"));
+            input.val(window.sessionStorage.getItem("studentId"));
             form.append(input);
             $(document.body).append(form);
             form.submit();

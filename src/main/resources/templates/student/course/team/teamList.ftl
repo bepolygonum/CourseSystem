@@ -21,7 +21,7 @@
             form.append(input);
             input = $("<input type='hidden'>");
             input.attr({"name": "id"});
-            input.val(window.sessionStorage.getItem("teacherId"));
+            input.val(window.sessionStorage.getItem("studentId"));
             form.append(input);
             $(document.body).append(form);
             form.submit();
@@ -31,11 +31,6 @@
 
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
-    <#--<div class="am-topbar-brand1">-->
-        <#--<a href="seminar1.html">-->
-            <#--<div class="am-icon-chevron-left" style="color: darkgray"></div>-->
-        <#--</a>-->
-    <#--</div>-->
     <div class="am-topbar-brand1">
         <a href="javascript:window.history.go(-1);">
             <div class="am-icon-chevron-left" style="color: darkgray"></div>
@@ -44,17 +39,10 @@
     <div class="am-topbar-brand">
         <h3>${course.getCourseName()}-${klass.getKlassSerial()}</h3>
     </div>
-    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
-            data-am-collapse="{target: '#topbar-collapse'}">
-
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}">
         <span class="am-icon-bars"></span>
     </button>
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-        <#--<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">-->
-            <#--<li><a href="javascript:doPost('/student/personalInfo', {'id':'${student.getId()}'})" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>-->
-            <#--<li><a href="javascript:doPost('/student/seminar', {'id':'${student.getId()}'})" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>-->
-            <#--<li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>-->
-        <#--</ul>-->
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
             <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
             <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>

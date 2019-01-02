@@ -14,11 +14,6 @@
 
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
-    <#--<div class="am-topbar-brand1">-->
-        <#--<a href="/">-->
-            <#--<div class="am-icon-times" style="color: darkgray"></div>-->
-        <#--</a>-->
-    <#--</div>-->
     <div class="am-topbar-brand1">
         <a href="javascript:window.history.go(-1);">
             <div class="am-icon-chevron-left" style="color: darkgray"></div>
