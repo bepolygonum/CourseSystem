@@ -223,8 +223,7 @@ public class StudentController {
         Team team = teamService.getTeamById(teamid);
 
         int roundCount = 0;
-        int klassid=klassService.getKlassIdByStudentIdAndCourseId(id,seminar.getCourseId());
-        List<KlassSeminar> klassSeminars = klassService.getKlassSeminarByKlassIdAndSeminarId(klassid, seminarid);
+        List<KlassSeminar> klassSeminars = klassService.getKlassSeminarByKlassIdAndSeminarId(team.getKlassId(), seminarid);
         List<Attendance> attandances = seminarService.getAttendanceByKlassSeminarId(klassSeminars.get(0).getId());
         System.out.println(attandances.size());
 
@@ -245,13 +244,12 @@ public class StudentController {
      Seminar seminar=seminarService.getSeminarBySeminarId(seminarid);
      int teamid =teamService.getTeamIdByStudentIdAndCourseId(id,seminar.getCourseId()).get(0);
      Team team=teamService.getTeamById(teamid);
-      int klassid=klassService.getKlassIdByStudentIdAndCourseId(id,seminar.getCourseId());
-      List<KlassSeminar> klassSeminar=klassService.getKlassSeminarByKlassIdAndSeminarId(klassid,seminarid);
+      List<KlassSeminar> klassSeminar=klassService.getKlassSeminarByKlassIdAndSeminarId(team.getKlassId(),seminarid);
      seminarService.insertEnrollByTeamIdAndSeminarId(team.getId(),klassSeminar.get(0).getId(),order);
 
      Student student = studentService.getStudentByID(id);
      int roundCount = 0;
-     List<KlassSeminar> klassSeminars = klassService.getKlassSeminarByKlassIdAndSeminarId(klassid,seminarid);
+     List<KlassSeminar> klassSeminars = klassService.getKlassSeminarByKlassIdAndSeminarId(team.getKlassId(),seminarid);
      List<Attendance> attandances = seminarService.getAttendanceByKlassSeminarId(klassSeminars.get(0).getId());
      roundCount = seminar.getMaxTeam();
      model.addAttribute("roundCount", roundCount);
@@ -385,7 +383,6 @@ public class StudentController {
                              @RequestParam(name = "id") String sid, @RequestParam(name = "course_id") String courseid, int flags) {
         int id = Integer.valueOf(sid);
         int courseId = Integer.valueOf(courseid);
-
         int klassId = Integer.valueOf(klassid);
         Team myteam = new Team();
         int teamid = -1;
@@ -398,17 +395,16 @@ public class StudentController {
         // 找到teamid
         model.addAttribute("klass", klass);
         if (klassStudents != null) {
-            if (teamService.getTeamByKlassIdAndId(id, klassId)!= null) {
-                myteam = teamService.getTeamByKlassIdAndId(id, klassId);
-                teamid=myteam.getId();
+            if (teamService.getTeamIdByStudentIdAndCourseId(id, courseId).size() != 0) {
+                teamid = teamService.getTeamIdByStudentIdAndCourseId(id, courseId).get(0);
             }
             // course下的所有klass的所有team
             List<Klass> klasses = klassService.getKlassByCourseID(courseId);
+            model.addAttribute("klasses", klasses);
             List klassIds = new ArrayList();
             for (int i = 0; i < klasses.size(); i++) {
                 klassIds.add(klasses.get(i).getId());
             }
-
             List list = teamService.getTeamIdByKlassId(klassIds);
             List<Team> teamList = teamService.getTeamByIds(list);
             if (teamList.size() != 0) {
@@ -419,13 +415,7 @@ public class StudentController {
             for (int i = 0; i < teamList.size(); i++) {
                 List<Student> members = teamService.getStudentByTeamID(teamList.get(i).getId());
                 if (members != null) {
-                    List<Student> members1 = new ArrayList<>();
-                    for(int j=0;j<members.size();j++){
-                        if(klassService.getKlassIdByStudentIdAndCourseId(members.get(j).getId(),courseId)!=null){
-                            members1.add(members.get(j));
-                        }
-                    }
-                    listOfStudents.add(members1);
+                    listOfStudents.add(members);
                 }
             }
             if (listOfStudents != null) {
@@ -433,6 +423,7 @@ public class StudentController {
             }
             // 未组队的人
             List<Student> noTeam = teamService.getStudentWithNoTeams(listOfStudents, courseId);
+
             if (noTeam != null) {
                 model.addAttribute("noTeams", noTeam);
             }
@@ -583,8 +574,7 @@ public class StudentController {
             Seminar seminar = seminarService.getSeminarBySeminarId(seminarId);
             int teamid = teamService.getTeamIdByStudentIdAndCourseId(id, seminar.getCourseId()).get(0);
             Team team = teamService.getTeamById(teamid);
-            int klassId=klassService.getKlassIdByStudentIdAndCourseId(id,seminar.getCourseId());
-            List<KlassSeminar> klassSeminar=klassService.getKlassSeminarByKlassIdAndSeminarId(klassId,seminarId);
+            List<KlassSeminar> klassSeminar=klassService.getKlassSeminarByKlassIdAndSeminarId(team.getKlassId(),seminarId);
             seminarService.deleteEnroll(teamid,klassSeminar.get(0).getId());
 
             out.print("<script>history.go(-1);</script>");
