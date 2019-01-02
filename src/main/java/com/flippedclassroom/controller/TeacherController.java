@@ -167,7 +167,8 @@ public class TeacherController {
 
 
     @RequestMapping(value = "/course/teamList")
-    public String findAllTeam(Model model, @RequestParam String id, @RequestParam String courseId) {
+    public String findAllTeam(Model model, @RequestParam String id,
+                              @RequestParam String courseId) {
         int tid = Integer.parseInt(id);
         int courseid = Integer.parseInt(courseId);
 
@@ -882,78 +883,24 @@ public class TeacherController {
 
     }
 
-    @RequestMapping(value = "/notify")
-    public String notify(Model model, @RequestParam(name = "id") String tid) {
-        int id = Integer.valueOf(tid);
-        Teacher teacher = teacherService.getTeacherByTeacherID(id);
-        model.addAttribute(teacher);
-        //List<Course> courseList=courseService.getCourseByTeacherID(id);
-        //List<Integer> courseIds = courseList.stream().map(Course::getId).collect(Collectors.toList());
-        //List<Klass> klassList=new ArrayList<>();
-        //for(int i=0;i<courseIds.size();i++)
-        //{
-          //  klassList.addAll(klassService.getKlassByCourseID(courseIds.get(i)));
-        //}
-        List<TeamValidApplication> teamValidApplicationList=teamService.selectUntreatedTeamValidApplication(id);
-        List<Integer> teamIds = teamValidApplicationList.stream().map(TeamValidApplication::getTeamId).collect(Collectors.toList());
-        if(!teamIds.isEmpty())
-        {
-            List<Team> teamList=teamService.getTeamByIds(teamIds);
-            List<Integer> leaderIds = teamList.stream().map(Team::getLeaderId).collect(Collectors.toList());
-            List<Student> leaderList=studentService.getStudentByStudentID(leaderIds);
-            List<Integer> courseIds = teamList.stream().map(Team::getCourseId).collect(Collectors.toList());
-            List<Course> courseList=courseService.getCoursesByCourseID(courseIds);
-            List<Integer> klassIds = teamList.stream().map(Team::getKlassId).collect(Collectors.toList());
-            List<Klass> klassList=klassService.getNewKlassesByKlassIds(klassIds);
-            model.addAttribute("teamValidApplicationList",teamValidApplicationList);
-            System.out.print(teamValidApplicationList);
-            System.out.print(teamList);
-            System.out.print(courseList);
-            System.out.print(leaderList);
-            if(!teamList.isEmpty())
-            {model.addAttribute("teamList",teamList);}
-            if(!courseList.isEmpty())
-            {model.addAttribute("courseList",courseList);}
-            if(!klassList.isEmpty())
-            {
-                model.addAttribute("klassList",klassList);
-                System.out.print(klassList);
-            }
-            if(!leaderList.isEmpty())
-            {
-                model.addAttribute("leaderList",leaderList);
-            }
-        }
+
+    @RequestMapping(value = "/notify-team", method = RequestMethod.GET)
+    @ResponseBody
+    public void notifyTeam(Model model, @RequestParam(name = "teamid") String tid
+            ,@RequestParam(name="status") String status) {
+        int teamid=Integer.parseInt(tid);
+        teamService.setStatus(teamid,Integer.parseInt(status));
+    }
 
 
-        List<ShareSeminarApplication> shareSeminarApplicationList=courseService.selectUntreatedShareSeminarApplicationByTeacherId(id);
-        if(!shareSeminarApplicationList.isEmpty())
-        {
-            List<Integer> mainCourseIds = shareSeminarApplicationList.stream().map(ShareSeminarApplication::getMainCourseId).collect(Collectors.toList());
-            List<Course> mainCourseList=courseService.getCoursesByCourseID(mainCourseIds);
-            List<Integer> mainCourseTeacherIds = mainCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
-            List<Teacher> teacherList=teacherService.getTeachersByTeacherID(mainCourseTeacherIds);
-            model.addAttribute("shareSeminarApplicationList",shareSeminarApplicationList);
-            model.addAttribute("seminarCourseList",mainCourseList);
-            model.addAttribute("seminarTeacherList",teacherList);
-        }
-
-
-        List<ShareTeamApplication> shareTeamApplicationList=courseService.selectUntreatedShareTeamApplicationByTeacherId(id);
-
-        System.out.print("share"+shareTeamApplicationList.size());
-        if(!shareTeamApplicationList.isEmpty())
-        {
-            List<Integer> mainCourseIds = shareTeamApplicationList.stream().map(ShareTeamApplication::getMainCourseId).collect(Collectors.toList());
-            List<Course> mainCourseList=courseService.getCoursesByCourseID(mainCourseIds);
-            List<Integer> mainCourseTeacherIds = mainCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
-            List<Teacher> teacherList=teacherService.getTeachersByTeacherID(mainCourseTeacherIds);
-            model.addAttribute("shareTeamApplicationList",shareTeamApplicationList);
-            model.addAttribute("teamCourseList",mainCourseList);
-            model.addAttribute("teamTeacherList",teacherList);
-        }
-
-        return "/teacher/notify";
+    @RequestMapping(value = "/notify-share-group", method = RequestMethod.GET)
+    @ResponseBody
+    public void notifyShareGroup(@RequestParam(name = "maincourseid") String mid,
+                                 @RequestParam(name = "subcourseid") String sid,@RequestParam(name="status") String status) {
+        int maincourseid=Integer.parseInt(mid);
+        int subcourseid=Integer.parseInt(sid);
+        System.out.println(maincourseid);
+        courseService.setGroupStatus(maincourseid,subcourseid,Integer.parseInt(status));
     }
 
     @RequestMapping(value = "/personalInfo", method = RequestMethod.POST)
@@ -1079,21 +1026,74 @@ public class TeacherController {
     @RequestMapping(value = "/topnavigation", method = RequestMethod.POST)
     public String mapTopNavigation(Model model, @RequestParam("id") String id, @RequestParam("to") String to){
         System.out.println(new Date() + "Class: TeacherController; " + "Method: MapTopNavigation;" + " id: " + id + " to: " + to);
+        Integer teacherId = Integer.parseInt(id);
+        Teacher teacher = teacherService.getTeacherByTeacherID(teacherId);
         if("".equals(id)){
             System.out.println("1");
             return null;
         }else{
-            Integer teacherId = Integer.parseInt(id);
             if(PERSONAL_INFO.equals(to)){
                 System.out.println("2");
-                Teacher teacher = teacherService.getTeacherByTeacherID(teacherId);
                 model.addAttribute("teacher", teacher);
                 return "/teacher/person/personalInfo";
             }else if(PERSONAL_MESSAGE.equals(to)){
-                return "";
+                model.addAttribute(teacher);
+                List<TeamValidApplication> teamValidApplicationList=teamService.selectUntreatedTeamValidApplication(teacherId);
+                List<Integer> teamIds = teamValidApplicationList.stream().map(TeamValidApplication::getTeamId).collect(Collectors.toList());
+                if(!teamIds.isEmpty())
+                {
+                    List<Team> teamList=teamService.getTeamByIds(teamIds);
+                    List<Integer> leaderIds = teamList.stream().map(Team::getLeaderId).collect(Collectors.toList());
+                    List<Student> leaderList=studentService.getStudentByStudentID(leaderIds);
+                    List<Integer> courseIds = teamList.stream().map(Team::getCourseId).collect(Collectors.toList());
+                    List<Course> courseList=courseService.getCoursesByCourseID(courseIds);
+                    List<Integer> klassIds = teamList.stream().map(Team::getKlassId).collect(Collectors.toList());
+                    List<Klass> klassList=klassService.getNewKlassesByKlassIds(klassIds);
+                    model.addAttribute("teamValidApplicationList",teamValidApplicationList);
+                    System.out.print(teamValidApplicationList);
+                    System.out.print(teamList);
+                    System.out.print(courseList);
+                    System.out.print(leaderList);
+                    if(!teamList.isEmpty())
+                    {model.addAttribute("teamList",teamList);}
+                    if(!courseList.isEmpty())
+                    {model.addAttribute("courseList",courseList);}
+                    if(!klassList.isEmpty())
+                    {
+                        model.addAttribute("klassList",klassList);
+                        System.out.print(klassList);
+                    }
+                    if(!leaderList.isEmpty())
+                    {
+                        model.addAttribute("leaderList",leaderList);
+                    }
+                }
+                List<ShareSeminarApplication> shareSeminarApplicationList=courseService.selectUntreatedShareSeminarApplicationByTeacherId(teacherId);
+                if(!shareSeminarApplicationList.isEmpty())
+                {
+                    List<Integer> mainCourseIds = shareSeminarApplicationList.stream().map(ShareSeminarApplication::getMainCourseId).collect(Collectors.toList());
+                    List<Course> mainCourseList=courseService.getCoursesByCourseID(mainCourseIds);
+                    List<Integer> mainCourseTeacherIds = mainCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
+                    List<Teacher> teacherList=teacherService.getTeachersByTeacherID(mainCourseTeacherIds);
+                    model.addAttribute("shareSeminarApplicationList",shareSeminarApplicationList);
+                    model.addAttribute("seminarCourseList",mainCourseList);
+                    model.addAttribute("seminarTeacherList",teacherList);
+                }
+                List<ShareTeamApplication> shareTeamApplicationList=courseService.selectUntreatedShareTeamApplicationByTeacherId(teacherId);
+                System.out.print("share"+shareTeamApplicationList.size());
+                if(!shareTeamApplicationList.isEmpty())
+                {
+                    List<Integer> mainCourseIds = shareTeamApplicationList.stream().map(ShareTeamApplication::getMainCourseId).collect(Collectors.toList());
+                    List<Course> mainCourseList=courseService.getCoursesByCourseID(mainCourseIds);
+                    List<Integer> mainCourseTeacherIds = mainCourseList.stream().map(Course::getTeacherId).collect(Collectors.toList());
+                    List<Teacher> teacherList=teacherService.getTeachersByTeacherID(mainCourseTeacherIds);
+                    model.addAttribute("shareTeamApplicationList",shareTeamApplicationList);
+                    model.addAttribute("teamCourseList",mainCourseList);
+                    model.addAttribute("teamTeacherList",teacherList);
+                }
+                return "/teacher/notify";
             }else if(PERSONAL_SEMINAR.equals(to)){
                 System.out.println("3");
-                Teacher teacher = teacherService.getTeacherByTeacherID(teacherId);
                 List<Course> coursesList = courseService.getCourseByTeacherID(teacher.getId());
                 //添加所有klass
                 List<Klass> klassList = new ArrayList<>();

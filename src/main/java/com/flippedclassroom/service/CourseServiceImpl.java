@@ -25,6 +25,8 @@ public class CourseServiceImpl  {
     @Autowired
     KlassDao klassDao;
     @Autowired
+    KlassStudentDao klassStudentDao;
+    @Autowired
     SeminarDao seminarDao;
     @Autowired
     CourseMemberLimitStrategyDao courseMemberLimitStrategyDao;
@@ -32,6 +34,8 @@ public class CourseServiceImpl  {
     ShareTeamApplicationDao shareTeamApplicationDao;
     @Autowired
     ShareSeminarApplicationDao shareSeminarApplicationDao;
+    @Autowired
+    TeamDao teamDao;
 
     public List<Course> getCourseByTeacherID(int id)
     {
@@ -125,4 +129,40 @@ public class CourseServiceImpl  {
     public List<ShareTeamApplication> selectUntreatedShareTeamApplicationByTeacherId(int teacherId)
     { return shareTeamApplicationDao.selectUntreatedShareTeamApplicationByTeacherId(teacherId);}
 
+    public void setGroupStatus(int maincourseid, int subcourseid, int i) {
+        shareTeamApplicationDao.setStatus(maincourseid,subcourseid,i);
+        courseDao.setCourseTeamMainIdByCourseId(maincourseid, subcourseid);
+        if(i==1){
+            teamDao.removeSubCourse(subcourseid);
+            teamDao.removeSubCourse1(subcourseid);
+            List<Team> teamList=teamDao.getTeamByCourseID(maincourseid);
+            for(int j=0;j<teamList.size();j++){
+                List<Integer> teamIds=teamDao.getStudentIdByTeamId(teamList.get(j).getId());
+                List<Integer> klassIds=new ArrayList<>();
+                int counts=0;
+                for(int k=0;k<teamIds.size();k++) {
+                    Integer integer = klassStudentDao.getKlassIdByStudentIdAndCourseId(teamIds.get(k), subcourseid);
+                    if (integer != null) {
+                        klassIds.add(integer);
+                        counts++;
+                    }
+                }
+                int max=0,maxKlass=0;
+                for(int k=0;k<counts;k++){
+                    int count=0;
+                    for(int t=0;t < counts; t++){
+                        if(klassIds.get(k).compareTo(klassIds.get(t))==0){
+                            count++;
+                        }
+                    }
+                    if(count>max){
+                        max=count;
+                        maxKlass=klassIds.get(k);
+                    }
+                }
+                //maxKlass
+                teamDao.insertTableKlassTeam(maxKlass,teamList.get(j).getId());
+            }
+        }
+    }
 }

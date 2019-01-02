@@ -72,4 +72,11 @@ public interface TeamDao {
     void insertInValidTableTeam(@Param("0") int klassId, @Param("1") int courseId, @Param("2") int id, @Param("3") String teamName, @Param("4") int teamSerial, @Param("5") int klassSerial);
 
     void changeStatusByTeamId(int team);
+
+    void setValid(int teamid);
+
+    void removeSubCourse(@Param("0")  int subcourseid);
+
+    void removeSubCourse1(@Param("0")  int subcourseid);
+
 }

@@ -40,7 +40,7 @@ public interface KlassStudentDao {
      * @param courseid
      * @return
      */
-    int getKlassIdByStudentIdAndCourseId(@Param("0")int id, @Param("1")int courseid);
+    Integer  getKlassIdByStudentIdAndCourseId(@Param("0")int id, @Param("1")int courseid);
 
     /**
      * addStudent

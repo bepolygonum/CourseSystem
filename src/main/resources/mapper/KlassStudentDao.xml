@@ -27,7 +27,7 @@
         SELECT * FROM  standard_seminar_system.klass_student
         WHERE team_id=#{0} and course_id=#{1}
     </select>
-    <delete id="deleteKlassStudentByKlassId" parameterType="int">
+    <delete id="deleteKlassStudentByKlassId" parameterType="Integer">
         delete from  standard_seminar_system.klass_student where klass_id = #{0};
     </delete>
     <select id="getKlassIdByStudentIdAndCourseId" resultType="Integer">
