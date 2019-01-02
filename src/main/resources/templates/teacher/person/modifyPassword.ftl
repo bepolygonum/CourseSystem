@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../../static/css/admin.css">
     <link rel="stylesheet" href="../../../static/css/app.css">
     <script src="../../../static/js/echarts.min.js"></script>
+    <script src="../../../static/js/jquery.min.js"></script>
     <script>
         console.log(new Date() + "window.sessionStorage.getItem(): " + window.sessionStorage.getItem("teacherId"));
         function standardPost(to){
@@ -27,70 +28,75 @@
             $(document.body).append(form);
             form.submit();
         }
-
-        var bt1 = document.getElementById('bt1');
-        $(function () {
+        $(document).ready(function(){
+            $("#pwd").focus();
+            var bt1 = document.getElementById('bt1');
             $("#pwd").blur(function () {
                 var va = $("#pwd").val();
                 if (va.length > 0) {
-                    if (va != ${teacher.getPassword()}) {
+                    if (va != "${teacher.getPassword()}") {
                         alert("密码错误")
                         $("#bt1").attr("disabled", true);
-                        bt1.style.backgroundColor = "red";
+                        $("#bt1").css({
+                            "backgroundColor": "red"
+                        });
                     } else {
-                        bt1.style.backgroundColor = "#23c0c0";
                         $("#bt1").attr("disabled", false);
+                        $("#bt1").css({
+                            "backgroundColor": "#23c0c0"
+                        });
                     }
                 }
-
-            })
+            });
             $("#pwd1").blur(function () {
                 var val = $("#pwd1").val();
                 var val2 = $("#pwd2").val();
-
                 if (val.length > 0) {
-
                     if (!/^(((?=.*[0-9])(?=.*[a-zA-Z])|(?=.*[0-9])(?=.*[^\s0-9a-zA-Z])|(?=.*[a-zA-Z])(?=.*[^\s0-9a-zA-Z]))[^\s]{8,32})$/.test(val)) {
-                        alert("密码格式错误")
+                        alert("密码格式错误");
                         $("#bt1").attr("disabled", true);
-                        bt1.style.backgroundColor = "red";
-
-                    } else if (val != val2) {
-                        alert("两次密码输入不一致")
+                        $("#bt1").css({
+                            "backgroundColor": "red"
+                        });
+                    } else if (val != val2 && val2 != "") {
+                        alert("两次密码输入不一致");
                         $("#bt1").attr("disabled", true);
-                        bt1.style.backgroundColor = "red";
+                        $("#bt1").css({
+                            "backgroundColor": "red"
+                        });
                     } else {
-                        bt1.style.backgroundColor = "#23c0c0";
                         $("#bt1").attr("disabled", false);
+                        $("#bt1").css({
+                            "backgroundColor": "#23c0c0"
+                        });
                     }
                 }
             })
-
 
             $("#pwd2").blur(function () {
                 var val = $("#pwd1").val();
                 var val2 = $("#pwd2").val();
                 if (val2.length > 0) {
                     if (val != val2) {
-                        alert("两次密码输入不一致")
+                        alert("两次密码输入不一致");
                         $("#bt1").attr("disabled", true);
                     } else {
-                        bt1.style.backgroundColor = "#23c0c0";
                         $("#bt1").attr("disabled", false);
+                        $("#bt1").css({
+                            "backgroundColor": "#23c0c0"
+                        });
                     }
                 }
             })
+        })
+        $(function () {
+
         })
     </script>
 </head>
 
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
-    <#--<div class="am-topbar-brand1">-->
-        <#--<a href="homepage.html">-->
-            <#--<div class="am-icon-chevron-left" style="color: darkgray"></div>-->
-        <#--</a>-->
-    <#--</div>-->
     <div class="am-topbar-brand1">
         <a href="javascript:window.history.go(-1);">
             <div class="am-icon-chevron-left" style="color: darkgray"></div>
@@ -113,8 +119,6 @@
         </ul>
     </div>
 </header>
-
-
 <div class="tpl-page-container1 tpl-page-header-fixed">
     <div class="tpl-portlet-components1">
         <div class="tpl-block">
@@ -141,11 +145,11 @@
             </div>
         </div>
     </div>
+</div>
 
-    <script src="../../../static/js/jquery.min.js"></script>
-    <script src="../../../static/js/amazeui.min.js"></script>
-    <script src="../../../static/js/app.js"></script>
-    <script src="../../../static/js/jquery.min.js"></script>
+<script src="../../../static/js/jquery.min.js"></script>
+<script src="../../../static/js/amazeui.min.js"></script>
+<script src="../../../static/js/app.js"></script>
 
 </body>
 
