@@ -10,9 +10,40 @@
     <link rel="stylesheet" href="../../static/css/admin.css">
     <link rel="stylesheet" href="../../static/css/app.css">
     <script src="../../static/js/echarts.min.js"></script>
+
+    <script>
+        function setStatus(teamid,status) {
+            $.ajax({
+                //接口地址
+                url: '/teacher/notify-team',
+                type: 'GET',
+                data: 'teamid='+teamid+'&status='+status,
+                success:function () {
+                    window.location.reload();
+                },
+                error:function () {
+                    console.log('error');
+                },
+            });
+        }
+
+        function setTeamGroup(maincourseid,subcourseid,status) {
+            $.ajax({
+                url:'/teacher/notify-share-group',
+                type: 'GET',
+                data: 'maincourseid='+maincourseid+'&subcourseid='+subcourseid+'&status='+status,
+                success:function () {
+                    window.location.reload();
+                },
+                error:function () {
+                    console.log('error');
+                },
+            });
+        }
+    </script>
 </head>
 
-<body data-type="index">
+<body>
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand1">
         <a href="homepage.html">
@@ -47,7 +78,7 @@
     <div class="tpl-portlet-components2">
 
 
-                    <#if teamValidApplicationList?exists>
+    <#if teamValidApplicationList?exists>
     <#list teamValidApplicationList as teamApplication>
         <#if teamList?exists>
             <#list teamList as team>
@@ -78,8 +109,8 @@
                                                                             <div class="nav-link tpl-left-nav-link-list">
                                                                                 <div>
                                                                                     <lable style="width:100%;text-align:center;">${klass.getGrade()}
-                                                                                        (${klass.getKlassSerial()}
-                                                                                        ) ${leader.getStudentName()}提出
+                                                                                        (${klass.getKlassSerial()})
+                                                                                        ${leader.getStudentName()}提出
                                                                                     </lable>
                                                                                 </div>
                                                                                 <div>
@@ -88,10 +119,10 @@
                                                                             </div>
                                                                         </li>
                                                                         <li>
-                                                                            <i class="am-icon-times"
-                                                                               style="color: #e93c4d;float: left;margin-left: 7rem;"></i>
-                                                                            <i class="am-icon-check"
-                                                                               style="color: #5fc9da;float: left;margin-left: 11rem;"></i>
+                                                                            <a class="am-icon-times"
+                                                                               style="color: #e93c4d;float: left;margin-left: 2rem;" onclick="setStatus('${teamApplication.getTeamId()}',0)"></a>
+                                                                            <a class="am-icon-check"
+                                                                               style="color: #5fc9da;float: left;margin-left: 11rem;" onclick="setStatus('${teamApplication.getTeamId()}',1)"></a>
                                                                         </li>
                                                                     </ul>
                                                                 </li>
@@ -147,10 +178,10 @@
                                 </div>
                             </li>
                             <li>
-                                <i class="am-icon-times"
-                                   style="color: #e93c4d;float: left;margin-left: 7rem;"></i>
-                                <i class="am-icon-check"
-                                   style="color: #5fc9da;float: left;margin-left: 11rem;"></i>
+                                <a class="am-icon-times"
+                                   style="color: #e93c4d;float: left;margin-left: 2rem;" onclick="javascript:setTeamGroup('${shareTeam.getMainCourseId()}','${shareTeam.getSubCourseId()}',0)"></a>
+                                <a class="am-icon-check"
+                                   style="color: #5fc9da;float: left;margin-left: 11rem;" onclick="javascript:setTeamGroup('${shareTeam.getMainCourseId()}','${shareTeam.getSubCourseId()}',1)"></a>
                             </li>
                         </ul>
                     </li>
@@ -182,7 +213,7 @@
                         <a href="javascript:;"
                            class="nav-link tpl-left-nav-link-list">
 
-                            <span>${seminarCourse.getCourseName()}${teacher.getTeacherName()}的共享討論課申请</span>
+                            <span>${seminarCourse.getCourseName()}${teacher.getTeacherName()}的共享讨论课申请</span>
 
                             <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                         </a>
@@ -195,7 +226,7 @@
                                         </lable>
                                     </div>
                                     <div>
-                                        <span>共享討論課申请</span>
+                                        <span>共享讨论课申请</span>
                                     </div>
                                 </div>
                             </li>
@@ -223,7 +254,6 @@
     </div>
 
 </div>
-
 <script src="../../static/js/jquery.min.js"></script>
 <script src="../../static/js/amazeui.min.js"></script>
 <script src="../../static/js/app.js"></script>

@@ -23,4 +23,8 @@
         select * from standard_seminar_system.share_team_application where status is null and sub_course_teacher_id=#{0};
     </select>
 
+    <update id="setStatus">
+        UPDATE standard_seminar_system.share_team_application
+    SET status=#{2} WHERE  sub_course_id=#{1} AND main_course_id=#{0}
+</update>
 </mapper>

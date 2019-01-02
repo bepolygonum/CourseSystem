@@ -103,4 +103,15 @@
     <select id="getTeamIdByLeaderIdAndCourseId" resultType="Integer">
         select id from standard_seminar_system.team where course_id=#{1} and leader_id=#{0}
     </select>
+    <update id="setValid">
+        update standard_seminar_system.team set status = 1 where id= #{0}
+    </update>
+
+    <delete id="removeSubCourse">
+        DELETE FROM standard_seminar_system.klass_team
+        where klass_id in (select id from standard_seminar_system.klass where course_id=#{0});
+    </delete>
+    <delete id="removeSubCourse1">
+         DELETE FROM standard_seminar_system.team WHERE course_id=#{0};
+    </delete>
 </mapper>

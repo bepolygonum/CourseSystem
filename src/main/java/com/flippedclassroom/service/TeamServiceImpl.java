@@ -38,6 +38,7 @@ public class TeamServiceImpl {
     @Autowired
     ConflictCourseStrategyDao conflictCourseStrategyDao;
 
+
     public List<Team> getTeamByCourseID(int courseId) {
         //根据课程id获得所有team
         List<Team> teams = teamDao.getTeamByCourseID(courseId);
@@ -242,5 +243,12 @@ public class TeamServiceImpl {
 
     public int getTeamIdByLeaderIdAndCourseId(int id, int courseId) {
         return teamDao.getTeamIdByLeaderIdAndCourseId(id,courseId);
+    }
+
+    public void setStatus(int teamid, int i) {
+        teamValidApplicationDao.setStatus(teamid,i);
+        if(i==1){
+            teamDao.setValid(teamid);
+        }
     }
 }

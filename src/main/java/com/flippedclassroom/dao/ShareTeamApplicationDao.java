@@ -28,4 +28,5 @@ public interface ShareTeamApplicationDao {
      */
     List<ShareTeamApplication> selectUntreatedShareTeamApplicationByTeacherId(@Param("0")int teacherId);
 
+    void setStatus(@Param("0")  int maincourseid, @Param("1") int subcourseid, @Param("2") int i);
 }

@@ -103,4 +103,6 @@ public interface CourseDao {
     void deleteCourseByCourseId(@Param("0") int courseId);
 
     int getTeacherIdByCourseId(@Param("0") int courseId);
+
+    void setCourseTeamMainIdByCourseId(@Param("0") int maincourseid,@Param("1")  int subcourseid);
 }

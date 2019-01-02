@@ -76,4 +76,11 @@ public interface TeamDao {
     int getMaxTeamSerialByKlassId(@Param("0") int klass);
 
     int getTeamIdByLeaderIdAndCourseId(@Param("0") int id,@Param("1") int courseId);
+
+    void setValid(int teamid);
+
+    void removeSubCourse(@Param("0")  int subcourseid);
+
+    void removeSubCourse1(@Param("0")  int subcourseid);
+
 }

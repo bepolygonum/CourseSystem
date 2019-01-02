@@ -23,5 +23,9 @@
     <insert id="sendApplication">
         INSERT INTO team_valid_application(team_id, teacher_id, reason) VALUES (#{0},#{1},#{2})
     </insert>
-    
+
+    <update id="setStatus">
+        UPDATE standard_seminar_system.team_valid_application
+         SET status=#{1} WHERE  team_id=#{0}
+    </update>
 </mapper>

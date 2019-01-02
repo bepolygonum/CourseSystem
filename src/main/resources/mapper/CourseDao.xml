@@ -71,6 +71,9 @@
     <update id="updateCourseTeamMainIdByCourseId">
         update standard_seminar_system.course set team_main_course_id=0 where id=#{0};
     </update>
+    <update id="setCourseTeamMainIdByCourseId">
+        update standard_seminar_system.course set team_main_course_id=#{0} where id=#{1};
+    </update>
 
     <select id="getTeacherIdByCourseId" resultType="Integer">
         select teacher_id from standard_seminar_system.course where id=#{0};
