@@ -45,11 +45,11 @@
 
     <select id="getStudentByAccounti"  resultMap="studentResultMap">
         SELECT * FROM  standard_seminar_system.student
-        WHERE account = #{account}
+        WHERE account = #{0}
     </select>
     
     <update id="activate">
-        update student set is_active = 1 where id = #{0}
+        update standard_seminar_system.student set is_active = 1 where id = #{0}
     </update>
 
     <update id="resetStudent">

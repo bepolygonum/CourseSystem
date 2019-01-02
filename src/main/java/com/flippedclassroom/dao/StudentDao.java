@@ -52,7 +52,7 @@ public interface StudentDao {
      * @param account
      * @return
      */
-    Student getStudentByAccounti(String account);
+    Student getStudentByAccounti(@Param("0") String account);
 
     /**
      * active

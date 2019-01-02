@@ -7,11 +7,10 @@
         <!-- 定义主键 ,非常重要。如果是多个字段,则定义多个id -->
         <!-- property：主键在pojo中的属性名 -->
         <!-- column：主键在数据库中的列名 -->
-        <id property="courseId" column="course_id" />
-        <id property="strategySerial" column="strategy_serial" />
+        <id property="id" column="id" />
         <!-- 定义普通属性 -->
-        <result property="strategyName" column="strategy_name" />
-        <result property="strategyId" column="strategy_id" />
+        <result property="minMember" column="min_member" />
+        <result property="maxMember" column="max_member" />
     </resultMap>
     <!-- 目的：为dao接口方法提供sql语句配置 -->
     <insert id="createMemberLimitStrategy">

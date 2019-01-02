@@ -39,7 +39,11 @@
         (course_id, grade, klass_serial, klass_time, klass_location)
         values(#{0},#{1},#{2},#{3},#{4});
     </insert>
-    <delete id="deleteKlassByKlassId" parameterType="int">
+    <delete id="deleteKlassByKlassId" parameterType="Integer">
         delete from  standard_seminar_system.klass where id = #{0};
     </delete>
+
+    <select id="getKlassSerialByKlassId" resultType="Integer">
+        select klass_serial from standard_seminar_system.klass where id=#{0}
+    </select>
 </mapper>

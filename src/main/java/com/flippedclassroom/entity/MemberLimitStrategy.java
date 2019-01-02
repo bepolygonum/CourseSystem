@@ -7,10 +7,19 @@ public class MemberLimitStrategy {
     private int maxMember;
 
     public boolean isValid(int number) {
-        if (number >= minMember && number <= maxMember)
+        if (number >= minMember && number <= maxMember){
+            System.out.println(number);
+            System.out.println(maxMember);
+            System.out.println(minMember);
             return true;
-        else
+        }
+        else{
+            System.out.println(number);
+            System.out.println(maxMember);
+            System.out.println(minMember);
             return false;
+        }
+
     }
 
     public int getId() {

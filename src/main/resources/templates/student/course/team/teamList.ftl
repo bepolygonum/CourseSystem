@@ -64,7 +64,9 @@
                                                 <label style="display: inline-block;width: 3rem">${team.getKlassSerial()}-${team.getTeamSerial()}</label>
                                                 <label style="display: inline-block;width: 5rem;margin-left: 2rem">
                                                 <#if team.getStatus()==0>不合法
-                                                <#else>合法</#if>
+                                                <#elseif team.getStatus()==1>合法
+                                                <#else>审核中
+                                                </#if>
                                                 </label>
                                                 <label style="margin-left: 2rem;">${team.getTeamName()}</label>
                                             <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
@@ -127,9 +129,13 @@
                             </li>
                         </ul>
                     </li>
-
-                    <a class="am-btn am-btn-success" style="width: 100%;margin: 1% 0;"
-                       href="javascript:doPost('/student/teamList', {'id':'${student.getId()}','course_id':'${course.getId()}','klass_id':'${klass.getId()}'})">我的小组</a>
+                    <#if teamid!=-1>
+                        <a class="am-btn am-btn-success" style="width: 100%;margin: 1% 0;"
+                        href="javascript:doPost('/student/courseTeam', {'id':'${student.getId()}','course_id':'${course.getId()}','klass_id':'${klass.getId()}','flags': 1})">我的小组</a>
+                    <#else>
+                        <a class="am-btn am-btn-success" style="width: 100%;margin: 1% 0;"
+                        href="javascript:doPost('/student/courseTeam',  {'id':'${student.getId()}','course_id':'${course.getId()}','klass_id':'${klass.getId()}','flags':1})">创建小组</a>
+                    </#if>
                 </div>
             </div>
         </div>

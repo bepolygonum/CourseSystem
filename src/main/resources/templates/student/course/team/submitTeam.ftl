@@ -11,13 +11,34 @@
     <link rel="stylesheet" href="../../../../static/css/app.css">
     <script src="../../../../static/js/echarts.min.js"></script>
     <script type="text/javascript">
-        var data = "";
-        function getAccount(){
-            $("#table2").find(":checkbox:checked").each(function(){
-                var val = $(this).parent().next().text();
-                data=data +val+",";
+        function submitFunction() {
+            var myArray =new Array();
+            var num=${student.getAccount()}
+            var str = num.toString();
+            myArray.push(str);
+
+            var tableId = document.getElementById("table2");
+            var obj = document.getElementsByName("check");
+
+            for (var i = 0; i < tableId.rows.length; i++){
+                if(obj[i].checked) {
+                myArray.push(tableId.rows[i].cells[1].innerHTML)
+                }
+                console.log(myArray);
+            }
+
+            var selected_val = document.getElementById("select_id").value;
+
+            $.ajax({
+                //接口地址
+                url: '/student/check',
+                type: 'POST',
+                data: {team: myArray, teamid: '${teamid}', sid: '${student.getId()}', courseId: '${course.getId()}', teamname: $("#groupnameinput").val(), klassId:selected_val},
+                traditional:true,
+                success:function () {
+                    history.go(-1);
+                }
             });
-            return data;
         }
     </script>
 </head>
@@ -53,45 +74,45 @@
         <div class="tpl-block">
             <div class="am-g">
                 <div class="am-u-sm-12">
-                    <form>
-                        <label class="myLabel" style="font-size: 1.6rem">小组名:</label>
-                        <input class="myLabel" type="text" placeholder="请填写小组名称" style="margin-top: -0.4rem;margin-left: 3rem;font-size: 1.6rem">
-                        <br>
-                        <div style="margin-top: 0.5rem">
-                            <label class="myLabel" style="font-size: 1.6rem">选择班级：</label>
-                            <select class="data-am-selected" style="margin-left: 0.5rem;font-size: 1.5rem;width: 9rem">
-                                <#if teamList?exists>
-                                <#list teamList as team>
-                                    <option value="${team.getKlassSerial()}-${team.getTeamSerial()}">${team.getKlassSerial()}-${team.getTeamSerial()}<</option>
+                    <label class="myLabel" style="font-size: 1.6rem">小组名:</label>
+                    <input class="myLabel" type="text" placeholder="请填写小组名称" style="margin-top: -0.4rem;margin-left: 3rem;font-size: 1.6rem" name="groupname" id="groupnameinput"><br>
+                    <div style="margin-top: 0.5rem">
+                        <label class="myLabel" style="font-size: 1.6rem">选择班级：</label>
+                        <select class="data-am-selected" id="select_id" style="margin-left: 0.5rem;font-size: 1.5rem;width: 9rem">
+                            <#if klasses?exists>
+                                <#list klasses as myklass>
+                                    <option  value="${myklass.getId()}">${myklass.getGrade()}-${myklass.getKlassSerial()}</option>
                                 </#list>
-                                </#if>
-                            </select>
+                            </#if>
+                        </select>
+                    </div>
+                    <#if noTeams?exists>
+                        <div style="margin-top: 0.5rem">
+                            <label class="myLabel" style="font-size: 1.6rem">添加成员:</label>
                         </div>
-                        <#if noTeams?exists>
-                            <div style="margin-top: 0.5rem">
-                                <label class="myLabel" style="font-size: 1.6rem">添加成员:</label>
-                            </div>
-                            <table class="am-table">
+                        <table class="am-table" id="groupTable">
                             <tbody>
-                            <tr>
-                            <td>
-                            <table class="am-table am-table-striped am-table-hover table-main" id="table2">
-                            <#list noTeams as noteam>
-                                <tr id="${noteam.getAccount()}">
-                                <td><input type="checkbox" name="check" class="data-am-ucheck" style="margin-left: 1rem"></td>
-                                <td><input type="text" value="${noteam.getAccount()}"></td>
-                                <td>${noteam.getStudentName()}</td>
+                                <tr>
+                                    <td>
+                                        <table class="am-table am-table-striped am-table-hover table-main" id="table2">
+                                            <#list noTeams as noteam>
+                                                <#if noteam.getId()!=student.getId()>
+                                                    <tr id="${noteam.getAccount()}">
+                                                      <td><input type="checkbox" name="check" class="data-am-ucheck" value="${noteam.getAccount()}" style="margin-left: 1rem"></td>
+                                                      <td>${noteam.getAccount()}</td>
+                                                      <td>${noteam.getStudentName()}</td>
+                                                     </tr>
+                                                 </#if>
+                                             </#list>
+                                         </table>
+                                    </td>
                                 </tr>
-                            </#list>
-                            </table>
-                            </td>
-                            </tr>
                             </tbody>
-                            </table>
-                        </#if>
-                        <a type="submit" class="am-btn am-btn-success" style="width: 100%;margin-top: 3rem" onclick="getAccount()">确认提交
-                        </a>
-                    </form>
+                        </table>
+                    </#if>
+                    <a type="submit" class="am-btn am-btn-success" style="width: 100%;margin-top: 3rem" onclick="submitFunction()">确认提交
+                    </a>
+
                 </div>
             </div>
         </div>

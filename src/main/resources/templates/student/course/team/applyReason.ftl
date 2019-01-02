@@ -15,7 +15,7 @@
 <body>
 <header class="am-topbar am-topbar-inverse admin-header">
     <div class="am-topbar-brand1">
-        <a href="/">
+        <a href="homepage.html">
             <div class="am-icon-times" style="color: darkgray"></div>
         </a>
     </div>
@@ -25,28 +25,29 @@
 </header>
 
 
-<div class="tpl-page-container1 tpl-page-header-fixed">
-    <div class="tpl-portlet-components2">
+<div class="tpl-page-container1 tpl-page-header-fixed" style="margin:18rem 0rem;">
+    <div class="tpl-portlet-components1">
         <div class="tpl-block">
             <div class="am-g">
                 <div class="am-u-sm-12">
                     <form class="am-form" action="/student/application" method="post">
-                        <div class="am-form-group" style="margin-bottom: 1rem">
-                            <input type="text" placeholder="申请理由" name="reason">
+                        <div class="am-form-group" style="margin: 5rem，0">
+                            <input type="text" class="" name="reason" placeholder="申请理由">
                             <input name="id" value="${student.getId()}" hidden="hidden"/>
                             <input name="course_id" value="${course.getId()}" hidden="hidden"/>
-                            <a class="am-btn am-btn-danger" value="取消" style="width:40%; float: left;" href="javascript:doPost('/student/courseManage', {'id':'${student.getId()}'})">
-                            <input class="am-btn am-btn-success" type="submit" value="确认" style="width:40%; float: right;">
+                        </div>
+                        <button type="submit" class="am-btn am-btn-success" style="width: 100%;">确认提交</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
-    <script src="../../static/js/jquery.min.js"></script>
-    <script src="../../static/js/amazeui.min.js"></script>
-    <script src="../../static/js/app.js"></script>
+<script src="../../static/js/jquery.min.js"></script>
+<script src="../../static/js/amazeui.min.js"></script>
+<script src="../../static/js/app.js"></script>
 </body>
 
 </html>

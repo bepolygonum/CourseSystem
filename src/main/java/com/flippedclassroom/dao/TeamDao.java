@@ -59,8 +59,6 @@ public interface TeamDao {
 
     void dismissTableTeam(@Param("0") int team);
 
-    int getTeamIdByLeaderId(@Param("0") int id);
-
     Team getTeamByTeamID(@Param("0") int teamId);
 
     void insertValidTableTeam(@Param("0") int klassId, @Param("1") int courseId, @Param("2") int id, @Param("3") String teamName, @Param("4") int teamSerial, @Param("5") int klassSerial);
@@ -71,5 +69,11 @@ public interface TeamDao {
 
     void insertInValidTableTeam(@Param("0") int klassId, @Param("1") int courseId, @Param("2") int id, @Param("3") String teamName, @Param("4") int teamSerial, @Param("5") int klassSerial);
 
-    void changeStatusByTeamId(int team);
+    void changeStatusByTeamId(@Param("0") int team);
+
+    Team getTeamByKlassAndId(@Param("0") int id,@Param("1") int klassId);
+
+    int getMaxTeamSerialByKlassId(@Param("0") int klass);
+
+    int getTeamIdByLeaderIdAndCourseId(@Param("0") int id,@Param("1") int courseId);
 }

@@ -22,14 +22,18 @@
             var myArray=new Array();
             for (var i = 0; i < tableId.rows.length; i++){
                 myArray.push(tableId.rows[i].cells[1].innerHTML)
+                console.log(myArray);
             }
 
             $.ajax({
                 //接口地址
                 url: '/student/check',
                 type: 'POST',
-                data: {team:myArray,klass:${klass.getId()},teamid:${myteam.getId()},sid:${student.getId()}},
+                data: {team:myArray,teamid:'${teamid}',sid:'${student.getId()}',courseId:'${course.getId()}',teamname:'${myteam.getTeamName()}',klassId:'${klass.getId()}'},
                 traditional:true,
+                success:function () {
+                    window.location.reload();
+                },
             });
         }
 
@@ -92,10 +96,12 @@
 
                 <div class="am-u-sm-12">
                     <div style="text-align: center"><label class="myLabel">${myteam.getTeamName()}</label>
-                        <label style="font-size: 1.5rem; color: #0b76ac">
+                        <a style="font-size: 1.5rem; color: #0b76ac" href="javascript:doPost('/student/apply', {'id':'${student.getId()}','course_id':'${course.getId()}'})">
                             <#if myteam.getStatus()==0>不合法
-                            <#else>合法</#if>
-                        </label>
+                            <#elseif myteam.getStatus()==1>合法
+                            <#else>审核中
+                            </#if>
+                        </a>
                     </div>
                     <table class="am-table am-table-striped am-table-hover table-main" id="groupTable">
                         <tbody id="myBody">
@@ -118,6 +124,7 @@
                         </#if>
                         </tbody>
                     </table>
+                    <#if myteam.getStatus()!=2>
                     <a class="am-btn am-btn-danger" onclick="return dismiss()"
                        href="javascript:doPost('/student/dismiss', {'id':'${student.getId()}','teamid':'${myteam.getId()}'})"
                        style="margin-left:2rem;width: 25%;margin-top: 2rem;border-radius: 0.5rem;">
@@ -131,6 +138,7 @@
                        style="margin-left:1rem;width: 25%;margin-top: 2rem;border-radius: 0.5rem">
                         保存
                     </a>
+                    </#if>
                     <#if noTeams?exists>
                         <div style="margin-top: 0.5rem">
                             <label class="myLabel">添加成员:</label>

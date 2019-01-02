@@ -72,7 +72,7 @@
         update standard_seminar_system.course set team_main_course_id=0 where id=#{0};
     </update>
 
-    <select id="getTeacherIdByCourseId">
+    <select id="getTeacherIdByCourseId" resultType="Integer">
         select teacher_id from standard_seminar_system.course where id=#{0};
     </select>
 </mapper>

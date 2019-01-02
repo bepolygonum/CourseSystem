@@ -113,17 +113,17 @@ public class TeamServiceImpl {
         teamValidApplicationDao.sendApplication(teamid, teacherid, reason);
     }
 
-    public int getTeamIdByLeaderId(int id) {
-        return teamDao.getTeamIdByLeaderId(id);
-    }
-
     public Team getTeamByTeamID(int teamId) {
         return teamDao.getTeamByTeamID(teamId);
     }
 
-    public void createValidTeam(int klassId, int courseId, int id, String teamName, int teamSerial, int klassSerial, List<Integer> team) {
-        teamDao.insertValidTableTeam(klassId, courseId, id, teamName, teamSerial, klassSerial);
-        int teamid = teamDao.getTeamIdByLeaderId(id);
+    public void createTeam(int klassId, int courseId, int id, String teamName, int teamSerial, int klassSerial, List<Integer> team,boolean valid) {
+        if(valid){
+            teamDao.insertValidTableTeam(klassId, courseId, id, teamName, teamSerial, klassSerial);
+        }else
+            teamDao.insertInValidTableTeam(klassId, courseId, id, teamName, teamSerial, klassSerial);
+
+        int teamid = teamDao.getTeamByKlassAndId(id,klassId).getId();
         teamDao.insertTableKlassTeam(klassId, teamid);
         for (int i = 0; i < team.size(); i++) {
             teamDao.insertTableTeamStudent(teamid, team.get(i));
@@ -162,9 +162,14 @@ public class TeamServiceImpl {
                 List<TeamAndStrategy> teamAndStrategies = teamAndStrategyDao.getTeamAndStrategyById(teamStrategies.get(i).getStrategyId());
                 for (int j = 0; j < teamAndStrategies.size(); j++) {
                     if (teamAndStrategies.get(j).getStrategyName().equals("MemberLimitStrategy")) {
-                        if (memberLimitStrategyDao.getMemberLimitById(teamAndStrategies.get(j).getStrategyId()).isValid(list.size()))
+                        if (memberLimitStrategyDao.getMemberLimitById(teamAndStrategies.get(j).getStrategyId()).isValid(list.size())){
+                            System.out.println(teamAndStrategies.get(j).getStrategyId());
+                            System.out.println("Satisfy Member Limit ");
                             return true;
+                        }
                         else {
+                            System.out.println(teamAndStrategies.get(j).getStrategyId());
+                            System.out.println("Not  Satisfy Member Limit ");
                             return false;
                         }
                     } else if (teamAndStrategies.get(j).getStrategyName().equals("TeamOrStrategy")) {
@@ -181,12 +186,14 @@ public class TeamServiceImpl {
 
                             if (courseMemberLimitStrategy.isValid(number)){
                                 flag = 1;
+                                System.out.println("Satisfy Team Or Strategy");
                                 return true;
                             } else{
                                 flag = 0;
                             }
                         }
                         if (flag == 0) {
+                            System.out.println("Not Satisfy Team Or Strategy");
                             return false;
                         }
                     }
@@ -200,25 +207,37 @@ public class TeamServiceImpl {
                          klassstudent.add(klassStudentDao.getKlassStudentByIdAndCourseId(list.get(k),conflictCourseStrateqies.get(j).getCourseId()));
                     }
                 }
-                if(klassstudent.get(0).size()==0||klassstudent.get(1).size()==0)
+                if(klassstudent.get(0).size()==0||klassstudent.get(1).size()==0){
+                    System.out.println("Satisfy Conflict");
                     return true;
-                else
+                }
+                else{
+                    System.out.println("Not  Satisfy Conflict");
                     return false;
+                }
+
             }
         }
         return false;
     }
 
-    public void createInValidTeam(int klassId, int courseId, int id, String teamName, int teamSerial, int klassSerial, List<Integer> list) {
-        teamDao.insertInValidTableTeam(klassId, courseId, id, teamName, teamSerial, klassSerial);
-        int teamid = teamDao.getTeamIdByLeaderId(id);
-        teamDao.insertTableKlassTeam(klassId, teamid);
-        for (int i = 0; i < list.size(); i++) {
-            teamDao.insertTableTeamStudent(teamid, list.get(i));
-        }
-    }
-
     public void changeStatusByTeamId(int team) {
         teamDao.changeStatusByTeamId(team);
+    }
+
+    public Team getTeamByKlassIdAndId(int id, int klassId) {
+        return teamDao.getTeamByKlassAndId(id,klassId);
+    }
+
+    public int getMaxTeamSerialByKlassId(int klass) {
+        return teamDao.getMaxTeamSerialByKlassId(klass);
+    }
+
+    public int getKlassSerialByKlassId(int klassid) {
+        return klassDao.getKlassSerialByKlassId(klassid);
+    }
+
+    public int getTeamIdByLeaderIdAndCourseId(int id, int courseId) {
+        return teamDao.getTeamIdByLeaderIdAndCourseId(id,courseId);
     }
 }

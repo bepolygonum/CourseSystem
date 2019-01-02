@@ -91,4 +91,16 @@
     <update id="changeStatusByTeamId">
         update standard_seminar_system.team set status = 2 where id= #{0}
     </update>
+
+    <select id="getTeamByKlassAndId" resultMap="teamResultMap">
+        select * from standard_seminar_system.team where klass_id=#{1} and leader_id=#{0}
+    </select>
+
+    <select id="getMaxTeamSerialByKlassId" resultType="Integer">
+        select max(team_serial) from standard_seminar_system.team where klass_id=#{0}
+    </select>
+
+    <select id="getTeamIdByLeaderIdAndCourseId" resultType="Integer">
+        select id from standard_seminar_system.team where course_id=#{1} and leader_id=#{0}
+    </select>
 </mapper>

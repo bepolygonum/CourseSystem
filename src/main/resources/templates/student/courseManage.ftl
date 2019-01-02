@@ -67,7 +67,7 @@
                             </a>
                             </li>
                             <li class="tpl-left-nav-item">
-                        <a href="javascript:doPost('/student/courseTeam', {'course_id':'${course.getId()}','klass_id':'${klass.getId()}','id':'${student.getId()}'})">
+                        <a href="javascript:doPost('/student/courseTeam', {'course_id':'${course.getId()}','klass_id':'${klass.getId()}','id':'${student.getId()}','flags': 0})">
                             <label style="font-size: 1.5rem; color: #000000">我的组队</label>
                             <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                             </a>
