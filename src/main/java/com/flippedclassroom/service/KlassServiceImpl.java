@@ -118,7 +118,7 @@ public class KlassServiceImpl {
         return klassSeminarDao.getKlassSeminarByKlassIDSeminarID(klassId,seminaeId) ;
     }
 
-    public int getKlassIdByStudentIdAndCourseId(int id, int courseId) {
+    public Integer getKlassIdByStudentIdAndCourseId(int id, int courseId) {
         return klassStudentDao.getKlassIdByStudentIdAndCourseId(id,courseId);
     }
 

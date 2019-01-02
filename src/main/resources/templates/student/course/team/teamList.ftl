@@ -56,10 +56,10 @@
         <div class="tpl-block">
             <div class="am-g">
                 <div class="am-u-sm-12">
-                    <#list klasses as klass>
+
                         <li class="tpl-left-nav-item">
                         <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
-                        <label class="courseName">${klass.getGrade()}-${klass.getKlassSerial()}</label>
+                        <label class="courseName">已组队伍</label>
                     <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                         </a>
                         <ul class="tpl-left-nav-sub-menu">
@@ -68,7 +68,6 @@
                                 <#if listOfStudents?exists>
                                     <#list listOfStudents as teamlist>
                                         <#if teamlist_index ==team_index>
-                                            <#if team.getKlassId()==klass.getId()>
                                                 <li class="tpl-left-nav-item">
                                                 <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
                                                 <i class="am-icon-table"></i>
@@ -109,7 +108,6 @@
                                                 </ul>
                                                 </li>
                                             </#if>
-                                        </#if>
                                     </#list>
                                 </#if>
                             </#list>
@@ -118,7 +116,6 @@
                         </ul>
 
                         </li>
-                    </#list>
 
 
                     <li class="tpl-left-nav-item">

@@ -157,7 +157,8 @@ public class TeacherController {
         List<Integer> klassSeminarIds=new ArrayList<>();
         for(int i=0;i<seminarIds.size();i++)
         {
-            klassSeminarIds.add(klassService.getKlassSeminarIdByKlassIdAndSeminarId(team.getKlassId(),seminarIds.get(i)));
+            int klassId=klassService.getKlassIdByStudentIdAndCourseId(id,courseId);
+            klassSeminarIds.add(klassService.getKlassSeminarIdByKlassIdAndSeminarId(klassId,seminarIds.get(i)));
         }
         List<SeminarScore> seminarScores=seminarService.getSeminarScoreByKlassSeminarIDTeamID(klassSeminarIds,teamId);
         double presentationScore=0,questionScore=0,reScore=0,totalScore=0;
@@ -184,28 +185,26 @@ public class TeacherController {
         List<Klass> klassList = new ArrayList<>();
 
         Course course = courseService.getCourseByCourseID(courseid);
-        System.out.print(tid);
-        System.out.print(course.getCourseName());
         int teamMainCourseId = course.getTeamMainCourseId();
-        System.out.print(teamMainCourseId);
         if (teamMainCourseId != 0) {
             teamList = teamService.getTeamByCourseID(teamMainCourseId);
             klassList = klassService.getKlassByCourseID(teamMainCourseId);
-            System.out.print(teamList);
-
-
         } else {
             teamList = teamService.getTeamByCourseID(courseid);
             klassList = klassService.getKlassByCourseID(courseid);
         }
-
-
         //添加所有队伍
         List<List<Student>> listOfStudents = new ArrayList<List<Student>>();
         for (int i = 0; i < teamList.size(); i++) {
             List<Student> members = teamService.getStudentByTeamID(teamList.get(i).getId());
             if (members != null) {
-                listOfStudents.add(members);
+                List<Student> members1 = new ArrayList<>();
+                for(int j=0;j<members.size();j++){
+                    if(klassService.getKlassIdByStudentIdAndCourseId(members.get(j).getId(),courseid)!=null){
+                        members1.add(members.get(j));
+                    }
+                }
+                listOfStudents.add(members1);
             }
         }
         if (!listOfStudents.isEmpty()) {
@@ -322,15 +321,12 @@ public class TeacherController {
 
         teamService.createTeamStrategy(courseId, serial, "TeamAndStrategy", teamAndStrategyMaxId + 1);
         serial = serial + 1;
-
+        System.out.println("elective.size() "+elective.size() );
         if (elective.size() > 1) {
             if (request == 0) {
                 for (int i = 0; i < elective.size(); i++) {
                     int electiveCourseId = Integer.parseInt(elective.get(i));
                     if (electiveCourseId != 0) {
-                        System.out.print(electiveCourseId);
-                        System.out.print(smin.get(i));
-                        System.out.print(smax.get(i));
                         int courseMemberLimitId = courseMemberLimitStrategyService.createCourseMemberLimitStrategy(courseId, smin.get(i), smax.get(i));
                         teamService.createTeamAndStrategy(teamAndStrategyMaxId + 1, "CourseMemberLimitStrategy", courseMemberLimitId);
                     }
@@ -348,7 +344,6 @@ public class TeacherController {
                 teamService.createTeamAndStrategy(teamAndStrategyMaxId + 1, "TeamOrStrategy", teamOrStrategyMaxId + 1);
 
             }
-            System.out.print(request);
         } else {
             int electiveCourseId = Integer.parseInt(elective.get(0));
             if (electiveCourseId != 0) {
@@ -359,7 +354,6 @@ public class TeacherController {
                 teamService.createTeamAndStrategy(teamAndStrategyMaxId + 1, "CourseMemberLimitStrategy", courseMemberLimitId);
             }
         }
-
         int maxId = 0;
         maxId = courseService.selectConflictCourseStrategyMaxId();
         int cid;

@@ -5,6 +5,7 @@ import com.flippedclassroom.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class TeamServiceImpl {
     KlassStudentDao klassStudentDao;
     @Autowired
     KlassDao klassDao;
+    @Autowired
+    CourseDao courseDao;
     @Autowired
     TeamStudentDao teamStudentDao;
     @Autowired
@@ -121,8 +124,9 @@ public class TeamServiceImpl {
     public void createTeam(int klassId, int courseId, int id, String teamName, int teamSerial, int klassSerial, List<Integer> team,boolean valid) {
         if(valid){
             teamDao.insertValidTableTeam(klassId, courseId, id, teamName, teamSerial, klassSerial);
-        }else
+        }else{
             teamDao.insertInValidTableTeam(klassId, courseId, id, teamName, teamSerial, klassSerial);
+        }
 
         int teamid = teamDao.getTeamByKlassAndId(id,klassId).getId();
         teamDao.insertTableKlassTeam(klassId, teamid);
@@ -251,4 +255,5 @@ public class TeamServiceImpl {
             teamDao.setValid(teamid);
         }
     }
+
 }
