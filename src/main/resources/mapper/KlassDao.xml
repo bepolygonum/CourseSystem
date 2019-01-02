@@ -54,4 +54,8 @@
             #{item}
         </foreach>
     </select>
+    <delete id="deleteKlassTeamByCourseId">
+        DELETE from standard_seminar_system.klass_team where klass_id in
+      (select id  from standard_seminar_system.klass where course_id=#{0})
+    </delete>
 </mapper>

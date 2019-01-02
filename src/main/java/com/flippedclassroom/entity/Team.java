@@ -21,6 +21,7 @@ public class Team {
         this.klassSerial = klassSerial;
     }
 
+
     public int getId() {
         return id;
     }

@@ -408,28 +408,29 @@ public class StudentController {
             for (int i = 0; i < klasses.size(); i++) {
                 klassIds.add(klasses.get(i).getId());
             }
-
-            List list = teamService.getTeamIdByKlassId(klassIds);
-            List<Team> teamList = teamService.getTeamByIds(list);
-            if (teamList.size() != 0) {
-                model.addAttribute("teamList", teamList);
-            }
-            // 添加所有队伍
             List<List<Student>> listOfStudents = new ArrayList<List<Student>>();
-            for (int i = 0; i < teamList.size(); i++) {
-                List<Student> members = teamService.getStudentByTeamID(teamList.get(i).getId());
-                if (members != null) {
-                    List<Student> members1 = new ArrayList<>();
-                    for(int j=0;j<members.size();j++){
-                        if(klassService.getKlassIdByStudentIdAndCourseId(members.get(j).getId(),courseId)!=null){
-                            members1.add(members.get(j));
-                        }
-                    }
-                    listOfStudents.add(members1);
+            List list = teamService.getTeamIdByKlassId(klassIds);
+            if(list.size()!=0) {
+                List<Team> teamList = teamService.getTeamByIds(list);
+                if (teamList.size() != 0) {
+                    model.addAttribute("teamList", teamList);
                 }
-            }
-            if (listOfStudents != null) {
-                model.addAttribute("listOfStudents", listOfStudents);
+                // 添加所有队伍
+                for (int i = 0; i < teamList.size(); i++) {
+                    List<Student> members = teamService.getStudentByTeamID(teamList.get(i).getId());
+                    if (members != null) {
+                        List<Student> members1 = new ArrayList<>();
+                        for (int j = 0; j < members.size(); j++) {
+                            if (klassService.getKlassIdByStudentIdAndCourseId(members.get(j).getId(), courseId) != null) {
+                                members1.add(members.get(j));
+                            }
+                        }
+                        listOfStudents.add(members1);
+                    }
+                }
+                if (listOfStudents != null) {
+                    model.addAttribute("listOfStudents", listOfStudents);
+                }
             }
             // 未组队的人
             List<Student> noTeam = teamService.getStudentWithNoTeams(listOfStudents, courseId);
