@@ -14,7 +14,8 @@
         function inva() {
             var person = prompt("申请理由", "");
         }
-        function standardPost(to){
+
+        function standardPost(to) {
             var form = $("<form method='post'></form>");
             form.attr({"action": "/student/topnavigation"});
             var input;
@@ -34,8 +35,8 @@
     <script>
         function submitFunction() {
             var tableId = document.getElementById("groupTable");
-            var myArray=new Array();
-            for (var i = 0; i < tableId.rows.length; i++){
+            var myArray = new Array();
+            for (var i = 0; i < tableId.rows.length; i++) {
                 myArray.push(tableId.rows[i].cells[1].innerHTML)
                 console.log(myArray);
             }
@@ -44,9 +45,17 @@
                 //接口地址
                 url: '/student/check',
                 type: 'POST',
-                data: {team:myArray,teamid:'${teamid}',sid:'${student.getId()}',courseId:'${course.getId()}',teamname:'${myteam.getTeamName()}',klassId:'${klass.getId()}'},
-                traditional:true,
-                success:function () {
+                data: {
+                    team: myArray,
+                    teamid: '${teamid}',
+                    sid: '${student.getId()}',
+                    courseId: '${course.getId()}',
+                    teamname: '${myteam.getTeamName()}',
+                    klassId: '${klass.getId()}'
+                },
+                traditional: true,
+                success: function () {
+                    alert("修改小组成功！");
                     window.location.reload();
                 },
             });
@@ -71,6 +80,7 @@
                 $("#groupTable").append(tr);
             })
         }
+
         function dismiss() {
             return confirm("确定解散该小组吗?");
         }
@@ -94,8 +104,10 @@
     </button>
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-            <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
-            <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span
+                            class="am-icon-user"></span> 个人信息</a></li>
+            <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span>
+                    讨论课</a></li>
             <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
     </div>
@@ -108,12 +120,12 @@
 
                 <div class="am-u-sm-12">
                     <div style="text-align: center"><label class="myLabel">${myteam.getTeamName()}</label>
-                        <a style="font-size: 1.5rem; color: #0b76ac" href="javascript:doPost('/student/apply', {'id':'${student.getId()}','course_id':'${course.getId()}'})">
-                            <#if myteam.getStatus()==0>不合法
-                            <#elseif myteam.getStatus()==1>合法
-                            <#else>审核中
-                            </#if>
-                        </a>
+
+                        <#if myteam.getStatus()==0> <a style="font-size: 1.5rem; color: #0b76ac" href="javascript:doPost('/student/apply', {'id':'${student.getId()}','course_id':'${course.getId()}'})">不合法  </a>
+                        <#elseif myteam.getStatus()==1><label style="font-size: 1.5rem; color: #0b76ac">合法</label>
+                        <#else><label style="font-size: 1.5rem; color: #0b76ac">审核中</label>
+                        </#if>
+
                     </div>
                     <table class="am-table am-table-striped am-table-hover table-main" id="groupTable">
                         <tbody id="myBody">
@@ -137,19 +149,19 @@
                         </tbody>
                     </table>
                     <#if myteam.getStatus()!=2>
-                    <a class="am-btn am-btn-danger" onclick="return dismiss()"
-                       href="javascript:doPost('/student/dismiss', {'id':'${student.getId()}','teamid':'${myteam.getId()}'})"
-                       style="margin-left:2rem;width: 25%;margin-top: 2rem;border-radius: 0.5rem;">
+                        <a class="am-btn am-btn-danger" onclick="return dismiss()"
+                        href="javascript:doPost('/student/dismiss', {'id':'${student.getId()}','teamid':'${myteam.getId()}'})"
+                        style="margin-left:2rem;width: 25%;margin-top: 2rem;border-radius: 0.5rem;">
                         解散
-                    </a>
-                    <a onclick="addMemberToTeam()" class="am-btn am-btn-primary"
-                       style="margin-left:1rem;width: 25%;margin-top: 2rem;border-radius: 0.5rem">
-                        添加
-                    </a>
-                    <a class="am-btn am-btn-success" type="submit" onclick="submitFunction()"
-                       style="margin-left:1rem;width: 25%;margin-top: 2rem;border-radius: 0.5rem">
-                        保存
-                    </a>
+                        </a>
+                        <a onclick="addMemberToTeam()" class="am-btn am-btn-primary"
+                           style="margin-left:1rem;width: 25%;margin-top: 2rem;border-radius: 0.5rem">
+                            添加
+                        </a>
+                        <a class="am-btn am-btn-success" type="submit" onclick="submitFunction()"
+                           style="margin-left:1rem;width: 25%;margin-top: 2rem;border-radius: 0.5rem">
+                            保存
+                        </a>
                     </#if>
                     <#if noTeams?exists>
                         <div style="margin-top: 0.5rem">

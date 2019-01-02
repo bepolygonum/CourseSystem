@@ -36,6 +36,7 @@
                 data: {team: myArray, teamid: '${teamid}', sid: '${student.getId()}', courseId: '${course.getId()}', teamname: $("#groupnameinput").val(), klassId:selected_val},
                 traditional:true,
                 success:function () {
+                    alert("创建小组成功！");
                     history.go(-1);
                 }
             });
