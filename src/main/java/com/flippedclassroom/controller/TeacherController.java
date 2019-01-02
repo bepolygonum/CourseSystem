@@ -72,6 +72,14 @@ public class TeacherController {
         return "teacher/home";
     }
 
+    @RequestMapping(value = "/newPass", method = RequestMethod.POST)
+    public String modifyPassword(Model model, @RequestParam(name = "id") String sid, @RequestParam String newpass) {
+        int id = Integer.valueOf(sid);
+        teacherService.setPassByID(id, newpass);
+        Teacher teacher = teacherService.getTeacherByTeacherID(id);
+        model.addAttribute(teacher);
+        return "/teacher/person/personalInfo";
+    }
 
     @RequestMapping(value = "/courseManage", method = RequestMethod.POST)
     public String findCourse(Model model, @RequestParam String id) {
@@ -256,7 +264,6 @@ public class TeacherController {
         return "/teacher/course/createCourse1";
     }
 
-
     @RequestMapping(value = "/course/createCourse", method = RequestMethod.POST)
     public String createACourse(Model model, @RequestParam String id, @RequestParam String courseName, @RequestParam String courseRequest, @RequestParam String presentation,
                                 @RequestParam String question, @RequestParam String report, @RequestParam String startDateTime, @RequestParam String endDateTime,
@@ -403,12 +410,14 @@ public class TeacherController {
         List<Klass> klassList = klassService.getKlassByCourseID(courseid);
 
         List<Integer> seminarIds = seminarList.stream().map(Seminar::getId).collect(Collectors.toList());
-        List<KlassSeminar> klassSeminarList = klassService.getKlassSeminarBySeminarID(seminarIds);
+        if(seminarIds.size()!=0){
+            List<KlassSeminar> klassSeminarList = klassService.getKlassSeminarBySeminarID(seminarIds);
+            model.addAttribute(klassSeminarList);
+        }
         model.addAttribute(course);
         model.addAttribute(roundList);
         model.addAttribute(seminarList);
         model.addAttribute(klassList);
-        model.addAttribute(klassSeminarList);
         model.addAttribute("id", tid);
         return "teacher/course/seminarList";
     }
@@ -522,7 +531,11 @@ public class TeacherController {
                     klassService.createKlassRound(klasss.get(i).getId(),roundId,1);
                 }
             }
-            int seminarSerial=seminarService.getSeminarMaxSerialByRoundId(roundId)+1;
+            int seminarSerial=1;
+            Integer serial=seminarService.getSeminarMaxSerialByCourseId(courseId);
+            if(serial!=null){
+                seminarSerial+=serial;
+            }
 
             Timestamp teamStartTime = Timestamp.valueOf(tstartTime);
             Timestamp teamEndTime = Timestamp.valueOf(tendTime);
@@ -580,6 +593,7 @@ public class TeacherController {
         else if(klassSeminar.getStatus()==noStart)
         {
             model.addAttribute("id",id);
+            model.addAttribute("klassid",klassSeminar.getKlassId());
             model.addAttribute("course",course);
             model.addAttribute("klassSeminarId",klassSeminarId);
             Seminar seminar=seminarService.getSeminarBySeminarId(klassSeminar.getSeminarId());

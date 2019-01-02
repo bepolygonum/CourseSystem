@@ -25,16 +25,12 @@
     <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}">
         <span class="am-icon-bars"></span>
     </button>
-
     <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-
         <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-
-            <li><a href="index_message.html" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
-            <li><a href="index_personal.html" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
-            <li><a href="login.html" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
-
+            <li><a onclick="standardPost('message')" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
+            <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
         </ul>
     </div>
 </header>
@@ -78,13 +74,12 @@
                                 <#elseif status=2>
                                 已结束
                                 </#if>
-                                <a href="editseminar.html" style=" word-break: keep-all; white-space: nowrap;margin-left:1%; text-decoration:underline; ">查看信息</a></label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <button class="am-btn am-btn-success" style="width: 100%;margin: 1% 0;" type="submit" onclick="window.location.href='startseminar.html'">开始讨论课</button>
+        <button class="am-btn am-btn-success" style="width: 100%;margin: 1% 0;" type="submit" onclick="window.location.href='/teacher/seminarRunning?klassid=${klassid}&seminarid=${seminar.getId()}'">开始讨论课</button>
     </div>
 </div>
 

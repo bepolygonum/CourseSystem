@@ -86,7 +86,9 @@ public class KlassServiceImpl {
         return klassList;
     }
 
-    public List<KlassSeminar> getKlassSeminarBySeminarID(List<Integer> seminarIds){return klassSeminarDao.getKlassSeminarBySeminarID(seminarIds);}
+    public List<KlassSeminar> getKlassSeminarBySeminarID(List<Integer> seminarIds){
+        return klassSeminarDao.getKlassSeminarBySeminarID(seminarIds);
+    }
 
     public List<KlassSeminar> getKlassSeminarByKlassIdAndSeminarId(int klassId, int seminarid) {
         List list=new ArrayList(),list1=new ArrayList();

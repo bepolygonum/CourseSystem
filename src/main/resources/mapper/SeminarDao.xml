@@ -47,8 +47,8 @@
     <select id="selectSeminarsByRoundId" resultMap="seminarResultMap">
         SELECT  * FROM  standard_seminar_system.seminar WHERE round_id=#{0}
     </select>
-    <select id="getSeminarMaxSerialByRoundId" resultType="Integer">
-        select max(seminar_serial) from standard_seminar_system.seminar where round_id=#{0};
+    <select id="getSeminarMaxSerialByCourseId" resultType="Integer">
+        select max(seminar_serial) from standard_seminar_system.seminar where course_id=#{0};
     </select>
     <select id="getSeminarMaxId" resultType="Integer">
         select max(id) from standard_seminar_system.seminar;

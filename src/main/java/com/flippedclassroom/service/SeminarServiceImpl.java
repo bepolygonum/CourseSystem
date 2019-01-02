@@ -111,8 +111,9 @@ public class SeminarServiceImpl {
     public List<SeminarScore> getSeminarScoreByKlassSeminarID(List<Integer> klassSeminarIds)
     {return seminarScoreDao.getSeminarScoreByKlassSeminarID(klassSeminarIds);}
 
-    public int getSeminarMaxSerialByRoundId(int roundId)
-    {return seminarDao.getSeminarMaxSerialByRoundId(roundId);}
+    public Integer getSeminarMaxSerialByCourseId(int courseId) {
+        return seminarDao.getSeminarMaxSerialByCourseId(courseId);
+    }
 
     public int getSeminarMaxId(){return seminarDao.getSeminarMaxId();}
 
@@ -136,4 +137,5 @@ public class SeminarServiceImpl {
         seminarScoreDao.deleteEnroll(teamid,klassSeminarId);
         attendanceDao.deleteEnroll(teamid,klassSeminarId);
     }
+
 }

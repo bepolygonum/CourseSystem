@@ -27,72 +27,7 @@
             $(document.body).append(form);
             form.submit();
         }
-    </script>
-</head>
 
-<body>
-<header class="am-topbar am-topbar-inverse admin-header">
-    <#--<div class="am-topbar-brand1">-->
-        <#--<a href="homepage.html">-->
-            <#--<div class="am-icon-chevron-left" style="color: darkgray"></div>-->
-        <#--</a>-->
-    <#--</div>-->
-    <div class="am-topbar-brand1">
-        <a href="javascript:window.history.go(-1);">
-            <div class="am-icon-chevron-left" style="color: darkgray"></div>
-        </a>
-    </div>
-    <div class="am-topbar-brand">
-        <h3>修改密码</h3>
-    </div>
-    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
-            data-am-collapse="{target: '#topbar-collapse'}">
-        <span class="am-icon-bars"></span>
-    </button>
-
-    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
-        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
-            <li><a onclick="standardPost('message')" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
-            <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
-            <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
-            <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
-        </ul>
-    </div>
-</header>
-
-
-<div class="tpl-page-container1 tpl-page-header-fixed">
-    <div class="tpl-portlet-components1">
-        <div class="tpl-block">
-            <div class="am-g">
-                <div class="am-u-sm-12">
-                    <form class="am-form" action="/student/newPass" method="post">
-                        <div class="am-form-group" style="margin-bottom: 1rem">
-                            <input type="password" class="" id="pwd" placeholder="原密码" required="required">
-                        </div>
-                        <div class="am-form-group" style="margin-bottom: 1rem">
-                            <input type="password" class="" id="pwd1" name="newpass" placeholder="填写密码"
-                                   required="required">
-                            <input name="id" value="${teacher.getId()}" hidden="hidden"/>
-                        </div>
-                        <div class="am-form-group">
-                            <input type="password" class="" id="pwd2" placeholder="确认密码" required="required">
-                        </div>
-                        <div class="am-form-group">
-                            <p style="font-size: 1rem;margin-top: 5%;">密码长度8-32位，须包含数字、字母、符号至少两种或两种以上元素</p>
-                        </div>
-                        <input class="am-btn am-btn-success" type="submit" id="bt1" value="确认提交" style="width:100%;">
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="../../../static/js/jquery.min.js"></script>
-    <script src="../../../static/js/amazeui.min.js"></script>
-    <script src="../../../static/js/app.js"></script>
-    <script src="../../../static/js/jquery.min.js"></script>
-    <script>
         var bt1 = document.getElementById('bt1');
         $(function () {
             $("#pwd").blur(function () {
@@ -147,6 +82,70 @@
             })
         })
     </script>
+</head>
+
+<body>
+<header class="am-topbar am-topbar-inverse admin-header">
+    <#--<div class="am-topbar-brand1">-->
+        <#--<a href="homepage.html">-->
+            <#--<div class="am-icon-chevron-left" style="color: darkgray"></div>-->
+        <#--</a>-->
+    <#--</div>-->
+    <div class="am-topbar-brand1">
+        <a href="javascript:window.history.go(-1);">
+            <div class="am-icon-chevron-left" style="color: darkgray"></div>
+        </a>
+    </div>
+    <div class="am-topbar-brand">
+        <h3>修改密码</h3>
+    </div>
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+            data-am-collapse="{target: '#topbar-collapse'}">
+        <span class="am-icon-bars"></span>
+    </button>
+
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+            <li><a onclick="standardPost('message')" class="tpl-header-list-link"><span class="am-icon-envelope-o"></span> 消息管理</a></li>
+            <li><a onclick="standardPost('personalInfo')" class="tpl-header-list-link"><span class="am-icon-user"></span> 个人信息</a></li>
+            <li><a onclick="standardPost('seminar')" class="tpl-header-list-link"><span class="am-icon-leanpub"></span> 讨论课</a></li>
+            <li><a href="/logout" class="tpl-header-list-link"><span class="am-icon-power-off"></span>退出</a></li>
+        </ul>
+    </div>
+</header>
+
+
+<div class="tpl-page-container1 tpl-page-header-fixed">
+    <div class="tpl-portlet-components1">
+        <div class="tpl-block">
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    <form class="am-form" action="/teacher/newPass" method="post">
+                        <div class="am-form-group" style="margin-bottom: 1rem">
+                            <input type="password" class="" id="pwd" placeholder="原密码" required="required">
+                        </div>
+                        <div class="am-form-group" style="margin-bottom: 1rem">
+                            <input type="password" class="" id="pwd1" name="newpass" placeholder="填写密码"
+                                   required="required">
+                            <input name="id" value="${teacher.getId()}" hidden="hidden"/>
+                        </div>
+                        <div class="am-form-group">
+                            <input type="password" class="" id="pwd2" placeholder="确认密码" required="required">
+                        </div>
+                        <div class="am-form-group">
+                            <p style="font-size: 1rem;margin-top: 5%;">密码长度8-32位，须包含数字、字母、符号至少两种或两种以上元素</p>
+                        </div>
+                        <input class="am-btn am-btn-success" type="submit" id="bt1" value="确认提交" style="width:100%;">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../../static/js/jquery.min.js"></script>
+    <script src="../../../static/js/amazeui.min.js"></script>
+    <script src="../../../static/js/app.js"></script>
+    <script src="../../../static/js/jquery.min.js"></script>
 
 </body>
 

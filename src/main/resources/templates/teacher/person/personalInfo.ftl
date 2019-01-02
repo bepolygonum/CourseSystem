@@ -81,7 +81,7 @@
                             <div class="myDiv">
                                 <label class="myLabel">${teacher.getEmail()}</label><br>
                                 <div style="margin-top: -1rem;margin-left: 8rem">
-                                    <a style="font-size: 1rem;color: #1b961b;" href="javascript:doPost('/student/modifyEmail', {'id':'${teacher.getId()}'})">修改</a>
+                                    <a style="font-size: 1rem;color: #1b961b;" href="javascript:doPost('/teacher/modifyEmail', {'id':'${teacher.getId()}'})">修改</a>
                                 <#--<label class="myLabel">${teacher.getEmail()}</label><br>-->
                                 <#--<div style="margin-top: -1rem;margin-left: 8rem">-->
                                     <#--<a style="font-size: 1rem;color: #1b961b;" href="javascript:doPost('/teacher/modifyEmail', {'id':'${teacher.getId()}'})">修改</a>-->

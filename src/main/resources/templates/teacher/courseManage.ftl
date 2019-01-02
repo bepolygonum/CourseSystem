@@ -115,7 +115,7 @@
                             <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                         </a>
                     <a href="/teacher/course/seminar?id=${id}&courseId=${item.getId()}">
-                            <span>讨论课设置</span>
+                            <span>讨论课</span>
                             <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
                         </a>
                     <a href="/teacher/course/share?id=${id}&courseId=${item.getId()}">
