@@ -27,7 +27,7 @@
                 <input type="text" name="account"  id="userName" placeholder="教工号/学号">
             </div>
             <div class="am-form-group">
-                <input type="password" name="password" class="" id="userPassword" placeholder="密码">
+                <input type="password" name="password" class="" id="userPassword" autocomplete="off" placeholder="密码">
             </div>
             <div class="am-form-group">
                 <div id="tipBar" style="color: #FFF"></div>
