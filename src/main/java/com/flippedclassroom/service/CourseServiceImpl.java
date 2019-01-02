@@ -116,7 +116,6 @@ public class CourseServiceImpl  {
 
     public  void updateCourseTeamMainIdByCourseId(int courseId)
     {
-        klassDao.deleteKlassTeamByCourseId(courseId);
         courseDao.updateCourseTeamMainIdByCourseId(courseId);
     }
 
@@ -137,7 +136,6 @@ public class CourseServiceImpl  {
             teamDao.removeSubCourse(subcourseid);
             teamDao.removeSubCourse1(subcourseid);
             List<Team> teamList=teamDao.getTeamByCourseID(maincourseid);
-            System.out.println("teamList.size()"+teamList.size());
             for(int j=0;j<teamList.size();j++){
                 List<Integer> teamIds=teamDao.getStudentIdByTeamId(teamList.get(j).getId());
                 List<Integer> klassIds=new ArrayList<>();
@@ -162,9 +160,8 @@ public class CourseServiceImpl  {
                         maxKlass=klassIds.get(k);
                     }
                 }
-                if(maxKlass!=0){
+                //maxKlass
                 teamDao.insertTableKlassTeam(maxKlass,teamList.get(j).getId());
-                }
             }
         }
     }

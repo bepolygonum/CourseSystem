@@ -67,6 +67,4 @@ public interface KlassDao {
      * @param klassIds
      */
     List<Klass> getNewKlassesByKlassIds(@Param("klassIds")List<Integer> klassIds);
-
-    void deleteKlassTeamByCourseId(@Param("0")int courseId);
 }
